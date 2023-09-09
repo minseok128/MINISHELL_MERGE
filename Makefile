@@ -16,7 +16,7 @@ LIBFTF		= -Llibft -lft
 READLINE	= -L/usr/local/lib -lreadline
 
 DIR			= 
-BASE		= test
+BASE		= test signal_utils
 SRC			= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
 OBJ			= $(addprefix $(DIR), $(addsuffix .o, $(BASE)))
 NAME		= minishell
@@ -34,7 +34,7 @@ $(NAME) : $(OBJ)
 
 clean :
 	make clean -C ./libft
-	rm -f $(OBJ) $(BON_OBJ) bonus
+	rm -f $(OBJ)
 
 fclean : clean
 	rm -f $(NAME) ./libft/libft.a
