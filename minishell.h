@@ -24,6 +24,13 @@
 # define MODE_DEFAULT 1
 # define MODE_IGNORE 2
 
+typedef	struct s_token {
+	int				type;
+	char			*str;
+	struct s_token *next;
+} t_token;
+
 void	set_signal(int sig_int, int sig_quit);
+void	parse(char *str);
 
 #endif

@@ -12,11 +12,11 @@
 
 CC			= cc
 WFLAG		= -Wall -Wextra -Werror
-LIBFTF		= -Llibft -lft
+LIBFT		= -Llibft -lft
 READLINE	= -L/usr/local/lib -lreadline
 
-DIR			= 
-BASE		= test signal_utils
+DIR			= ./
+BASE		= test signal_utils parse
 SRC			= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
 OBJ			= $(addprefix $(DIR), $(addsuffix .o, $(BASE)))
 NAME		= minishell
@@ -27,10 +27,10 @@ lib :
 	@make re -j -C ./libft
 
 $(NAME) : $(OBJ)
-	$(CC) $(WFLAG) $(LIBFTFLAG) $(READLINE) $^ -o $@
+	$(CC) $(WFLAG) -I$(dir $<) $(LIBFT) $(READLINE) $^ -o $@
 
 %.o : %.c
-	$(CC) $(WFLAG) -I $(dir $<) -c $< -o $@
+	$(CC) $(WFLAG) -I$(dir $<) -c $< -o $@
 
 clean :
 	make clean -C ./libft
