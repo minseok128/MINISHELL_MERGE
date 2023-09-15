@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 11:32:13 by seonjo            #+#    #+#             */
-/*   Updated: 2023/09/09 15:36:54 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/09/15 17:09:41 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,7 @@ void	errflag_exe(int flag, char *cmd, char *pwd)
 
 void	ft_cd(char *cmd)
 {
+	int	flag;
 
+	flag = access(cmd)
 }

@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 16:15:35 by seonjo            #+#    #+#             */
-/*   Updated: 2023/09/09 15:22:05 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/09/15 18:11:04 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_env(t_envp *head)
 
 	if (head == NULL)
 		return ;
-	lst = head -> next;
+	lst = head  -> next;
 	while (lst != NULL)
 	{
 		printf("%s\n", lst -> str);
