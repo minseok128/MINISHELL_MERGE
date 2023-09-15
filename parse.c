@@ -89,17 +89,15 @@ t_token	*tk_split_with_quort_and_space_s(char *str){
 		if (!str[e])
 			break ;
 		s = e;
-		if (str[s] == '\'' || str[s] == '\"')
+		while (!ft_isspace(str[e]) && str[e])
 		{
-			c = str[s];
-			while (str[e] != c && str[e])
-				e++;
+			if (str[e] == '\'' || str[e] == '\"')
+			{
+				c = str[e++];
+				while (str[e] != c && str[e])
+					e++;
+			}
 			e++;
-			printf("%d %d\n", s, e);
-		}
-		else {
-			while (!ft_isspace(str[e]) && str[e])
-				e++;
 		}
 		str[e] = 0;
 		tmp->str = ft_strdup(&str[s]);
