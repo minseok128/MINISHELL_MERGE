@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/08 16:15:35 by seonjo            #+#    #+#             */
-/*   Updated: 2023/09/15 18:11:04 by seonjo           ###   ########.fr       */
+/*   Created: 2023/09/16 16:25:10 by seonjo            #+#    #+#             */
+/*   Updated: 2023/09/16 16:32:52 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error_and_exit(void)
-{
-	printf("%s\n", strerror(errno));
-	exit(errno);
-}
-
-void	ft_env(t_envp *head)
+void	en_env(t_envp *head)
 {
 	t_envp	*lst;
 
 	if (head == NULL)
 		return ;
-	lst = head  -> next;
+	lst = head->next;
 	while (lst != NULL)
 	{
-		printf("%s\n", lst -> str);
-		lst = lst -> next;
+		printf("%s=%s\n", lst->key, lst->value);
+		lst = lst->next;
 	}
 	// 마지막 줄 빼고 개행까지 diff로 비교 완료
 	// _=/Users/seonjo/subjects/minishell/./a.out
@@ -40,16 +34,32 @@ int	main(int argc, char **argv, char **envp)
 	t_envp	*head;
 
 	argv[argc - argc] = NULL;
-	head = make_linkedlist(envp);
-	//ft_pwd();
-	//ft_env(head);
-	//printf("\n\n");
-	//ft_export(head, "a=1 a=3 b=2 17fdf=23 _17s= c=145124");
-	//ft_env(head);
-	//printf("\n\n");
-	//ft_unset(head, "a b _17s 12");
-	//ft_env(head);
-	ft_cd("/Users/seonjo/subjects/minishell/libft");
-	printf("%s\n", getcwd(NULL, 1024));
+	head = lst_make_linkedlist(envp);
+	
+	//pwd test 
+		//pw_pwd();
+	
+	//env test
+		//en_env(head);
+
+	//export test
+		//ex_export(head, "a=1 a=3 b=2 17fdf=23 _17s= c=145124");
+		//en_env(head);
+
+	//unset test
+		//ex_export(head, "a=1 a=3 b=2 17fdf=23 _17s= c=145124");
+		//un_unset(head, "a b _17s 12");
+		//en_env(head);
+
+	//cd test
+		//cd_cd("/Users/seonjo/subjects/minishell/test");
+		//pw_pwd();
+		//cd_cd("..");
+		//pw_pwd();
+		//cd_cd("echo.c");
+		//pw_pwd();
+		//cd_cd("../..////////////..");
+		//pw_pwd();
+
 	exit(errno);
 }

@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   pwd2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/09 10:47:26 by seonjo            #+#    #+#             */
-/*   Updated: 2023/09/09 12:49:12 by seonjo           ###   ########.fr       */
+/*   Created: 2023/09/16 16:25:44 by seonjo            #+#    #+#             */
+/*   Updated: 2023/09/16 16:25:52 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pwd(void)
+void	pw_pwd(void)
 {
 	char	*pwd;
 
 	pwd = getcwd(NULL, 1024);
 	if (pwd == NULL)
-		error_and_exit();
+		lst_error();
 	printf("%s\n", pwd);
 	free(pwd);
 }

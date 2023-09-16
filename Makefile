@@ -6,14 +6,14 @@
 #    By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/08 18:58:03 by seonjo            #+#    #+#              #
-#    Updated: 2023/09/09 15:49:35 by seonjo           ###   ########.fr        #
+#    Updated: 2023/09/16 16:29:09 by seonjo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS = ft_env.c ft_export.c ft_unset.c ft_pwd.c ft_cd.c linkedlist.c
+SRCS = env.c export.c unset.c pwd.c cd.c lst.c
 OBJS = $(SRCS:.c=.o)
 
 all : $(NAME)

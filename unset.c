@@ -1,33 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   unset2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/08 22:00:04 by seonjo            #+#    #+#             */
-/*   Updated: 2023/09/09 15:19:00 by seonjo           ###   ########.fr       */
+/*   Created: 2023/09/16 16:26:19 by seonjo            #+#    #+#             */
+/*   Updated: 2023/09/16 16:26:27 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	remove_env(t_envp *head, char *env)
+void	un_remove_env(t_envp *head, char *key)
 {
-	t_envp	*pre_lst;
 	t_envp	*lst;
+	t_envp	*next;
+	t_envp	*find;
 
-	pre_lst = find_env(head, env);
-	lst = pre_lst -> next;
-	if (lst != NULL && lst -> next != NULL)
+	lst = head;
+	next = lst->next;
+	find = ex_find_key(head, key);
+	if (find != NULL)
 	{
-		pre_lst -> next = lst -> next;
-		free(lst -> str);
-		free(lst);
+		while (next != find)
+		{
+			lst = next;
+			next = next->next;
+		}
+		lst->next = next->next;
+		free(next->key);
+		free(next->value);
+		free(next);
 	}
 }
 
-void	ft_unset(t_envp *head, char *input)
+void	un_unset(t_envp *head, char *input)
 {
 	int		i;
 	char	**arr;
@@ -36,8 +44,8 @@ void	ft_unset(t_envp *head, char *input)
 	i = 0;
 	while (arr[i] != NULL)
 	{
-		if (can_export(arr[i][0]))
-			remove_env(head, arr[i]);
+		if (ex_first_character_check(arr[i][0]) == 1)
+			un_remove_env(head, arr[i]);
 		else
 		{
 			printf("bash: unset: '%s': not a valid identifier\n", arr[i]);

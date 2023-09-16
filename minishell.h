@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 17:19:24 by seonjo            #+#    #+#             */
-/*   Updated: 2023/09/09 13:25:31 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/09/16 16:31:51 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,20 @@
 
 typedef struct s_envp
 {
-	char			*str;
+	char			*key;
+	char			*value;
 	struct s_envp	*next;
 }t_envp;
 
-int		can_export(char c);
-void	ft_pwd(void);
-void	ft_cd(char *path);
-void	ft_export(t_envp *head, char *input);
-void	ft_unset(t_envp *head, char *input);
-void	error_and_exit(void);
-t_envp	*make_linkedlist(char **envp);
-t_envp	*make_lst(char *src);
-t_envp	*find_env(t_envp *head, char *env);
+void	lst_error(void);
+char	**lst_divide_key_and_value(char *data);
+t_envp	*lst_make_list(char **key_and_value);
+t_envp	*lst_make_linkedlist(char **envp);
+void	pw_pwd(void);
+int		ex_first_character_check(char c);
+t_envp	*ex_find_key(t_envp *head, char *key);
+void	ex_export(t_envp *head, char *input);
+void	un_unset(t_envp *head, char *input);
+void	cd_cd(char *cmd);
 
 #endif
