@@ -24,13 +24,22 @@
 # define MODE_DEFAULT 1
 # define MODE_IGNORE 2
 
+typedef struct s_envp
+{
+	char			*key;
+	char			*value;
+	struct s_envp	*next;
+} t_envp;
+
 typedef	struct s_token {
 	int				type;
 	char			*str;
 	struct s_token *next;
 } t_token;
 
+t_envp	*env_init_list_s(char **envp);
+void	env_print(t_envp *head);
 void	set_signal(int sig_int, int sig_quit);
-void	parse(char *str);
+void	parse(char *str, t_envp *head);
 
 #endif

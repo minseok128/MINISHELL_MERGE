@@ -111,6 +111,72 @@ t_token	*tk_split_with_quort_and_space_s(char *str){
 	return (start);
 }
 
+t_envp	*find_env(t_envp *head, char *env)
+{
+	int		i;
+	t_envp	*lst;
+	t_envp	*pre_lst;
+
+	if (head == NULL)
+		return (head);
+	pre_lst = head;
+	lst = head -> next;
+	while (lst -> next != NULL)
+	{
+		i = 0;
+		while (env[i] != '\0' && env[i] != '=' && (lst -> str)[i] != '=')
+		{
+			if (env[i] != (lst -> str)[i])
+				break ;
+			i++;
+		}
+		if ((env[i] == '=' || env[i] == '\0') && (lst -> str)[i] == '=')
+			return (pre_lst);
+		pre_lst = lst;
+		lst = lst -> next;
+	}
+	return (pre_lst);
+}
+
+char	*tk_replace_env_s(char *str, t_envp *head)
+{
+	int		s;
+	int		e;
+	int		size;
+	char	*res;
+	char	tmp[2];
+	char	*env_key;
+	t_envp	*env;
+
+	res = 0;
+	tmp[1] = 0;
+	size = ft_strlen(str);
+	s = 0;
+	while (s < size)
+	{
+		if (str[s] == '$')
+		{
+			e = s;
+			while (!ft_isspace(str[e]) && str[e] != '\"' && str[e])
+				e++;
+			env_key = ft_calloc(sizeof(char), e - s + 1);
+			if (!env_key)
+				exit(1);
+			ft_strlcpy(env_key, str + s, e - s + 1);
+			env = find_env(head, env_key);
+			res = ft_strjoin(res, env->str);
+			s = e;
+		}
+		else
+		{
+			tmp[0] = str[s];
+			res = ft_strjoin(res, tmp);
+			s++;
+		}
+	}
+	return (res);
+}
+
 void	tk_print(t_token *tk)
 {
 	while (tk)
@@ -123,10 +189,11 @@ void	tk_print(t_token *tk)
 	printf("\n");
 }
 
-void	parse(char *str)
+void	parse(char *str, t_envp *head)
 {
 	t_token	*tk;
 
+	str = tk_replace_env_s(str, head);
 	tk = tk_split_with_quort_and_space_s(str);
 	tk_print(tk);
 }

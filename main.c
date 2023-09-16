@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	initialize_term(int argc, char **argv)
+void	trem_init(int argc, char **argv)
 {
 	struct termios term;
 
@@ -38,12 +38,14 @@ int	is_white_space(char *str)
 
 int	main(int argc, char **argv, char **envp)
 {
+	t_envp			*head;
 	char			*line;
 	struct termios	term;
 
 	tcgetattr(STDIN_FILENO, &term);
-	initialize_term(argc, argv);
-	(void) envp;
+	trem_init(argc, argv);
+	head = env_init_list_s(envp);
+	env_print(head);
 	while (1)
 	{
 		line = readline("minishell $ ");
@@ -53,7 +55,7 @@ int	main(int argc, char **argv, char **envp)
 			add_history(line);
 		if (*line != 0 && !is_white_space(line))
 		{
-			parse(line);			
+			parse(line, head);			
 		}
 		free(line);
 	}
