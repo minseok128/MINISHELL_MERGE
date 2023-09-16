@@ -20,9 +20,18 @@
 # include <readline/history.h>
 # include <term.h>
 # include "libft/libft.h"
+# include <errno.h>
+# include <string.h>
+
 # define MODE_SHELL 0
 # define MODE_DEFAULT 1
 # define MODE_IGNORE 2
+
+# define T_PIPE 11
+# define T_SL_DIREC 12
+# define T_SR_DIREC 13
+# define T_DL_DIREC 14
+# define T_DR_DIREC 15
 
 typedef struct s_envp
 {
@@ -41,5 +50,7 @@ t_envp	*env_init_list_s(char **envp);
 void	env_print(t_envp *head);
 void	set_signal(int sig_int, int sig_quit);
 void	parse(char *str, t_envp *head);
+t_envp	*envi_make_linkedlist(char **envp);
+t_envp	*ex_find_key(t_envp *head, char *key);
 
 #endif

@@ -12,35 +12,21 @@
 
 #include "minishell.h"
 
-static t_envp	*env_alloc_s(char *str)
+t_envp	*ex_find_key(t_envp *head, char *key)
 {
 	t_envp	*lst;
+	int		len;
 
-	lst = ft_calloc(sizeof(t_envp), 1);
-	if (lst == NULL)
-		exit(1);
-	lst->str = ft_strdup(str);
-	if (lst->str == NULL)
-		exit(1);
-	return (lst);
-}
-
-t_envp	*env_init_list_s(char **envp)
-{
-	int		i;
-	t_envp	*head;
-	t_envp	*tmp;
-
-	head = env_alloc_s("head");
-	tmp = head;
-	i = 0;
-	while (envp[i] != NULL)
+	len = ft_strlen(key);
+	lst = head->next;
+	while (lst != NULL)
 	{
-		tmp->next = env_alloc_s(envp[i]);
-		tmp = tmp->next;
-		i++;
+		//printf("lstval:%s\n", lst->next->value);
+		if (ft_strncmp(key, lst->key, len + 1) == 0)
+			return (lst);
+		lst = lst->next;
 	}
-	return (head);
+	return (NULL);
 }
 
 void	env_print(t_envp *head)
@@ -52,7 +38,7 @@ void	env_print(t_envp *head)
 	tmp = head->next;
 	while (tmp != NULL)
 	{
-		printf("%s\n", tmp->str);
+		printf("%s:%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 }

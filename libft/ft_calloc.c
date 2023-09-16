@@ -22,3 +22,16 @@ void	*ft_calloc(size_t count, size_t size)
 	ft_memset(new, 0, count * size);
 	return (new);
 }
+
+void	*ft_calloc_s(size_t count, size_t size)
+{
+	void	*new;
+
+	if (!size)
+		return (0);
+	new = malloc(count * size);
+	if (!new)
+		exit(1);
+	ft_memset(new, 0, count * size);
+	return (new);
+}

@@ -16,7 +16,7 @@ LIBFT		= -Llibft -lft
 READLINE	= -L/usr/local/lib -lreadline
 
 DIR			= ./
-BASE		= main signal_utils parse env
+BASE		= main signal_utils parse env env_init
 SRC			= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
 OBJ			= $(addprefix $(DIR), $(addsuffix .o, $(BASE)))
 NAME		= minishell

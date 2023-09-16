@@ -44,7 +44,7 @@ int	main(int argc, char **argv, char **envp)
 
 	tcgetattr(STDIN_FILENO, &term);
 	trem_init(argc, argv);
-	head = env_init_list_s(envp);
+	head = envi_make_linkedlist(envp);
 	env_print(head);
 	while (1)
 	{
