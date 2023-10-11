@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/16 16:25:44 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/11 15:38:40 by seonjo           ###   ########.fr       */
+/*   Created: 2023/03/15 22:33:12 by seonjo            #+#    #+#             */
+/*   Updated: 2023/09/22 14:46:24 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	pw_pwd(void)
+void	ft_putstr_fd(char *s, int fd)
 {
-	char	*pwd;
+	int	len;
+	int	i;
 
-	pwd = getcwd(NULL, 1024);
-	if (pwd == NULL)
-		en_error();
-	printf("%s\n", pwd);
-	free(pwd);
+	i = 0;
+	len = ft_strlen(s);
+	while (i < len)
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
 }

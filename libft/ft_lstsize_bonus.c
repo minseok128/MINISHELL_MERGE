@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/16 16:25:44 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/11 15:38:40 by seonjo           ###   ########.fr       */
+/*   Created: 2023/03/17 15:58:54 by seonjo            #+#    #+#             */
+/*   Updated: 2023/03/19 17:02:31 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	pw_pwd(void)
+int	ft_lstsize(t_list *lst)
 {
-	char	*pwd;
+	size_t	size;
 
-	pwd = getcwd(NULL, 1024);
-	if (pwd == NULL)
-		en_error();
-	printf("%s\n", pwd);
-	free(pwd);
+	size = 0;
+	while (lst)
+	{
+		size++;
+		lst = lst -> next;
+	}
+	return (size);
 }

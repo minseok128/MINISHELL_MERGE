@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/16 16:25:44 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/11 15:38:40 by seonjo           ###   ########.fr       */
+/*   Created: 2023/03/13 15:43:11 by seonjo            #+#    #+#             */
+/*   Updated: 2023/03/19 18:14:43 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void	pw_pwd(void)
+int	ft_isascii(int c)
 {
-	char	*pwd;
-
-	pwd = getcwd(NULL, 1024);
-	if (pwd == NULL)
-		en_error();
-	printf("%s\n", pwd);
-	free(pwd);
+	if (c >= 0 && c <= 127)
+		return (1);
+	else
+		return (0);
 }

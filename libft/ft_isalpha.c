@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/16 16:25:44 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/11 15:38:40 by seonjo           ###   ########.fr       */
+/*   Created: 2023/03/13 14:59:07 by seonjo            #+#    #+#             */
+/*   Updated: 2023/03/19 17:53:39 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void	pw_pwd(void)
+int	ft_isalpha(int c)
 {
-	char	*pwd;
-
-	pwd = getcwd(NULL, 1024);
-	if (pwd == NULL)
-		en_error();
-	printf("%s\n", pwd);
-	free(pwd);
+	if (c >= 'a' && c <= 'z')
+		return (1);
+	else if (c >= 'A' && c <= 'Z')
+		return (1);
+	else
+		return (0);
 }

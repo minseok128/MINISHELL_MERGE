@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/16 16:25:44 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/11 15:38:40 by seonjo           ###   ########.fr       */
+/*   Created: 2023/03/14 20:37:02 by seonjo            #+#    #+#             */
+/*   Updated: 2023/03/18 22:07:06 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	pw_pwd(void)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	char	*pwd;
+	size_t			i;
+	unsigned char	*u1;
+	unsigned char	*u2;
 
-	pwd = getcwd(NULL, 1024);
-	if (pwd == NULL)
-		en_error();
-	printf("%s\n", pwd);
-	free(pwd);
+	u1 = (unsigned char *)s1;
+	u2 = (unsigned char *)s2;
+	i = 0;
+	while (n > i++)
+	{
+		if (*u1 != *u2)
+			return (*u1 - *u2);
+		u1++;
+		u2++;
+	}
+	return (0);
 }

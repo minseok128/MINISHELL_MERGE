@@ -1,24 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/16 16:25:44 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/11 15:38:40 by seonjo           ###   ########.fr       */
+/*   Created: 2023/03/13 21:42:17 by seonjo            #+#    #+#             */
+/*   Updated: 2023/03/18 21:26:07 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	pw_pwd(void)
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	char	*pwd;
+	size_t	i;
+	size_t	j;
+	size_t	n;
 
-	pwd = getcwd(NULL, 1024);
-	if (pwd == NULL)
-		en_error();
-	printf("%s\n", pwd);
-	free(pwd);
+	i = 0;
+	j = 0;
+	n = ft_strlen(src);
+	if (size > 0)
+	{
+		while (size-- > 1 && i < n)
+		{
+			if (src[i])
+			{
+				dest[i] = src[i];
+				i++;
+			}
+		}
+		dest[i] = 0;
+	}
+	while (src[j])
+		j++;
+	return (j);
 }

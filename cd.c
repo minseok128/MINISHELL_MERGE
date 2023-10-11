@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd2.c                                              :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:35 by seonjo            #+#    #+#             */
-/*   Updated: 2023/09/16 16:26:51 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/10/09 20:14:21 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int	cd_go_dir(char *path)
 	struct stat	dir_stat;
 
 	if (stat(path, &dir_stat) == -1)
-		lst_error();
+		en_error();
 	if (S_ISDIR(dir_stat.st_mode) != 1)
 		return (2);
 	if (access(path, X_OK) != 0)
 		return (3);
 	//free(dir_stat);
 	if (chdir(path) == -1)
-		lst_error();
+		en_error();
 	return (0);
 }
 

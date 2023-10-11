@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export2.c                                          :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:01 by seonjo            #+#    #+#             */
-/*   Updated: 2023/09/16 16:26:10 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/10/09 20:13:15 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ex_add_env(t_envp *head, char **key_and_value)
 	next = lst->next;
 	find = ex_find_key(head, key_and_value[0]);
 	if (next == NULL)
-		lst->next = lst_make_list(key_and_value);
+		lst->next = en_make_list(key_and_value);
 	else if (find == NULL)
 	{
 		while (next->next != NULL)
@@ -64,7 +64,7 @@ void	ex_add_env(t_envp *head, char **key_and_value)
 			lst = next;
 			next = next->next;
 		}
-		lst->next = lst_make_list(key_and_value);
+		lst->next = en_make_list(key_and_value);
 		lst->next->next = next;
 	}
 	else
@@ -84,7 +84,7 @@ void	ex_export(t_envp *head, char *input)
 	i = 0;
 	while (arr[i] != NULL)
 	{
-		key_and_value = lst_divide_key_and_value(arr[i]);
+		key_and_value = en_divide_key_and_value(arr[i]);
 		free(arr[i]);
 		if (key_and_value != NULL)
 		{

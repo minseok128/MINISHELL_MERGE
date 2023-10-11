@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/16 16:25:44 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/11 15:38:40 by seonjo           ###   ########.fr       */
+/*   Created: 2023/03/14 14:21:30 by seonjo            #+#    #+#             */
+/*   Updated: 2023/09/01 16:36:16 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void	pw_pwd(void)
+int	ft_atoi(const char *str)
 {
-	char	*pwd;
+	int			minus;
+	long long	num;
 
-	pwd = getcwd(NULL, 1024);
-	if (pwd == NULL)
-		en_error();
-	printf("%s\n", pwd);
-	free(pwd);
+	num = 0;
+	minus = 1;
+	while ((*str >= 9 && *str <= 13) || *str == 32)
+		str++;
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			minus = -minus;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		num = num * 10 + *str - '0';
+		str++;
+	}
+	return (minus * (int)num);
 }

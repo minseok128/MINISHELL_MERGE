@@ -6,7 +6,7 @@
 #    By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/08 18:58:03 by seonjo            #+#    #+#              #
-#    Updated: 2023/09/16 16:29:09 by seonjo           ###   ########.fr        #
+#    Updated: 2023/10/05 22:29:31 by seonjo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,16 +18,21 @@ OBJS = $(SRCS:.c=.o)
 
 all : $(NAME)
 
-$(NAME) : $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) ./libft/libft.a -o $(NAME)
+$(NAME) : $(OBJS) $(LIBFT)
+	$(CC) $(FLAGS) $(OBJS) -L./libft -lft -o $(NAME)
+
+$(LIBFT) :
+	make -C ./libft
 
 %.o : %.c
 	$(CC) $(CFLAGS) -I . -c $<
 
 clean :
+	make clean -C ./libft
 	rm -f $(OBJS)
 
 fclean : clean
+	make fclean -C ./libft
 	rm -f $(NAME)
 
 re : fclean all

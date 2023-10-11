@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:25:10 by seonjo            #+#    #+#             */
-/*   Updated: 2023/09/16 16:32:52 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/10/09 20:14:07 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int argc, char **argv, char **envp)
 	t_envp	*head;
 
 	argv[argc - argc] = NULL;
-	head = lst_make_linkedlist(envp);
+	head = en_divide_key_and_value(envp);
 	
 	//pwd test 
 		//pw_pwd();
@@ -52,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 		//en_env(head);
 
 	//cd test
-		//cd_cd("/Users/seonjo/subjects/minishell/test");
+		//cd_cd("");
 		//pw_pwd();
 		//cd_cd("..");
 		//pw_pwd();
@@ -60,6 +60,5 @@ int	main(int argc, char **argv, char **envp)
 		//pw_pwd();
 		//cd_cd("../..////////////..");
 		//pw_pwd();
-
 	exit(errno);
 }

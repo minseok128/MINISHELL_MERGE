@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/16 16:25:44 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/11 15:38:40 by seonjo           ###   ########.fr       */
+/*   Created: 2023/03/13 19:44:18 by seonjo            #+#    #+#             */
+/*   Updated: 2023/03/18 21:16:46 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	pw_pwd(void)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	char	*pwd;
+	unsigned char	*d;
+	unsigned char	*s;
+	size_t			i;
 
-	pwd = getcwd(NULL, 1024);
-	if (pwd == NULL)
-		en_error();
-	printf("%s\n", pwd);
-	free(pwd);
+	i = 0;
+	d = (unsigned char *)dst;
+	s = (unsigned char *)src;
+	if (dst == 0 && src == 0)
+		return (0);
+	while (i++ < n)
+		*d++ = *s++;
+	return (dst);
 }

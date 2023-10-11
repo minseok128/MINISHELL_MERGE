@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/16 16:25:44 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/11 15:38:40 by seonjo           ###   ########.fr       */
+/*   Created: 2023/03/13 20:43:18 by seonjo            #+#    #+#             */
+/*   Updated: 2023/03/18 21:36:26 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	pw_pwd(void)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	char	*pwd;
+	unsigned char	*str1;
+	unsigned char	*str2;
 
-	pwd = getcwd(NULL, 1024);
-	if (pwd == NULL)
-		en_error();
-	printf("%s\n", pwd);
-	free(pwd);
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
+	while (n > 0)
+	{
+		if (*str1 != *str2)
+			return (*str1 - *str2);
+		else if (!*str1 && !*str2)
+			return (0);
+		str1++;
+		str2++;
+		n--;
+	}
+	return (0);
 }
