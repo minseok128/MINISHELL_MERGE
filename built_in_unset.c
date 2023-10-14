@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset2.c                                           :+:      :+:    :+:   */
+/*   built_in_unset.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:19 by seonjo            #+#    #+#             */
-/*   Updated: 2023/09/16 16:26:27 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/10/14 21:38:44 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	un_remove_env(t_envp *head, char *key)
+void	bi_remove_env(t_envp *head, char *key)
 {
 	t_envp	*lst;
 	t_envp	*next;
@@ -20,7 +20,7 @@ void	un_remove_env(t_envp *head, char *key)
 
 	lst = head;
 	next = lst->next;
-	find = ex_find_key(head, key);
+	find = bi_find_key(head, key);
 	if (find != NULL)
 	{
 		while (next != find)
@@ -35,7 +35,7 @@ void	un_remove_env(t_envp *head, char *key)
 	}
 }
 
-void	un_unset(t_envp *head, char *input)
+void	bi_unset(t_envp *head, char *input)
 {
 	int		i;
 	char	**arr;
@@ -44,8 +44,8 @@ void	un_unset(t_envp *head, char *input)
 	i = 0;
 	while (arr[i] != NULL)
 	{
-		if (ex_first_character_check(arr[i][0]) == 1)
-			un_remove_env(head, arr[i]);
+		if (bi_first_character_check(arr[i][0]) == 1)
+			bi_remove_env(head, arr[i]);
 		else
 		{
 			printf("bash: unset: '%s': not a valid identifier\n", arr[i]);

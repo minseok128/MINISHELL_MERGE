@@ -1,25 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_gnl.c                                           :+:      :+:    :+:   */
+/*   tree_fd_lst.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/22 14:52:45 by seonjo            #+#    #+#             */
-/*   Updated: 2023/09/22 14:53:05 by seonjo           ###   ########.fr       */
+/*   Created: 2023/10/09 20:15:50 by seonjo            #+#    #+#             */
+/*   Updated: 2023/10/14 21:45:42 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "minishell.h"
 
-char	*ft_gnl(int fd)
+void	tr_lst_add(t_fd *head, int fd)
 {
-	int		flag;
-	char	*line;
+	t_fd	*new;
 
-	flag = 0;
-	line = get_next_line(fd, &flag);
-	if (flag == 1)
-		exit(1);
-	return (line);
+	new = malloc(sizeof(t_fd));
+	if (new == 0)
+		bi_error();
+	new->fd = fd;
+	new->next = head->next;
+	head->next = new;
+}
+
+void	tr_all_close(t_fd *head)
+{
+	t_fd	*tmp;
+
+	head = head->next;
+	while (head != NULL)
+	{
+		tmp = head->next;
+		close(head->fd);
+		free(head);
+		head = tmp;
+	}
 }

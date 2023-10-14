@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   built_in_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:35 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/14 16:55:50 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/10/14 22:38:53 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cd_go_dir(char *path)
+int	bi_go_dir(char *path)
 {
 	struct stat	dir_stat;
 
 	if (stat(path, &dir_stat) == -1)
-		en_error();
+		bi_error();
 	if (S_ISDIR(dir_stat.st_mode) != 1)
 		return (2);
 	if (access(path, X_OK) != 0)
 		return (3);
 	//free(dir_stat);
 	if (chdir(path) == -1)
-		en_error();
+		bi_error();
 	return (0);
 }
 
-void	cd_errmsg(int flag, char *cmd)
+void	bi_errmsg(int flag, char *cmd)
 {
 	if (flag == 0)
 		return ;
@@ -41,17 +41,17 @@ void	cd_errmsg(int flag, char *cmd)
 	errno = 1;
 }
 
-void	cd_cd(char *cmd)
+void	bi_cd(char *cmd)
 {
 	int		flag;
 
 	flag = 0;
 	if (access(cmd, F_OK) == -1)
-		cd_errmsg(1, cmd);
+		bi_errmsg(1, cmd);
 	else
 	{
-		flag = cd_go_dir(cmd);
+		flag = bi_go_dir(cmd);
 		if (flag != 0)
-			cd_errmsg(flag, cmd);
+			bi_errmsg(flag, cmd);
 	}
 }

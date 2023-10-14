@@ -6,26 +6,13 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 16:17:18 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/14 20:59:39 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/10/14 22:54:55 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	*tr_free2(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i] != NULL)
-	{
-		free(arr[i]);
-		i++;
-	}
-	return (NULL);
-}
-
-char	*tr_strjoin(char const *s1, char const *s2)
+char	*tr_strjoin(char const *s1, char const *s2, char c)
 {
 	char	*str;
 	size_t	i;
@@ -40,7 +27,7 @@ char	*tr_strjoin(char const *s1, char const *s2)
 		return (0);
 	while (s1[j])
 		str[i++] = s1[j++];
-	str[i++] = '/';
+	str[i++] = c;
 	j = 0;
 	while (s2[j])
 		str[i++] = s2[j++];
@@ -48,38 +35,65 @@ char	*tr_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-char	*tr_renew_path(char *path)
+char	**tr_get_input_envp(t_envp *envp, int len, int i)
 {
-	char	*pwd;
+	t_envp	*tmp;
+	char	**input_envp;
 
-	if (access(path, F_OK) == -1)
-		return (NULL);
-	cd_cd(path);
-	pwd = getcwd(NULL, 1024);
-	if (pwd == NULL)
-		en_error();
-	free(path);
-	return (pwd);
+	tmp = envp;
+	while (tmp != NULL)
+	{
+		len++;
+		tmp = tmp->next;
+	}
+	input_envp = malloc(sizeof(char *) * (len + 1));
+	if (input_envp == NULL)
+		bi_error();
+	tmp = envp;
+	while (tmp != NULL)
+	{
+		input_envp[i] = tr_strjoin(tmp->key, tmp->value, '=');
+		if (input_envp[i] == NULL)
+			bi_error();
+		i++;
+		tmp = tmp->next;
+	}
+	input_envp[i] = NULL;
+	return (input_envp);
 }
 
-char	*tr_check_path(char **cmd, char **envp)
+void	*tr_free2(char **arr)
 {
-	int		i;
+	int	i;
+
+	i = 0;
+	while (arr[i] != NULL)
+	{
+		free(arr[i]);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*tr_check_path(char *cmd, t_envp *envp, int i)
+{
 	char	**envp_path;
 	char	*path;
 
-	i = 0;
-	while (ft_strncmp("PATH=", envp[i], 5) != 0)
-		i++;
-	envp_path = ft_split(envp[i] + 5, ':');
+	while (envp != NULL && strncmp(envp->key, "PATH", 5) != 0)
+		envp = envp->next;
+	if (envp == NULL) // 환경 변수에 PATH가 없는 경우
+		return (cmd);
+	envp_path = ft_split(envp->key, ':');
 	i = 0;
 	while (envp_path[i] != NULL)
 	{
-		path = tr_strjoin(envp_path[i++], cmd[0]);
+		path = tr_strjoin(envp_path[i++], cmd, '/');
 		if (path == NULL)
-			error(NULL, 1);
+			bi_error();
 		if (access(path, F_OK) == 0)
 		{
+			free(cmd);
 			tr_free2(envp_path);
 			return (path);
 		}
@@ -89,17 +103,18 @@ char	*tr_check_path(char **cmd, char **envp)
 	return (cmd);
 }
 
-void	tr_execute(t_tree *tree, char **envp)
+void	tr_execute(t_tree *tree, t_envp *envp)
 {
 	char	**cmd;
-	char	*file;
+	char	**input_envp;
 
+	// printf("%s\n", tree->str);
 	cmd = ft_split(tree->str, ' ');
 	if (cmd == NULL)
-		error(NULL, 1);
-	file = tr_renew_path(cmd[0]);
-	if (file == NULL)
-		file = tr_check_path(cmd, envp);
-	if (execve(file, cmd, NULL) == -1)
-		en_error();
+		bi_error();
+	if (access(cmd[0], F_OK) == -1)
+		cmd[0] = tr_check_path(cmd[0], envp->next, 0);
+	input_envp = tr_get_input_envp(envp->next, 0, 0);
+	if (execve(cmd[0], cmd, input_envp) == -1)
+		bi_error();
 }
