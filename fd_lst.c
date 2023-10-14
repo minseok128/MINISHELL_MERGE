@@ -1,48 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst.c                                              :+:      :+:    :+:   */
+/*   fd_lst.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 20:15:50 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/09 20:29:15 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/10/14 16:28:10 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	lst_add(t_lst *lst, int value)
+void	fd_lst_add(t_fd *head, int fd)
 {
-	t_lst	*new;
-	t_lst	*next;
+	t_fd	*new;
 
-	new = malloc(sizeof(t_lst));
-	if (new == NULL)
-		exit(1);
-	next = lst->next;
-	if (next != NULL)
-		next->pre = new;
-	lst->next = new;
-	new->value = value;
-	new->pre = lst;
-	new->next = next;
+	new = malloc(sizeof(t_fd));
+	if (new == 0)
+		en_error();
+	new->fd = fd;
+	new->next = head->next;
+	head->next = new;
 }
 
-void	lst_remove(t_lst *lst)
+void	fd_all_close(t_fd *head)
 {
-	if (lst->pre != NULL)
+	t_fd	*tmp;
+
+	head = head->next;
+	while (head != NULL)
 	{
-		if (lst->next != NULL)
-		{
-			lst->pre->next = lst->next;
-			lst->next->pre = lst->pre;
-			free(lst);
-		}
-		else
-		{
-			lst->pre->next = NULL;
-			free(lst);
-		}
+		tmp = head->next;
+		close(head->fd);
+		free(head);
+		head = tmp;
 	}
 }

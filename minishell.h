@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 17:19:24 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/11 15:18:21 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/10/14 21:01:45 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/stat.h>
+# include "get_next_line.h"
 # include "./libft/libft.h"
 
 typedef struct s_envp
@@ -30,12 +31,11 @@ typedef struct s_envp
 	struct s_envp	*next;
 }t_envp;
 
-typedef struct s_lst
+typedef struct s_fd
 {
-	int				value;
-	struct s_lst	*pre;
+	int				fd;
 	struct s_lst	*next;
-}t_lst;
+}t_fd;
 
 typedef struct s_tree
 {
@@ -44,8 +44,8 @@ typedef struct s_tree
 	struct s_tree	*right;
 }t_tree;
 
-void	lst_add(t_lst *lst, int value);
-void	lst_remove(t_lst *lst);
+void	fd_all_close(t_fd *head);
+void	fd_lst_add(t_fd *head, int fd);
 void	en_error(void);
 char	**en_divide_key_and_value(char *data);
 t_envp	*en_make_list(char **key_and_value);
@@ -56,6 +56,8 @@ t_envp	*ex_find_key(t_envp *head, char *key);
 void	ex_export(t_envp *head, char *input);
 void	un_unset(t_envp *head, char *input);
 void	cd_cd(char *cmd);
-void	re_do_redirection(char **redirp);
+void	en_env(t_envp *head);
+void	tr_execute(t_tree *tree, char **envp);
+void	tr_redirection(t_tree *tree, int fd[2]);
 
 #endif

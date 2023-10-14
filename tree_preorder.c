@@ -6,113 +6,99 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 18:58:17 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/11 15:38:52 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/10/14 21:07:31 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	tr_overwrite(char *file, t_lst *fd_head)
+int	tr_is_builtin(t_tree *tree, char **envp)
 {
-	int	fd;
+	char	*cmd;
 
-	fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
-	if (fd < 0)
-		en_error();
-	lst_add(fd_head, fd);
-	return (fd);
-}
-
-int	tr_append(char *file, t_lst *fd_head)
-{
-	int	fd;
-
-	if (access(file, F_OK) == 0)
-		fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
+	cmd = tree->str;
+	if (ft_strncmp(cmd, "cd", 3) == 0)
+		cd_cd(tree->right->str);
+	// 공사중
+	// else if (ft_strncmp(cmd, "echo", 5) == 0)
+	// 	ec_echo(tree);
+	else if (ft_strncmp(cmd, "env", 4) == 0)
+		en_env(envp);
+	else if (ft_strncmp(cmd, "export", 7) == 0)
+		ex_export(envp, tree->str);
+	else if (ft_strncmp(cmd, "unset", 6) == 0)
+		un_unset(envp, tree->str);
 	else
-		fd = open(file, O_WRONLY | O_APPEND);
-	if (fd < 0)
-		en_error();
-	lst_add(fd_head, fd);
-	return (fd);
+		return (0);
+	return (1);
 }
 
-//int	tr_file_input(char *file, t_lst *fd_head)
-//{
-	
-//}
-
-//int	tr_stdin_input(char *limiter, t_lst *fd_head)
-//{
-		
-//}
-
-void	tr_redirection(t_tree *tree, t_lst *pid_head, t_lst *fd_head, int *fd)
-{
-	if (tree->left != NULL)
-		tr_redirection(tree->left, pid_head, fd_head, fd);
-	if (ft_strncmp(tree->str, ">", 2) == 0)
-		fd[1] = tr_overwrite(tree->right, fd_head);
-	else if (ft_strncmp(tree->str, ">>", 3) == 0)
-		fd[1] = tr_append(tree->right, fd_head);
-	else if (ft_strncmp(tree->str, "<", 2) == 0)
-		fd[0] = tr_file_input(tree->right, fd_head);
-	else
-		fd[0] = tr_stdin_input(tree->right, fd_head);
-}
-
-void	tr_pipe(t_tree *tree, t_lst *pid_head, t_lst *fd_head)
+void	tr_fork(t_tree *tree, char **envp, int pipe_fd[2], int input_fd)
 {
 	pid_t	pid;
 
-	pid = fork();
-	if (pid == -1)
-		en_error();
-	else if (pid == 0)
-	{
-		tr_preorder(tree->left, pid_head, fd_head, 0);
-	}
+	if (input_fd == 0 && tr_is_builtin == 1)
+		return ;
 	else
 	{
-		lst_add(pid_head, pid);
-		tr_preorder(tree->right, pid_head, fd_head, 0);
-	}
-}
-void	tr_wait_child_process(t_lst *pid_head, t_lst *fd_head)
-{
-	t_lst	*tmp;
-
-	while (pid_head->value > 0)
-	{
-		tmp = pid_head->next;
-		while (tmp != NULL)
+		pid = fork();
+		if (pid == -1)
+			en_error();
+		else if (pid == 0)
 		{
-			if (waitpid(tmp->value, WNOHANG) != 0)
-			{
-				tmp = tmp->next;
-				lst_remove(tmp->pre);
-				pid_head->value--;
-			}
-			else
-				tmp = tmp->next;
+			if (dup2(input_fd, 0) == -1)
+				en_error();
+			if (dup2(pipe_fd[1], 1) == -1)
+				en_error();
+			if (tree->left != NULL)
+				tr_redirection(tree->left, pipe_fd);
+			tr_execute(envp, tree->right);
 		}
 	}
 }
 
-void	tr_preorder(t_tree *tree, t_lst *pid_head, t_lst *fd_head, int flag)
+void	tr_pipe(t_tree *tree, t_fd *fdp, char **envp, int input_fd)
+{
+	int		pipe_fd[2];
+
+	if (pipe(pipe_fd) == -1)
+		en_error();
+	fd_lst_add(fdp, pipe_fd[1]);
+	fd_lst_add(fdp, pipe_fd[0]);
+	tr_fork(tree, envp, pipe_fd, input_fd);
+}
+
+int	tr_get_input_fd(t_fd *pre_fd)
+{
+	if (pre_fd != NULL)
+		return (pre_fd->fd);
+	else
+		return (0);
+}
+
+void	tr_preorder(char **envp, t_tree *tree, t_fd *fdp, int flag)
 {
 	int	fd[2];
+	int	input_fd;	
 
 	fd[0] = 0;
 	fd[1] = 1;
+	input_fd = tr_get_input_fd(fdp->next);
 	if (tree->str == NULL)
 		return ;
 	if (ft_strncmp(tree->str, "|", 2) == 0)
-		tr_pipe(tree, pid_head, fd_head);
+	{
+		tr_pipe(envp, tree->left, fdp, input_fd);
+		tr_preorder(envp, tree->right, fdp, 0);
+	}
 	else if (tree->str[0] == '>' || tree->str[0] == '<')
-		tr_redirection(tree, pid_head, fd_head, fd);
+		tr_redirection(tree, fd);
 	else
-		
-	if (pid_head->value > 0 && flag == 1)
-		tr_wait_child_process(pid_head);
+		tr_fork(tree->left, envp, fd, input_fd);
+	if (flag == 1)
+	{
+		while (waitpid(-1, NULL, 0) > 0)
+			;
+		fd_all_close(fdp);
+	}
 }
