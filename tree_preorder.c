@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 18:58:17 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/14 22:58:41 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/10/15 17:39:28 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,13 @@ void	tr_fork(t_tree *tree, t_envp *envp, int pipe_fd[2], int input_fd)
 			bi_error();
 		else if (pid == 0)
 		{
-			if (dup2(input_fd, 0) == -1)
-				bi_error();
-			if (dup2(pipe_fd[1], 1) == -1)
-				bi_error();
+			close(pipe_fd[0]);
+			pipe_fd[0] = input_fd;
 			if (tree->left != NULL)
-				tr_redirection(tree->left, pipe_fd);//여기부터 디버깅
-			tr_execute(tree->right, envp);
+				tr_redirection(tree->left, pipe_fd);
+			tr_execute(tree->right, envp, pipe_fd);
 		}
+		close(pipe_fd[1]);
 	}
 }
 
@@ -94,7 +93,7 @@ void	tr_preorder(t_envp *envp, t_tree *tree, t_fd *fdp, int flag)
 	else if (tree->str[0] == '>' || tree->str[0] == '<')
 		tr_redirection(tree, fd);
 	else
-		tr_fork(tree->left, envp, fd, input_fd);
+		tr_fork(tree, envp, fd, input_fd);
 	if (flag == 1)
 	{
 		while (waitpid(-1, NULL, 0) > 0)

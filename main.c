@@ -16,7 +16,7 @@ void    make_node(t_tree *node, char *str, int l, int r)
 int	main(int argc, char **argv, char **envp)
 {
 	t_envp	*head;
-	t_tree 	*tree;
+	t_tree	*tree;
 	t_fd	*fdp;
 
 	argv[argc - argc] = NULL;
@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	make_node(tree->left, "", 1, 1);
 	make_node(tree->right, "", 0, 1);
 	make_node(tree->left->left, "<", 0, 1);
-	make_node(tree->left->right, "cat", 0, 0);
+	make_node(tree->left->right, "cat -s dfsfa", 0, 0);
 	make_node(tree->left->left->right, "a", 0, 0);
 	make_node(tree->right->right, "wc -l", 0, 0);
 	tr_preorder(head, tree, fdp, 1);

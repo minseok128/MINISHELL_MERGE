@@ -6,11 +6,17 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 21:01:15 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/14 22:49:19 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/10/15 17:51:43 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	tr_error(char *file)
+{
+	printf("bash: %s: %s\n",file, strerror(errno));
+	exit(errno);
+}
 
 int	tr_overwrite_output(char *file)
 {
@@ -18,7 +24,7 @@ int	tr_overwrite_output(char *file)
 
 	fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
 	if (fd < 0)
-		bi_error();
+		tr_error(file);
 	return (fd);
 }
 
@@ -31,7 +37,7 @@ int	tr_append_output(char *file)
 	else
 		fd = open(file, O_WRONLY | O_APPEND);
 	if (fd < 0)
-		bi_error();
+		tr_error(file);
 	return (fd);
 }
 
@@ -41,7 +47,7 @@ int	tr_file_input(char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		bi_error();
+		tr_error(file);
 	return (fd);
 }
 

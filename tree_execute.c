@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 16:17:18 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/14 22:54:55 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/10/15 17:46:34 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ char	*tr_check_path(char *cmd, t_envp *envp, int i)
 		envp = envp->next;
 	if (envp == NULL) // 환경 변수에 PATH가 없는 경우
 		return (cmd);
-	envp_path = ft_split(envp->key, ':');
-	i = 0;
+	envp_path = ft_split(envp->value, ':');
 	while (envp_path[i] != NULL)
 	{
 		path = tr_strjoin(envp_path[i++], cmd, '/');
@@ -100,21 +99,26 @@ char	*tr_check_path(char *cmd, t_envp *envp, int i)
 		free(path);
 	}
 	tr_free2(envp_path);
-	return (cmd);
+	printf("bash: %s: command not found\n", cmd);
+	exit(127);
+	return (NULL);
 }
 
-void	tr_execute(t_tree *tree, t_envp *envp)
+void	tr_execute(t_tree *tree, t_envp *envp, int pipe_fd[2])
 {
 	char	**cmd;
 	char	**input_envp;
 
-	// printf("%s\n", tree->str);
 	cmd = ft_split(tree->str, ' ');
 	if (cmd == NULL)
 		bi_error();
 	if (access(cmd[0], F_OK) == -1)
 		cmd[0] = tr_check_path(cmd[0], envp->next, 0);
 	input_envp = tr_get_input_envp(envp->next, 0, 0);
-	if (execve(cmd[0], cmd, input_envp) == -1)
+	if (dup2(pipe_fd[0], 0) == -1)
 		bi_error();
+	if (dup2(pipe_fd[1], 1) == -1)
+		bi_error();
+	if (execve(cmd[0], cmd, input_envp) == -1)
+		exit(errno);
 }

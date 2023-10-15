@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 17:19:24 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/14 22:47:08 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/10/15 17:25:15 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	bi_cd(char *cmd);
 void	bi_env(t_envp *head);
 void	tr_all_close(t_fd *head);
 void	tr_lst_add(t_fd *head, int fd);
-void	tr_execute(t_tree *tree, t_envp *envp);
+void	tr_execute(t_tree *tree, t_envp *envp, int pipe_fd[2]);
 void	tr_redirection(t_tree *tree, int fd[2]);
 void	tr_preorder(t_envp *envp, t_tree *tree, t_fd *fdp, int flag);
 
