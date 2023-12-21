@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in_pwd.c                                     :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/16 16:25:44 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/14 22:39:12 by seonjo           ###   ########.fr       */
+/*   Created: 2023/09/16 16:25:10 by seonjo            #+#    #+#             */
+/*   Updated: 2023/12/21 20:20:28 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	bi_pwd(void)
+void	builtin_env(t_envp *envp_head)
 {
-	char	*pwd;
+	t_envp	*node;
 
-	pwd = getcwd(NULL, 1024);
-	if (pwd == NULL)
-		bi_error();
-	printf("%s\n", pwd);
-	free(pwd);
+	if (envp_head == NULL)
+		return ;
+	node = envp_head->next;
+	while (node != NULL)
+	{
+		printf("%s=%s\n", node->key, node->value);
+		node = node->next;
+	}
+	// 마지막 줄 빼고 개행까지 diff로 비교 완료
+	// _=/Users/seonjo/subjects/minishell/./a.out
+	// _=/usr/bin/env
 }

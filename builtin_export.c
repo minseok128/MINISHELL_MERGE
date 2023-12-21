@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in_export.c                                  :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:01 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/14 22:39:01 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/12/21 21:05:11 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	bi_free_two(char *str1, char *str2)
-{
-	free(str1);
-	free(str2);
-}
-
-int	bi_first_character_check(char c)
+int	first_character_check(char c)
 {
 	if (c >= 'a' && c <= 'z')
 		return (1);
@@ -30,74 +24,81 @@ int	bi_first_character_check(char c)
 		return (0);
 }
 
-t_envp	*bi_find_key(t_envp *head, char *key)
+t_envp	*find_target(t_envp *env_head, char *key)
 {
-	t_envp	*lst;
-	int		len;
+	t_envp	*node;
+	int		key_len;
 
-	len = ft_strlen(key);
-	lst = head->next;
-	while (lst != NULL)
+	key_len = ft_strlen(key);
+	node = env_head->next;
+	while (node != NULL)
 	{
-		if (ft_strncmp(key, lst->key, len + 1) == 0)
-			return (lst);
-		lst = lst->next;
+		if (ft_strncmp(key, node->key, key_len + 1) == 0)
+			return (node);
+		node = node->next;
 	}
 	return (NULL);
 }
 
-void	bi_add_env(t_envp *head, char **key_and_value)
+void	add_new_node(t_envp *now, char **key_and_value)
 {
-	t_envp	*lst;
 	t_envp	*next;
-	t_envp	*find;
 
-	lst = head;
-	next = lst->next;
-	find = bi_find_key(head, key_and_value[0]);
-	if (next == NULL)
-		lst->next = bi_make_list(key_and_value);
-	else if (find == NULL)
-	{
-		while (next->next != NULL)
-		{
-			lst = next;
-			next = next->next;
-		}
-		lst->next = bi_make_list(key_and_value);
-		lst->next->next = next;
-	}
+	if (now == NULL)
+		now->next = make_env_node(key_and_value);
 	else
 	{
-		bi_free_two(find->value, key_and_value[0]);
-		find->value = key_and_value[1];
+		next = now->next;
+		while (next->next != NULL)
+		{
+			now = next;
+			next = next->next;
+		}
+		now->next = make_env_node(key_and_value);
+		now->next->next = next;
 	}
 }
 
-void	bi_export(t_envp *head, char *input)
+void	traverse_list(t_envp *env_head, char **key_and_value)
+{
+	t_envp	*target;
+
+	target = find_target(env_head, key_and_value[0]);
+	if (target == NULL)
+		add_new_node(env_head->next, key_and_value);
+	else
+	{
+		free(target->value);
+		free(key_and_value[0]);
+		target->value = key_and_value[1];
+	}
+}
+
+void	builtin_export(t_cmd cmd, t_envp *head)
 {
 	int		i;
 	char	**arr;
 	char	**key_and_value;
 
-	arr = ft_split(input, ' ');
+	arr = ft_split(cmd.command[1], ' ');
 	i = 0;
 	while (arr[i] != NULL)
 	{
-		key_and_value = bi_divide_key_and_value(arr[i]);
-		free(arr[i]);
+		key_and_value = divide_key_and_value(arr[i]);
 		if (key_and_value != NULL)
 		{
-			if (bi_first_character_check(key_and_value[0][0]) == 1)
-				bi_add_env(head, key_and_value);
+			if (first_character_check(key_and_value[0][0]) == 1)
+				traverse_list(head, key_and_value);
 			else
 			{
+				free(key_and_value[0]);
+				free(key_and_value[1]);
 				printf("bash: export: '%s': not a valid identifier\n", arr[i]);
 				errno = 1;
 			}
 			free(key_and_value);
 		}
-		i++;
+		free(arr[i++]);
 	}
 	free(arr);
 }

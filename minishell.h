@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 17:19:24 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/15 17:25:15 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/12/21 20:21:25 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,16 @@ typedef struct s_envp
 	struct s_envp	*next;
 }t_envp;
 
+typedef struct s_cmd
+{
+	char	**command;
+	char	*input_file;
+	char	*output_file;
+}t_cmd;
+
 typedef struct s_fd
 {
-	int				fd;
+	int			fd;
 	struct s_fd	*next;
 }t_fd;
 
@@ -43,10 +50,10 @@ typedef struct s_tree
 	struct s_tree	*right;
 }t_tree;
 
-void	bi_error(void);
-char	**bi_divide_key_and_value(char *data);
-t_envp	*bi_make_list(char **key_and_value);
-t_envp	*bi_make_linkedlist(char **envp);
+void	builtin_error(void);
+char	**divide_key_and_value(char *env);
+t_envp	*make_env_node(char **key_and_value);
+t_envp	*make_env(char **char_envp);
 void	bi_pwd(void);
 int		bi_first_character_check(char c);
 t_envp	*bi_find_key(t_envp *head, char *key);

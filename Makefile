@@ -6,7 +6,7 @@
 #    By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/08 18:58:03 by seonjo            #+#    #+#              #
-#    Updated: 2023/10/15 16:54:23 by seonjo           ###   ########.fr        #
+#    Updated: 2023/12/21 18:57:23 by seonjo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ $(NAME) : $(OBJS) $(LIBFT)
 	$(CC) $(FLAGS) $(OBJS) -L./libft -lft -o $(NAME)
 
 $(LIBFT) :
-	make -C ./libft
+	@make -C ./libft
 
 %.o : %.c
 	$(CC) $(CFLAGS) -I . -c $<

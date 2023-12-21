@@ -20,7 +20,7 @@ bonus : $(OBJS2) $(NAME)
 	@touch bonus
 
 %.o : %.c
-	$(CC) $(CFLAGS) -I . -c $<
+	@$(CC) $(CFLAGS) -I . -c $<
 
 clean :
 	rm -f $(OBJS) $(OBJS2) bonus

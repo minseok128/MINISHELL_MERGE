@@ -15,12 +15,12 @@ void    make_node(t_tree *node, char *str, int l, int r)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_envp	*head;
+	t_envp	*envp_head;
 	t_tree	*tree;
 	t_fd	*fdp;
 
 	argv[argc - argc] = NULL;
-	head = bi_make_linkedlist(envp);
+	envp_head = make_env(envp);
 
 	fdp = malloc(sizeof(t_fd));
 	fdp->next = NULL;
