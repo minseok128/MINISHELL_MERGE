@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:01 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/21 21:05:11 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/12/21 21:15:38 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int	first_character_check(char c)
 		return (0);
 }
 
-t_envp	*find_target(t_envp *env_head, char *key)
+t_envp	*find_node(t_envp *envp_head, char *key)
 {
 	t_envp	*node;
 	int		key_len;
 
 	key_len = ft_strlen(key);
-	node = env_head->next;
+	node = envp_head->next;
 	while (node != NULL)
 	{
 		if (ft_strncmp(key, node->key, key_len + 1) == 0)
@@ -59,13 +59,13 @@ void	add_new_node(t_envp *now, char **key_and_value)
 	}
 }
 
-void	traverse_list(t_envp *env_head, char **key_and_value)
+void	traverse_list_to_add(t_envp *envp_head, char **key_and_value)
 {
 	t_envp	*target;
 
-	target = find_target(env_head, key_and_value[0]);
+	target = find_node(envp_head, key_and_value[0]);
 	if (target == NULL)
-		add_new_node(env_head->next, key_and_value);
+		add_new_node(envp_head->next, key_and_value);
 	else
 	{
 		free(target->value);
@@ -74,7 +74,7 @@ void	traverse_list(t_envp *env_head, char **key_and_value)
 	}
 }
 
-void	builtin_export(t_cmd cmd, t_envp *head)
+void	builtin_export(t_cmd cmd, t_envp *envp_head)
 {
 	int		i;
 	char	**arr;
@@ -88,7 +88,7 @@ void	builtin_export(t_cmd cmd, t_envp *head)
 		if (key_and_value != NULL)
 		{
 			if (first_character_check(key_and_value[0][0]) == 1)
-				traverse_list(head, key_and_value);
+				traverse_list_to_add(envp_head, key_and_value);
 			else
 			{
 				free(key_and_value[0]);

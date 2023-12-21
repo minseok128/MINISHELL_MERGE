@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 17:19:24 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/21 20:21:25 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/12/21 21:11:24 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ void	builtin_error(void);
 char	**divide_key_and_value(char *env);
 t_envp	*make_env_node(char **key_and_value);
 t_envp	*make_env(char **char_envp);
-void	bi_pwd(void);
-int		bi_first_character_check(char c);
-t_envp	*bi_find_key(t_envp *head, char *key);
-void	bi_export(t_envp *head, char *input);
+void	builtin_pwd(void);
+int		first_character_check(char c);
+t_envp	*find_node(t_envp *envp_head, char *key);
+void	builtin_export(t_cmd cmd, t_envp *envp_head);
 void	bi_unset(t_envp *head, char *input);
 void	bi_cd(char *cmd);
-void	bi_env(t_envp *head);
+void	builtin_env(t_envp *envp_head);
 void	tr_all_close(t_fd *head);
 void	tr_lst_add(t_fd *head, int fd);
 void	tr_execute(t_tree *tree, t_envp *envp, int pipe_fd[2]);
