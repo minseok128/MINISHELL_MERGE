@@ -6,23 +6,11 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:01 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/21 21:15:38 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/12/22 22:39:37 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	first_character_check(char c)
-{
-	if (c >= 'a' && c <= 'z')
-		return (1);
-	else if (c >= 'A' && c <= 'Z')
-		return (1);
-	else if (c == '_')
-		return (1);
-	else
-		return (0);
-}
 
 t_envp	*find_node(t_envp *envp_head, char *key)
 {
@@ -74,17 +62,18 @@ void	traverse_list_to_add(t_envp *envp_head, char **key_and_value)
 	}
 }
 
-void	builtin_export(t_cmd cmd, t_envp *envp_head)
+void	builtin_export(t_cmd *cmd, t_envp *envp_head)
 {
 	int		i;
-	char	**arr;
+	char	*str;
 	char	**key_and_value;
 
-	arr = ft_split(cmd.command[1], ' ');
-	i = 0;
-	while (arr[i] != NULL)
+	errno = 0;
+	i = 1;
+	while (cmd->command[i] != NULL)
 	{
-		key_and_value = divide_key_and_value(arr[i]);
+		str = cmd->command[i++];
+		key_and_value = divide_key_and_value(str);
 		if (key_and_value != NULL)
 		{
 			if (first_character_check(key_and_value[0][0]) == 1)
@@ -93,12 +82,10 @@ void	builtin_export(t_cmd cmd, t_envp *envp_head)
 			{
 				free(key_and_value[0]);
 				free(key_and_value[1]);
-				printf("bash: export: '%s': not a valid identifier\n", arr[i]);
+				printf("bash: export: '%s': not a valid identifier\n", str);
 				errno = 1;
 			}
 			free(key_and_value);
 		}
-		free(arr[i++]);
 	}
-	free(arr);
 }

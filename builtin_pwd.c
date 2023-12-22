@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:25:44 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/21 20:22:32 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/12/22 17:04:38 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	builtin_pwd(void)
 {
 	char	*pwd;
 
+	errno = 1;
 	pwd = getcwd(NULL, 1024);
 	if (pwd == NULL)
 		builtin_error();

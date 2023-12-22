@@ -13,7 +13,7 @@ OBJS2 = $(SRCS2:.c=.o)
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	$(ARFLGS) $(NAME) $(OBJS)
+	@$(ARFLGS) $(NAME) $(OBJS)
 
 bonus : $(OBJS2) $(NAME)
 	$(ARFLGS) $(NAME) $(OBJS2)

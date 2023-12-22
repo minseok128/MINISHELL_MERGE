@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 17:19:24 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/21 21:11:24 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/12/22 17:46:41 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,18 @@ typedef struct s_cmd
 	char	*output_file;
 }t_cmd;
 
-typedef struct s_fd
-{
-	int			fd;
-	struct s_fd	*next;
-}t_fd;
+// typedef struct s_fd
+// {
+// 	int			fd;
+// 	struct s_fd	*next;
+// }t_fd;
 
-typedef struct s_tree
-{
-	char			*str;
-	struct s_tree	*left;
-	struct s_tree	*right;
-}t_tree;
+// typedef struct s_tree
+// {
+// 	char			*str;
+// 	struct s_tree	*left;
+// 	struct s_tree	*right;
+// }t_tree;
 
 void	builtin_error(void);
 char	**divide_key_and_value(char *env);
@@ -57,14 +57,15 @@ t_envp	*make_env(char **char_envp);
 void	builtin_pwd(void);
 int		first_character_check(char c);
 t_envp	*find_node(t_envp *envp_head, char *key);
-void	builtin_export(t_cmd cmd, t_envp *envp_head);
-void	bi_unset(t_envp *head, char *input);
-void	bi_cd(char *cmd);
+void	builtin_export(t_cmd *cmd, t_envp *envp_head);
+void	builtin_unset(t_cmd *cmd, t_envp *envp_head);
+void	builtin_cd(t_cmd *cmd, t_envp *envp_head);
+void	builtin_echo(t_cmd *cmd);
 void	builtin_env(t_envp *envp_head);
-void	tr_all_close(t_fd *head);
-void	tr_lst_add(t_fd *head, int fd);
-void	tr_execute(t_tree *tree, t_envp *envp, int pipe_fd[2]);
-void	tr_redirection(t_tree *tree, int fd[2]);
-void	tr_preorder(t_envp *envp, t_tree *tree, t_fd *fdp, int flag);
+// void	tr_all_close(t_fd *head);
+// void	tr_lst_add(t_fd *head, int fd);
+// void	tr_execute(t_tree *tree, t_envp *envp, int pipe_fd[2]);
+// void	tr_redirection(t_tree *tree, int fd[2]);
+// void	tr_preorder(t_envp *envp, t_tree *tree, t_fd *fdp, int flag);
 
 #endif
