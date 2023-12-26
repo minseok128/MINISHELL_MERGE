@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 17:19:24 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/22 17:46:41 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/12/26 16:13:56 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,14 @@ char	**divide_key_and_value(char *env);
 t_envp	*make_env_node(char **key_and_value);
 t_envp	*make_env(char **char_envp);
 void	builtin_pwd(void);
-int		first_character_check(char c);
+int	is_valid_identifier(char *str);
 t_envp	*find_node(t_envp *envp_head, char *key);
 void	builtin_export(t_cmd *cmd, t_envp *envp_head);
 void	builtin_unset(t_cmd *cmd, t_envp *envp_head);
 void	builtin_cd(t_cmd *cmd, t_envp *envp_head);
 void	builtin_echo(t_cmd *cmd);
 void	builtin_env(t_envp *envp_head);
+char	*ft__strdup(const char *s1);
 // void	tr_all_close(t_fd *head);
 // void	tr_lst_add(t_fd *head, int fd);
 // void	tr_execute(t_tree *tree, t_envp *envp, int pipe_fd[2]);

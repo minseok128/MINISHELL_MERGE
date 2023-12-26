@@ -6,22 +6,31 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:19 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/22 19:27:48 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/12/26 16:20:42 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	first_character_check(char c)
+int	is_valid_identifier(char *str)
 {
-	if (c >= 'a' && c <= 'z')
-		return (1);
-	else if (c >= 'A' && c <= 'Z')
-		return (1);
-	else if (c == '_')
-		return (1);
-	else
+	int	i;
+
+	if (!(str[0] >= 'a' && str[0] <= 'z') && \
+		!(str[0] >= 'A' && str[0] <= 'Z') && \
+		!(str[0] == '_'))
 		return (0);
+	i = 1;
+	while (str[i] != '\0')
+	{
+		if (!(str[i] >= 'a' && str[i] <= 'z') && \
+			!(str[i] >= 'A' && str[i] <= 'Z') && \
+			!(str[i] >= '0' && str[i] <= '9') && \
+			!(str[i] == '_'))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 void	remove_env_node(t_envp *envp_head, char *key)
@@ -59,7 +68,7 @@ void	builtin_unset(t_cmd *cmd, t_envp *envp_head)
 	{
 		str = cmd->command[i++];
 		j = 0;
-		if (first_character_check(str[0]) == 1)
+		if (is_valid_identifier(str) == 1)
 			remove_env_node(envp_head, str);
 		else
 		{

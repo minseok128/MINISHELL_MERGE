@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:01 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/22 22:39:37 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/12/26 16:17:12 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,9 @@ void	traverse_list_to_add(t_envp *envp_head, char **key_and_value)
 	else
 	{
 		free(target->value);
-		free(key_and_value[0]);
 		target->value = key_and_value[1];
+		free(key_and_value[0]);
+		free(key_and_value);
 	}
 }
 
@@ -76,16 +77,16 @@ void	builtin_export(t_cmd *cmd, t_envp *envp_head)
 		key_and_value = divide_key_and_value(str);
 		if (key_and_value != NULL)
 		{
-			if (first_character_check(key_and_value[0][0]) == 1)
+			if (is_valid_identifier(key_and_value[0]) == 1)
 				traverse_list_to_add(envp_head, key_and_value);
 			else
 			{
 				free(key_and_value[0]);
 				free(key_and_value[1]);
+				free(key_and_value);
 				printf("bash: export: '%s': not a valid identifier\n", str);
 				errno = 1;
 			}
-			free(key_and_value);
 		}
 	}
 }

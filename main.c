@@ -25,37 +25,66 @@ int	main(int argc, char **argv, char **envp)
 	if (cmd.command == NULL)
 		return 1;
 
-	// pwd test 
-		builtin_pwd();
+	// printf("\n\n\npwd test\n");
+	// builtin_pwd();
 
-	// env test
-		builtin_env(envp_head);
+	// printf("\n\n\nenv test\n");
+	// builtin_env(envp_head);
 
-	// export test
-		cmd.command[1] = "a=1";
-		cmd.command[2] = "b=3";
-		cmd.command[3] = "17fdf=23";
-		cmd.command[4] = "_17s=";
-		cmd.command[5] = "c=145124";
-		cmd.command[6] = "p = 23";
-		cmd.command[7] = NULL;
-		builtin_export(&cmd, envp_head);
-		builtin_env(envp_head);
+	// printf("\n\n\nexport test\n");
+	// cmd.command[1] = "test1=ls -l";
+	// cmd.command[2] = "test2=ls -al";
+	// cmd.command[3] = "1=100";
+	// cmd.command[4] = "test3=100";
+	// cmd.command[5] = "TEST=ls -l - a";
+	// cmd.command[6] = "p==23";
+	// cmd.command[7] = NULL;
+	// builtin_export(&cmd, envp_head);
+	// printf("\n\n");
+	// builtin_env(envp_head);
 
-	// unset test
-		// ex_export(head, "a=1 a=3 b=2 17fdf=23 _17s= c=145124");
-		// un_unset(head, "a b _17s 12");
-		// en_env(head);
+	// printf("\n\n\nunset test\n");
+	// cmd.command[1] = "a";
+	// cmd.command[2] = "b";
+	// cmd.command[3] = "1-7fdf";
+	// cmd.command[4] = "_17s";
+	// cmd.command[5] = "12c";
+	// cmd.command[6] = "__p";
+	// cmd.command[7] = NULL;
+	// builtin_unset(&cmd, envp_head);
+	// builtin_env(envp_head);
 
-	// cd test
-		// cd_cd("");
-		// pw_pwd();
-		// cd_cd("..");
-		// pw_pwd();
-		// cd_cd("echo.c");
-		// pw_pwd();
-		// cd_cd("../..////////////..");
-		// pw_pwd();
+	// printf("\n\n\n cd test\n");
+	// cmd.command[1] = NULL;
+	// builtin_cd(&cmd, envp_head);
+	// builtin_pwd();
+	// cmd.command[1] = "..";
+	// builtin_cd(&cmd, envp_head);
+	// builtin_pwd();
+	// cmd.command[1] = "libft";
+	// builtin_cd(&cmd, envp_head);
+	// builtin_pwd();
+	// cmd.command[1] = "../......";
+	// builtin_cd(&cmd, envp_head);
+	// builtin_pwd();
+
+	// printf("\n\n\n echo test\n");
+	// cmd.command[1] = "-nnn";
+	// cmd.command[2] = "-nnn";
+	// cmd.command[3] = "hi";
+	// cmd.command[4] = "-n";
+	// cmd.command[5] = NULL;
+	// builtin_echo(&cmd);
+	// cmd.command[1] = "echo good";
+	// cmd.command[2] = NULL;
+	// builtin_echo(&cmd);
+	// cmd.command[1] = "-n";
+	// cmd.command[2] = "-nnnnn";
+	// cmd.command[3] = "two";
+	// cmd.command[4] = NULL;
+	// builtin_echo(&cmd);
+
+	return (0);
 }
 	// fdp = malloc(sizeof(t_fd));
 	// fdp->next = NULL;

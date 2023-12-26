@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:35 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/22 19:27:09 by seonjo           ###   ########.fr       */
+/*   Updated: 2023/12/25 19:58:21 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ void	builtin_cd(t_cmd *cmd, t_envp *envp_head)
 			cd_error(4, NULL);
 			return ;
 		}
-		dest = ft_strdup(home->value);
+		dest = ft__strdup(home->value);
 	}
 	else
-		dest = ft_strdup(cmd->command[1]);
+		dest = ft__strdup(cmd->command[1]);
 	if (access(dest, F_OK) == -1)
 		cd_error(1, dest);
 	else
