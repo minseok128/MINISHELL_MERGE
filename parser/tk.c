@@ -23,7 +23,7 @@ int	tk_quotes(char *str, t_token **tk_head, int now)
 		len++;
 	if (str[now + len])
 		len++;
-	new_str = (char *)ft_calloc_s(1, len + 1);
+	new_str = (char *)ft_calloc_s(len + 1, sizeof(char));
 	ft_strlcpy(new_str, &str[now], len + 1);
 	new_tk = tk_alloc_s(T_WORD, new_str);
 	tk_lstadd_back(tk_head, new_tk);
@@ -42,7 +42,7 @@ int	tk_meta(char *str, t_token **tk_head, int now)
 	if (new_type == T_AND || new_type == T_OR
 		|| new_type == T_REDIR_D_L || new_type == T_REDIR_D_R)
 		len++;
-	new_str = (char *)ft_calloc_s(1, len + 1);
+	new_str = (char *)ft_calloc_s(len + 1, sizeof(char));
 	ft_strlcpy(new_str, &str[now], len + 1);
 	new_tk = tk_alloc_s(new_type, new_str);
 	tk_lstadd_back(tk_head, new_tk);
@@ -66,32 +66,24 @@ int	tk_word(char *str, t_token **tk_head, int now)
 	return (len);
 }
 
-void	tk_default(char *str, t_token **tk_head)
+void	tk_tokenize(char *str)
 {
-	int	now;
-	
+	t_token	*tk_head;
+	int		now;
+
+	tk_head = 0;
 	now = 0;
 	while (str[now])
 	{
 		if (tk_is_meta_char(&str[now]) != 0)
-			now += tk_meta(str, tk_head, now);
+			now += tk_meta(str, &tk_head, now);
 		else if (str[now] == '\'' || str[now] == '\"')
-			now += tk_quotes(str, tk_head, now);
+			now += tk_quotes(str, &tk_head, now);
 		else if (str[now] && !ft_isspace(str[now]))
-			now += tk_word(str, tk_head, now);
+			now += tk_word(str, &tk_head, now);
 		else
 			now++;
 	}
-	tk_lstlast(*tk_head)->next = 0;
-	return ;
-}
-
-void	tk_tokenize(char *str)
-{
-	t_token	*tk_head;
-
-	tk_head = 0;
-	printf("line:%s\n", str);
-	tk_default(str, &tk_head);
+	tk_lstlast(tk_head)->next = 0;
 	tk_print(tk_head);
 }

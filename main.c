@@ -25,7 +25,7 @@ void	trem_init(int argc, char **argv)
 	(void) argv;
 }
 
-int	is_white_space(char *str)
+int	jump_white_space(char *str)
 {
 	while (*str)
 	{
@@ -53,7 +53,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (*line != 0)
 			add_history(line);
-		if (*line != 0 && !is_white_space(line))
+		if (*line != 0 && !jump_white_space(line))
 		{
 			tk_tokenize(line);	
 		}
