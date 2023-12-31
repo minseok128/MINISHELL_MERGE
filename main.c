@@ -55,7 +55,7 @@ int	main(int argc, char **argv, char **envp)
 			add_history(line);
 		if (*line != 0 && !is_white_space(line))
 		{
-			parse(line, head);			
+			tk_tokenize(line);	
 		}
 		free(line);
 	}

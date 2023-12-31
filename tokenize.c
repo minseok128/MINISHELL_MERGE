@@ -116,7 +116,7 @@ int	tk_is_meta_char(char *str)
 	return (0);
 }
 
-void	tk_quotes(char *str, t_token **tk_head, int now)
+int	tk_quotes(char *str, t_token **tk_head, int now)
 {
 	t_token	*new_tk;
 	char	*new_str;
@@ -129,9 +129,10 @@ void	tk_quotes(char *str, t_token **tk_head, int now)
 	ft_strlcpy(new_str, &str[now], len + 1);
 	new_tk = tk_alloc_s(T_WORD, new_str);
 	tk_lstadd_back(tk_head, new_tk);
+	return (len);
 }
 
-void	tk_meta(char *str, t_token **tk_head, int now)
+int	tk_meta(char *str, t_token **tk_head, int now)
 {
 	t_token			*new_tk;
 	t_token_type	new_type;
@@ -148,21 +149,24 @@ void	tk_meta(char *str, t_token **tk_head, int now)
 	ft_strlcpy(new_str, &str[now], len + 1);
 	new_tk = tk_alloc_s(new_type, new_str);
 	tk_lstadd_back(tk_head, new_tk);
+	return (len);
 }
 
-void	tk_word(char *str, t_token **tk_head, int now)
+int	tk_word(char *str, t_token **tk_head, int now)
 {
 	t_token	*new_tk;
 	char	*new_str;
 	int		len;
 
 	len = 0;
-	while (tk_is_meta_char(&str[now + len]) && ft_isspace(str[now + len]))
+	while (!tk_is_meta_char(&str[now + len]) && !ft_isspace(str[now + len]))
 		len++;
-	new_str = (char *)ft_calloc_s(1, len + 1);
+	printf("len:%d\n", len);
+	new_str = (char *)ft_calloc_s(len + 1, sizeof(char));
 	ft_strlcpy(new_str, &str[now], len + 1);
 	new_tk = tk_alloc_s(T_WORD, new_str);
 	tk_lstadd_back(tk_head, new_tk);
+	return (len);
 }
 
 void	tk_default(char *str, t_token **tk_head)
@@ -172,15 +176,17 @@ void	tk_default(char *str, t_token **tk_head)
 	now = 0;
 	while (str[now])
 	{
+		printf("now:%d\n", now);
 		if (tk_is_meta_char(str))
-			tk_meta(str, tk_head, now);
+			now += tk_meta(str, tk_head, now);
 		else if (str[now] == '\'' || str[now] == '\"')
-			tk_quotes(str, tk_head, now);
-		else if (str[now] && ft_isspace(str[now]))
-			tk_word(str, tk_head, now);
+			now += tk_quotes(str, tk_head, now);
+		else if (str[now] && !ft_isspace(str[now]))
+			now += tk_word(str, tk_head, now);
 		else
 			now++;
 	}
+	tk_lstlast(*tk_head)->next = 0;
 	return ;
 }
 
@@ -188,6 +194,7 @@ void	tk_tokenize(char *str)
 {
 	t_token	*tk_head;
 
+	printf("line:%s\n", str);
 	tk_default(str, &tk_head);
 	tk_print(tk_head);
 }
