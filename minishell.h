@@ -27,11 +27,19 @@
 # define MODE_DEFAULT 1
 # define MODE_IGNORE 2
 
-# define T_PIPE 11
-# define T_SL_DIREC 12
-# define T_SR_DIREC 13
-# define T_DL_DIREC 14
-# define T_DR_DIREC 15
+typedef enum e_token_type {
+	T_AND = 10,
+	T_OR,
+	T_PIPE,
+	T_PARENT_L,
+	T_PARENT_R,
+	T_REDIR_S_L,
+	T_REDIR_S_R,
+	T_REDIR_D_L,
+	T_REDIR_D_R,
+	T_WORD,
+	T_UNDEFINED = 99
+} t_token_type;
 
 typedef struct s_envp
 {
@@ -41,7 +49,8 @@ typedef struct s_envp
 } t_envp;
 
 typedef	struct s_token {
-	int				type;
+	t_token_type	type;
+	int				flag;
 	char			*str;
 	struct s_token *next;
 } t_token;
@@ -49,8 +58,8 @@ typedef	struct s_token {
 t_envp	*env_init_list_s(char **envp);
 void	env_print(t_envp *head);
 void	set_signal(int sig_int, int sig_quit);
-void	parse(char *str, t_envp *head);
 t_envp	*envi_make_linkedlist(char **envp);
 t_envp	*ex_find_key(t_envp *head, char *key);
+void	tk_tokenize(char *str);
 
 #endif
