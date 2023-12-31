@@ -116,14 +116,38 @@ int	tk_is_meta_char(char *str)
 	return (0);
 }
 
-void	tk_quotes()
+void	tk_quotes(char *str, t_token **tk_head, int now)
 {
+	t_token	*new_tk;
+	char	*new_str;
+	int		len;
 
+	len = 1;
+	while (str[now + len] && str[now + len] != str[now])
+		len++;
+	new_str = (char *)ft_calloc_s(1, len + 1);
+	ft_strlcpy(new_str, &str[now], len + 1);
+	new_tk = tk_alloc_s(T_WORD, new_str);
+	tk_lstadd_back(tk_head, new_tk);
 }
 
-void	tk_meta()
+void	tk_meta(char *str, t_token **tk_head, int now)
 {
+	t_token			*new_tk;
+	t_token_type	new_type;
+	char			*new_str;
+	int				len;
 
+	
+	new_type = tk_is_meta_char(str);
+	len = 1;
+	if (new_type == T_AND || new_type == T_OR
+		|| new_type == T_REDIR_D_L || new_type == T_REDIR_D_R)
+		len++;
+	new_str = (char *)ft_calloc_s(1, len + 1);
+	ft_strlcpy(new_str, &str[now], len + 1);
+	new_tk = tk_alloc_s(new_type, new_str);
+	tk_lstadd_back(tk_head, new_tk);
 }
 
 void	tk_word(char *str, t_token **tk_head, int now)
@@ -139,26 +163,31 @@ void	tk_word(char *str, t_token **tk_head, int now)
 	ft_strlcpy(new_str, &str[now], len + 1);
 	new_tk = tk_alloc_s(T_WORD, new_str);
 	tk_lstadd_back(tk_head, new_tk);
-	tk_default(str + len, tk_head, now + len);
 }
 
-void	tk_default(char *str, t_token **tk_head, int now)
+void	tk_default(char *str, t_token **tk_head)
 {
-	if (tk_is_meta_char(str))
-		tk_meta(str, tk_head, now);
-	else if (str[now] == '\'' || str[now] == '\"')
-		tk_quotes(str, tk_head, now);
-	else if (str[now])
-		tk_word(str, tk_head, now);
+	int	now;
+	
+	now = 0;
+	while (str[now])
+	{
+		if (tk_is_meta_char(str))
+			tk_meta(str, tk_head, now);
+		else if (str[now] == '\'' || str[now] == '\"')
+			tk_quotes(str, tk_head, now);
+		else if (str[now] && ft_isspace(str[now]))
+			tk_word(str, tk_head, now);
+		else
+			now++;
+	}
 	return ;
 }
 
 void	tk_tokenize(char *str)
 {
-	int		now;
 	t_token	*tk_head;
 
-	now = 0;
-	tk_default(str, &tk_head, now);
+	tk_default(str, &tk_head);
 	tk_print(tk_head);
 }

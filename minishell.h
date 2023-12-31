@@ -38,6 +38,7 @@ typedef enum e_token_type {
 	T_REDIR_D_L,
 	T_REDIR_D_R,
 	T_WORD,
+	T_NULL = 98,
 	T_UNDEFINED = 99
 } t_token_type;
 
