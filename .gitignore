@@ -4,3 +4,4 @@ test.c
 a.out
 .vscode
 *.a
+minishell
