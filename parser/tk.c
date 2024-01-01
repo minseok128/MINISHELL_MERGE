@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tk.h"
+#include "parser.h"
 
 static void	tk_print(t_token *tk)
 {
@@ -86,4 +86,5 @@ void	tk_tokenize(char *str)
 	}
 	tk_lstlast(tk_head)->next = 0;
 	tk_print(tk_head);
+	mktr_make_tree(tk_head);
 }

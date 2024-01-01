@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michang <michang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,10 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TK_H
-# define TK_H
-# include "../minishell.h"
+#ifndef PARSER_H
+# define PARSER_H
+# include <stdlib.h>
+# include <stdio.h>
+# include "../libft/libft.h"
 
+
+// tokenizer
 typedef enum e_token_type {
 	T_AND = 10,
 	T_OR,
@@ -41,5 +45,8 @@ t_token			*tk_lstlast(t_token *lst);
 void			tk_lstadd_back(t_token **lst, t_token *new_token);
 t_token			*tk_alloc_s(t_token_type type, char *str);
 t_token_type	tk_is_meta_char(char *str);
+
+// tree maker
+void	mktr_make_tree();
 
 #endif
