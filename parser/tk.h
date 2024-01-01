@@ -27,16 +27,16 @@ typedef enum e_token_type {
 	T_WORD,
 	T_NULL = 98,
 	T_UNDEFINED = 99
-} t_token_type;
+}	t_token_type;
 
-typedef	struct s_token {
+typedef struct s_token {
 	t_token_type	type;
 	int				flag;
 	char			*str;
-	struct s_token *next;
-} t_token;
+	struct s_token	*next;
+}	t_token;
 
-int				ft_isspace(char	c);
+int				ft_isspace(char c);
 t_token			*tk_lstlast(t_token *lst);
 void			tk_lstadd_back(t_token **lst, t_token *new_token);
 t_token			*tk_alloc_s(t_token_type type, char *str);

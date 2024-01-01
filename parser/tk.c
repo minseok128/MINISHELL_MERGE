@@ -12,24 +12,6 @@
 
 #include "tk.h"
 
-int	tk_quotes(char *str, t_token **tk_head, int now)
-{
-	t_token	*new_tk;
-	char	*new_str;
-	int		len;
-
-	len = 1;
-	while (str[now + len] && str[now + len] != str[now])
-		len++;
-	if (str[now + len])
-		len++;
-	new_str = (char *)ft_calloc_s(len + 1, sizeof(char));
-	ft_strlcpy(new_str, &str[now], len + 1);
-	new_tk = tk_alloc_s(T_WORD, new_str);
-	tk_lstadd_back(tk_head, new_tk);
-	return (len);
-}
-
 int	tk_meta(char *str, t_token **tk_head, int now)
 {
 	t_token			*new_tk;
@@ -54,11 +36,23 @@ int	tk_word(char *str, t_token **tk_head, int now)
 	t_token	*new_tk;
 	char	*new_str;
 	int		len;
+	char	quotes;
 
 	len = 0;
 	while (str[now + len] && !tk_is_meta_char(&str[now + len])
 		&& !ft_isspace(str[now + len]))
-		len++;
+	{
+		if (str[now + len] == '\'' || str[now + len] == '\"')
+		{
+			quotes = str[now + len++];
+			while (str[now + len] && str[now + len] != quotes)
+				len++;
+			if (str[now + len])
+				len++;
+		}
+		else
+			len++;
+	}
 	new_str = (char *)ft_calloc_s(len + 1, sizeof(char));
 	ft_strlcpy(new_str, &str[now], len + 1);
 	new_tk = tk_alloc_s(T_WORD, new_str);
@@ -77,9 +71,7 @@ void	tk_tokenize(char *str)
 	{
 		if (tk_is_meta_char(&str[now]) != 0)
 			now += tk_meta(str, &tk_head, now);
-		else if (str[now] == '\'' || str[now] == '\"')
-			now += tk_quotes(str, &tk_head, now);
-		else if (str[now] && !ft_isspace(str[now]))
+		else if (!ft_isspace(str[now]))
 			now += tk_word(str, &tk_head, now);
 		else
 			now++;
