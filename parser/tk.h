@@ -40,7 +40,6 @@ int				ft_isspace(char c);
 t_token			*tk_lstlast(t_token *lst);
 void			tk_lstadd_back(t_token **lst, t_token *new_token);
 t_token			*tk_alloc_s(t_token_type type, char *str);
-void			tk_print(t_token *tk);
 t_token_type	tk_is_meta_char(char *str);
 
 #endif

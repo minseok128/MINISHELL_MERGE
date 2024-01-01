@@ -12,7 +12,19 @@
 
 #include "tk.h"
 
-int	tk_meta(char *str, t_token **tk_head, int now)
+static void	tk_print(t_token *tk)
+{
+	while (tk)
+	{
+		printf("%s[%d]", tk->str, tk->type);
+		tk = tk->next;
+		if (tk)
+			printf(" ==> ");
+	}
+	printf("\n");
+}
+
+static int	tk_meta(char *str, t_token **tk_head, int now)
 {
 	t_token			*new_tk;
 	t_token_type	new_type;
@@ -31,7 +43,7 @@ int	tk_meta(char *str, t_token **tk_head, int now)
 	return (len);
 }
 
-int	tk_word(char *str, t_token **tk_head, int now)
+static int	tk_word(char *str, t_token **tk_head, int now)
 {
 	t_token	*new_tk;
 	char	*new_str;

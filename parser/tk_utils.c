@@ -50,18 +50,6 @@ t_token	*tk_alloc_s(t_token_type type, char *str)
 	return (tk);
 }
 
-void	tk_print(t_token *tk)
-{
-	while (tk)
-	{
-		printf("%s[%d]", tk->str, tk->type);
-		tk = tk->next;
-		if (tk)
-			printf(" ==> ");
-	}
-	printf("\n");
-}
-
 t_token_type	tk_is_meta_char(char *str)
 {
 	if (!str[0])
