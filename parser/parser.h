@@ -19,7 +19,7 @@
 
 // tokenizer
 typedef enum e_token_type {
-	T_AND = 10,
+	T_AND = 101,
 	T_OR,
 	T_PIPE,
 	T_PARENT_L,
@@ -47,6 +47,20 @@ t_token			*tk_alloc_s(t_token_type type, char *str);
 t_token_type	tk_is_meta_char(char *str);
 
 // tree maker
+typedef enum e_tr_type {
+	TR_LIST = 201,
+	TR_PIPELINE,
+	TR_COMMAND,
+	TR_COMMAND_PART,
+	TR_REDIR,
+	TR_WORD,
+}	t_tr_type;
+
+typedef struct	s_tr_node {
+	t_token_type	type;
+
+}	t_tr_node;
+
 void	mktr_make_tree();
 
 #endif
