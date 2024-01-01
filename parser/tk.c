@@ -26,7 +26,6 @@ static void	tk_print(t_token *tk)
 
 static int	tk_meta(char *str, t_token **tk_head, int now)
 {
-	t_token			*new_tk;
 	t_token_type	new_type;
 	char			*new_str;
 	int				len;
@@ -38,14 +37,12 @@ static int	tk_meta(char *str, t_token **tk_head, int now)
 		len++;
 	new_str = (char *)ft_calloc_s(len + 1, sizeof(char));
 	ft_strlcpy(new_str, &str[now], len + 1);
-	new_tk = tk_alloc_s(new_type, new_str);
-	tk_lstadd_back(tk_head, new_tk);
+	tk_lstadd_back(tk_head, tk_alloc_s(new_type, new_str));
 	return (len);
 }
 
 static int	tk_word(char *str, t_token **tk_head, int now)
 {
-	t_token	*new_tk;
 	char	*new_str;
 	int		len;
 	char	quotes;
@@ -67,8 +64,7 @@ static int	tk_word(char *str, t_token **tk_head, int now)
 	}
 	new_str = (char *)ft_calloc_s(len + 1, sizeof(char));
 	ft_strlcpy(new_str, &str[now], len + 1);
-	new_tk = tk_alloc_s(T_WORD, new_str);
-	tk_lstadd_back(tk_head, new_tk);
+	tk_lstadd_back(tk_head, tk_alloc_s(T_WORD, new_str));
 	return (len);
 }
 
