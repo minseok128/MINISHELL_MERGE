@@ -13,8 +13,8 @@
 CC			= cc
 WFLAG		= -Wall -Wextra -Werror
 LIBFT		= -Llibft -lft
-# READLINE	= -L/usr/local/lib  -lreadline
-READLINE	= -L/opt/homebrew/Cellar/readline/8.2.7/lib -lreadline
+READLINE	= -L/usr/local/lib  -lreadline
+# READLINE	= -L/opt/homebrew/Cellar/readline/8.2.7/lib -lreadline
 
 DIR			= ./
 BASE		= main signal_utils env env_init parser/tk parser/tk_utils
@@ -30,10 +30,10 @@ lib :
 $(NAME) : $(OBJ)
 	$(CC) $(WFLAG) -I$(dir $<) $(LIBFT) $(READLINE) $^ -o $@
 
-# %.o : %.c
-# 	$(CC) $(WFLAG) -I$(dir $<) -c $< -o $@
 %.o : %.c
-	$(CC) $(WFLAG) -I$(dir $<) -I/opt/homebrew/Cellar/readline/8.2.7/include -c $< -o $@
+	$(CC) $(WFLAG) -I$(dir $<) -c $< -o $@
+# %.o : %.c
+# 	$(CC) $(WFLAG) -I$(dir $<) -I/opt/homebrew/Cellar/readline/8.2.7/include -c $< -o $@
 
 clean :
 	make clean -C ./libft
@@ -45,6 +45,9 @@ fclean : clean
 re : clean all
 
 .PHONY : all clean fclean re
+
+t : all clean
+	./$(NAME)
 
 party :
 	@printf "\033c"
