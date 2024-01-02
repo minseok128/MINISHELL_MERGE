@@ -30,26 +30,33 @@ EBNF
 <word>			::= str
 */
 
+// <word>			::= str
 t_tr_node	*mktr_word(t_token **tk_now)
 {
 
 }
 
+// <redir>			::= (">" | ">>" | "<" | "<<") <word>
 t_tr_node	*mktr_redir(t_token **tk_now)
 {
 
 }
 
+// <command_part>	::= <word>
+//					| <redir>
 t_tr_node	*mktr_command_part(t_token **tk_now)
 {
 
 }
 
+//<command>		::= <command_part> {<command_part>}
 t_tr_node	*mktr_command(t_token **tk_now)
 {
 
 }
 
+// <pipeline>		::= "(" <list> ")"
+// 				| <command> {"|" <command>}
 t_tr_node	*mktr_pipeline(t_token **tk_now)
 {
 	t_tr_node	*node;
@@ -65,6 +72,7 @@ t_tr_node	*mktr_pipeline(t_token **tk_now)
 	}
 }
 
+// <list>			::= <pipeline> {("&&" | "||") <pipeline>}
 t_tr_node	*mktr_list(t_token **tk_now)
 {
 	t_tr_node	*node;
