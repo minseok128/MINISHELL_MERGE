@@ -35,7 +35,6 @@ typedef enum e_token_type {
 
 typedef struct s_token {
 	t_token_type	type;
-	int				flag;
 	char			*str;
 	struct s_token	*next;
 }	t_token;
@@ -58,12 +57,12 @@ typedef enum e_tr_type {
 
 typedef struct	s_tr_node {
 	t_tr_type			bnf_type;
-	t_token_type		tk_type;
+	t_token				*tk;
 	struct s_tr_node	*left;
 	struct s_tr_node	*right;
-	char				*str;
 }	t_tr_node;
 
-void	mktr_make_tree(t_token *tk_head);
+void			mktr_make_tree(t_token *tk_head);
+t_tr_node		*mktr_alloc_s(t_tr_type bnf_type, t_token *tk);
 
 #endif

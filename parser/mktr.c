@@ -12,42 +12,63 @@
 
 #include "parser.h"
 
-void	mktr_word(t_token *tk, t_tr_node **node)
+t_tr_node	*mktr_word(t_token **tk_now)
 {
 
 }
 
-void	mktr_redir(t_token *tk, t_tr_node **node)
+t_tr_node	*mktr_redir(t_token **tk_now)
 {
 
 }
 
-void	mktr_command_part(t_token *tk, t_tr_node **node)
+t_tr_node	*mktr_command_part(t_token **tk_now)
 {
 
 }
 
-void	mktr_command(t_token *tk, t_tr_node **node)
+t_tr_node	*mktr_command(t_token **tk_now)
 {
 
 }
 
-void	mktr_pipeline(t_token *tk, t_tr_node **node)
+t_tr_node	*mktr_pipeline(t_token **tk_now)
 {
+	t_tr_node	*node;
 
+	node = mktr_alloc_s(TR_PIPELINE, 0);
+	if (!(*tk_now) && (*tk_now)->type == T_PARENT_L)
+	{
+		
+	}
+	else
+	{
+
+	}
 }
 
-void	mktr_list(t_token *tk, t_tr_node **node)
+t_tr_node	*mktr_list(t_token **tk_now)
 {
-	t_tr_node	*left;
-	t_tr_node	*right;
+	t_tr_node	*node;
 
-	mktr_pipeline(tk, node);
+	if (!(*tk_now))
+		return (0);
+	node = mktr_alloc_s(TR_LIST, 0);
+	node->left = mktr_pipeline(tk_now);
+	if (!(*tk_now) && ((*tk_now)->type == T_AND || (*tk_now)->type == T_OR))
+	{
+		node->tk = *tk_now;
+		*tk_now = (*tk_now)->next;
+		node->left = mktr_list(tk_now);
+	}
+	return (node);
 }
 
 void	mktr_make_tree(t_token *tk_head)
 {
 	t_tr_node	*root;
-
-
+	t_token		*tk_now;
+	
+	tk_now = tk_head;
+	root = mktr_list(&tk_now);
 }

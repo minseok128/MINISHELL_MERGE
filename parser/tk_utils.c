@@ -43,7 +43,7 @@ t_token	*tk_alloc_s(t_token_type type, char *str)
 {
 	t_token	*tk;
 
-	tk = ft_calloc_s(sizeof(t_token), 1);
+	tk = ft_calloc_s(1, sizeof(t_token));
 	if (str)
 		tk->str = str;
 	tk->type = type;
