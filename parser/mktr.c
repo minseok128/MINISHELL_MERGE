@@ -12,6 +12,24 @@
 
 #include "parser.h"
 
+/*
+EBNF
+
+<list>			::= <pipeline> {("&&" | "||") <pipeline>}
+
+<pipeline>		::= "(" <list> ")"
+				| <command> {"|" <command>}
+
+<command>		::= <command_part> {<command_part>}
+
+<command_part>	::= <word>
+				| <redir>
+
+<redir>			::= (">" | ">>" | "<" | "<<") <word>
+
+<word>			::= str
+*/
+
 t_tr_node	*mktr_word(t_token **tk_now)
 {
 
