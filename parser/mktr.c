@@ -13,7 +13,7 @@
 #include "parser.h"
 
 /*
-EBNF(michang)
+EBNF(by michang)
 	<list>			::= <pipeline> {("&&" | "||") <pipeline>}
 
 	<pipeline>		::= "(" <list> ")"
@@ -21,17 +21,9 @@ EBNF(michang)
 
 	<command>		::= <command_part> {<command_part>}
 
-	<command_part>	::= <word>
-					| <redir>
-
-	<redir>			::= (">" | ">>" | "<" | "<<") <word>
+	<command_part>	::= (">" | ">>" | "<" | "<<") <word>
+					| <word>
 */
-
-// <redir>			::= (">" | ">>" | "<" | "<<") <word>
-t_tr_node	*mktr_redir(t_token **tk_now, int *is_error)
-{
-
-}
 
 // <command_part>	::= <word>
 //					| <redir>
@@ -43,7 +35,21 @@ t_tr_node	*mktr_command_part(t_token **tk_now, int *is_error)
 //<command>			::= <command_part> {<command_part>}
 t_tr_node	*mktr_command(t_token **tk_now, int *is_error)
 {
+	t_tr_node	*node;
+	t_tr_node	*next_node;
 
+	node = mktr_alloc_s(TR_COMMAND, 0);
+	node->left = mktr_command_part(tk_now, is_error);
+	while (*tk_now && ((*tk_now)->type == T_WORD \
+		|| ((*tk_now)->type >= T_REDIR_S_L && (*tk_now)->type <= T_REDIR_D_R)))
+	{
+		*tk_now = (*tk_now)->next;
+		next_node = mktr_alloc_s(TR_COMMAND, 0);
+		next_node->left = node;
+		next_node->right = mktr_command_part(tk_now, is_error);
+		node = next_node;
+	}
+	return (node);
 }
 
 //<pipeline>		::= "(" <list> ")"
