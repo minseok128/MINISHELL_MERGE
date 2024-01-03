@@ -58,7 +58,6 @@ t_tr_node	*mktr_command(t_token **tk_now, int *is_error)
 	while (*tk_now && ((*tk_now)->type == T_WORD \
 		|| ((*tk_now)->type >= T_REDIR_S_L && (*tk_now)->type <= T_REDIR_D_R)))
 	{
-		*tk_now = (*tk_now)->next;
 		next_node = mktr_alloc_s(TR_COMMAND, 0);
 		next_node->left = node;
 		next_node->right = mktr_command_part(tk_now, is_error);
