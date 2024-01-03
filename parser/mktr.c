@@ -125,7 +125,7 @@ void	mktr_make_tree(t_token *tk_head)
 	is_error = 0;
 	tk_now = tk_head;
 	root = mktr_list(&tk_now, &is_error);
-	printf("\ntree done!: tk:%s, %d\n", tk_now ? tk_now->str : 0, root->bnf_type);
+	printf("[TREE] DONE! <tk:%s, bnf:%d>\n│\n", tk_now ? tk_now->str : 0, root->bnf_type);
 	
 	test_tr_print_tree(root);
 }
