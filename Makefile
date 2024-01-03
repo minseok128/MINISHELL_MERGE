@@ -17,7 +17,7 @@ LIBFT		= -Llibft -lft
 READLINE	= -L/opt/homebrew/Cellar/readline/8.2.7/lib -lreadline
 
 DIR			= ./
-BASE		= main signal_utils env env_init parser/tk parser/tk_utils parser/mktr
+BASE		= main signal_utils env env_init parser/tk parser/tk_utils parser/mktr parser/mktr_utils
 SRC			= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
 OBJ			= $(addprefix $(DIR), $(addsuffix .o, $(BASE)))
 NAME		= minishell

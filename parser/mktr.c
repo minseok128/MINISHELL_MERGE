@@ -38,7 +38,7 @@ t_tr_node	*mktr_command_part(t_token **tk_now, int *is_error)
 	if ((*tk_now)->type >= T_REDIR_S_L && (*tk_now)->type <= T_REDIR_D_R)
 	{
 		*tk_now = (*tk_now)->next;
-		if (*tk_now != T_WORD)
+		if ((*tk_now)->type != T_WORD)
 			*is_error = 1;
 		else
 			node->tk->str = (*tk_now)->str;
@@ -125,4 +125,5 @@ void	mktr_make_tree(t_token *tk_head)
 	is_error = 0;
 	tk_now = tk_head;
 	root = mktr_list(&tk_now, &is_error);
+	printf("tk:%p, %d\n", tk_head, root->bnf_type);
 }

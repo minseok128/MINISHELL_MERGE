@@ -62,5 +62,10 @@ typedef struct	s_tr_node {
 
 void			mktr_make_tree(t_token *tk_head);
 t_tr_node		*mktr_alloc_s(t_tr_type bnf_type, t_token *tk);
+t_tr_node		*mktr_list(t_token **tk_now, int *is_error);
+t_tr_node		*mktr_pipeline(t_token **tk_now, int *is_error);
+t_tr_node		*mktr_command(t_token **tk_now, int *is_error);
+t_tr_node		*mktr_command_part(t_token **tk_now, int *is_error);
+
 
 #endif
