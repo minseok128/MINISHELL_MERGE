@@ -50,9 +50,7 @@ typedef enum e_tr_type {
 	TR_LIST = 201,
 	TR_PIPELINE,
 	TR_COMMAND,
-	TR_COMMAND_PART,
-	TR_REDIR,
-	TR_WORD,
+	TR_COMMAND_PART
 }	t_tr_type;
 
 typedef struct	s_tr_node {

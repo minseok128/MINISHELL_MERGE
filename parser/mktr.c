@@ -29,7 +29,21 @@ EBNF(by michang)
 //					| <redir>
 t_tr_node	*mktr_command_part(t_token **tk_now, int *is_error)
 {
+	t_tr_node	*node;
 
+	if (!(*tk_now))
+		return (0);
+	node = mktr_alloc_s(TR_COMMAND, 0);
+	node->tk = *tk_now;
+	if ((*tk_now)->type >= T_REDIR_S_L && (*tk_now)->type <= T_REDIR_D_R)
+	{
+		*tk_now = (*tk_now)->next;
+		if (*tk_now != T_WORD)
+			*is_error = 1;
+		else
+			node->tk->str = (*tk_now)->str;
+	}
+	return (node);
 }
 
 //<command>			::= <command_part> {<command_part>}
