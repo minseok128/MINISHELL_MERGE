@@ -66,6 +66,7 @@ t_tr_node		*mktr_list(t_token **tk_now, int *is_error);
 t_tr_node		*mktr_pipeline(t_token **tk_now, int *is_error);
 t_tr_node		*mktr_command(t_token **tk_now, int *is_error);
 t_tr_node		*mktr_command_part(t_token **tk_now, int *is_error);
-
+//test
+int 			test_tr_print_tree(t_tr_node *root);
 
 #endif

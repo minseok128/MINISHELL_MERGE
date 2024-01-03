@@ -33,7 +33,7 @@ t_tr_node	*mktr_command_part(t_token **tk_now, int *is_error)
 
 	if (!(*tk_now))
 		return (0);
-	node = mktr_alloc_s(TR_COMMAND, 0);
+	node = mktr_alloc_s(TR_COMMAND_PART, 0);
 	node->tk = *tk_now;
 	if ((*tk_now)->type >= T_REDIR_S_L && (*tk_now)->type <= T_REDIR_D_R)
 	{
@@ -43,6 +43,7 @@ t_tr_node	*mktr_command_part(t_token **tk_now, int *is_error)
 		else
 			node->tk->str = (*tk_now)->str;
 	}
+	*tk_now = (*tk_now)->next;
 	return (node);
 }
 
@@ -74,11 +75,11 @@ t_tr_node	*mktr_pipeline(t_token **tk_now, int *is_error)
 	t_tr_node	*next_node;
 
 	node = mktr_alloc_s(TR_PIPELINE, 0);
-	if (!(*tk_now) && (*tk_now)->type == T_PARENT_L)
+	if (*tk_now && (*tk_now)->type == T_PARENT_L)
 	{
 		*tk_now = (*tk_now)->next;
 		node->left = mktr_list(tk_now, is_error);
-		if (!(*tk_now) && (*tk_now)->type == T_PARENT_R)
+		if (*tk_now && (*tk_now)->type == T_PARENT_R)
 			*tk_now = (*tk_now)->next;
 		else
 			*is_error = 1;
@@ -125,5 +126,7 @@ void	mktr_make_tree(t_token *tk_head)
 	is_error = 0;
 	tk_now = tk_head;
 	root = mktr_list(&tk_now, &is_error);
-	printf("tk:%p, %d\n", tk_head, root->bnf_type);
+	printf("\ntree done!: tk:%s, %d\n", tk_now ? tk_now->str : 0, root->bnf_type);
+	
+	test_tr_print_tree(root);
 }
