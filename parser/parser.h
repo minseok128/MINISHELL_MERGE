@@ -16,7 +16,6 @@
 # include <stdio.h>
 # include "../libft/libft.h"
 
-
 // tokenizer
 typedef enum e_token_type {
 	T_AND = 101,
@@ -53,7 +52,7 @@ typedef enum e_tr_type {
 	TR_COMMAND_PART
 }	t_tr_type;
 
-typedef struct	s_tr_node {
+typedef struct s_tr_node {
 	t_tr_type			bnf_type;
 	t_token				*tk;
 	struct s_tr_node	*left;
@@ -66,7 +65,8 @@ t_tr_node		*mktr_list(t_token **tk_now, int *is_error);
 t_tr_node		*mktr_pipeline(t_token **tk_now, int *is_error);
 t_tr_node		*mktr_command(t_token **tk_now, int *is_error);
 t_tr_node		*mktr_command_part(t_token **tk_now, int *is_error);
+
 //test
-int 			test_tr_print_tree(t_tr_node *root);
+int				test_tr_print_tree(t_tr_node *root);
 
 #endif
