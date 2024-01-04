@@ -85,7 +85,7 @@ void	tk_tokenize(char *str)
 		else
 			now++;
 	}
-	tk_lstlast(tk_head)->next = 0;
+	tk_lstlast(tk_head)->next = tk_alloc_s(T_NEWLINE, "newline");
 	tk_print(tk_head);
 	mktr_make_tree(tk_head);
 }

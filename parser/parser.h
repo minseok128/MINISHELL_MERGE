@@ -28,7 +28,7 @@ typedef enum e_token_type {
 	T_REDIR_D_L,
 	T_REDIR_D_R,
 	T_WORD,
-	T_NULL = 98,
+	T_NEWLINE = 98,
 	T_UNDEFINED = 99
 }	t_token_type;
 
@@ -61,10 +61,10 @@ typedef struct s_tr_node {
 
 void			mktr_make_tree(t_token *tk_head);
 t_tr_node		*mktr_alloc_s(t_tr_type bnf_type, t_token *tk);
-t_tr_node		*mktr_list(t_token **tk_now, int *is_error);
-t_tr_node		*mktr_pipeline(t_token **tk_now, int *is_error);
-t_tr_node		*mktr_command(t_token **tk_now, int *is_error);
-t_tr_node		*mktr_command_part(t_token **tk_now, int *is_error);
+t_tr_node		*mktr_list(t_token **tk_now, t_token **tk_error);
+t_tr_node		*mktr_pipeline(t_token **tk_now, t_token **tk_error);
+t_tr_node		*mktr_command(t_token **tk_now, t_token **tk_error);
+t_tr_node		*mktr_command_part(t_token **tk_now, t_token **tk_error);
 
 //test
 int				test_tr_print_tree(t_tr_node *root);
