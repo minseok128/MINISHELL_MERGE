@@ -12,6 +12,12 @@
 
 #include "parser.h"
 
+int	mktr_print_unexpected(char *str)
+{
+	printf("minishell: syntax error near unexpected token `%s'\n", str);
+	return (1);
+}
+
 int	mktr_free_node(t_tr_node *node)
 {
 	free(node);

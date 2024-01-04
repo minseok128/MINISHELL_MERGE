@@ -59,6 +59,7 @@ typedef struct s_tr_node {
 	struct s_tr_node	*right;
 }	t_tr_node;
 
+int				mktr_print_unexpected(char *str);
 int				mktr_free_node(t_tr_node *node);
 void			mktr_make_tree(t_token *tk_head);
 t_tr_node		*mktr_alloc_s(t_tr_type bnf_type, t_token *tk);
