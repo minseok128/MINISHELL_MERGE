@@ -14,6 +14,7 @@
 
 static void	tk_print(t_token *tk)
 {
+	printf("\n[TOKEN] DONE!\n");
 	while (tk)
 	{
 		printf("%s[%d]", tk->str, tk->type);
