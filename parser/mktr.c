@@ -27,7 +27,6 @@ EBNF(by michang)
 
 // <command_part>	::= <word>
 //					| <redir>
-
 int	mktr_command_part(t_tr_node **head, t_token **tk_now)
 {
 	if (!((*tk_now)->type >= T_REDIR_S_L && (*tk_now)->type <= T_REDIR_D_R)
