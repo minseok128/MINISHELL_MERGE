@@ -59,12 +59,13 @@ typedef struct s_tr_node {
 	struct s_tr_node	*right;
 }	t_tr_node;
 
+int				mktr_free_node(t_tr_node *node);
 void			mktr_make_tree(t_token *tk_head);
 t_tr_node		*mktr_alloc_s(t_tr_type bnf_type, t_token *tk);
-t_tr_node		*mktr_list(t_token **tk_now, t_token **tk_error);
-t_tr_node		*mktr_pipeline(t_token **tk_now, t_token **tk_error);
-t_tr_node		*mktr_command(t_token **tk_now, t_token **tk_error);
-t_tr_node		*mktr_command_part(t_token **tk_now, t_token **tk_error);
+int				mktr_list(t_tr_node **head, t_token **tk_now);
+int				mktr_pipeline(t_tr_node **head, t_token **tk_now);
+int				mktr_command(t_tr_node **head, t_token **tk_now);
+int				mktr_command_part(t_tr_node **head, t_token **tk_now);
 
 //test
 int				test_tr_print_tree(t_tr_node *root);

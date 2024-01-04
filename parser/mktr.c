@@ -27,111 +27,119 @@ EBNF(by michang)
 
 // <command_part>	::= <word>
 //					| <redir>
-t_tr_node	*mktr_command_part(t_token **tk_now, t_token **tk_error)
+
+int	mktr_command_part(t_tr_node **head, t_token **tk_now)
 {
 	t_tr_node	*node;
 
-	if (!(*tk_now))
-		return (0);
+	if (!((*tk_now)->type >= T_REDIR_S_L && (*tk_now)->type <= T_REDIR_D_R)
+		&& (*tk_now)->type != T_WORD)
+		return (1);
 	node = mktr_alloc_s(TR_COMMAND_PART, 0);
+	*head = node;
 	node->tk = *tk_now;
 	if ((*tk_now)->type >= T_REDIR_S_L && (*tk_now)->type <= T_REDIR_D_R)
 	{
 		*tk_now = (*tk_now)->next;
 		if ((*tk_now)->type != T_WORD)
-		{
-			*tk_error = *tk_now;
-			return (node);
-		}
+			return (1);
 		else
 			node->tk->str = (*tk_now)->str;
 	}
 	*tk_now = (*tk_now)->next;
-	return (node);
+	return (0);
 }
 
 //<command>			::= <command_part> {<command_part>}
-t_tr_node	*mktr_command(t_token **tk_now, t_token **tk_error)
+int	mktr_command(t_tr_node **head, t_token **tk_now)
 {
 	t_tr_node	*node;
 	t_tr_node	*next_node;
 
 	node = mktr_alloc_s(TR_COMMAND, 0);
-	node->left = mktr_command_part(tk_now, tk_error);
+	*head = node;
+	if (mktr_command_part(&(node->left), tk_now))
+		return (1);
 	while (*tk_now && ((*tk_now)->type == T_WORD \
 		|| ((*tk_now)->type >= T_REDIR_S_L && (*tk_now)->type <= T_REDIR_D_R)))
 	{
 		next_node = mktr_alloc_s(TR_COMMAND, 0);
 		next_node->left = node;
-		next_node->right = mktr_command_part(tk_now, tk_error);
+		if (mktr_command_part(&(next_node->right), tk_now))
+			return (1);
 		node = next_node;
+		*head = node;
 	}
-	return (node);
+	return (0);
 }
 
 //<pipeline>		::= "(" <list> ")"
 // 					| <command> {"|" <command>}
-t_tr_node	*mktr_pipeline(t_token **tk_now, t_token **tk_error)
+int	mktr_pipeline(t_tr_node **head, t_token **tk_now)
 {
 	t_tr_node	*node;
 	t_tr_node	*next_node;
 
 	node = mktr_alloc_s(TR_PIPELINE, 0);
+	*head = node;
 	if (*tk_now && (*tk_now)->type == T_PARENT_L)
 	{
 		*tk_now = (*tk_now)->next;
-		node->left = mktr_list(tk_now, tk_error);
+		if (mktr_list(&(node->left), tk_now))
+			return (1);
 		if (*tk_now && (*tk_now)->type == T_PARENT_R)
 			*tk_now = (*tk_now)->next;
 		else
-			*tk_error = *tk_now;
-		return (node);
+			return (1);
+		return (0);
 	}
-	node->left = mktr_command(tk_now, tk_error);
+	if (mktr_command(&(node->left), tk_now))
+		return (1);
 	while (*tk_now && (*tk_now)->type == T_PIPE)
 	{
 		*tk_now = (*tk_now)->next;
 		next_node = mktr_alloc_s(TR_PIPELINE, 0);
 		next_node->left = node;
-		next_node->right = mktr_command(tk_now, tk_error);
+		if (mktr_command(&(next_node->right), tk_now))
+			return (1);
 		node = next_node;
+		*head = node;
 	}
-	return (node);
+	return (0);
 }
 
 // <list>			::= <pipeline> {("&&" | "||") <pipeline>}
-t_tr_node	*mktr_list(t_token **tk_now, t_token **tk_error)
+int	mktr_list(t_tr_node **head, t_token **tk_now)
 {
 	t_tr_node	*node;
 	t_tr_node	*next_node;
 
 	node = mktr_alloc_s(TR_LIST, 0);
-	node->left = mktr_pipeline(tk_now, tk_error);
+	*head = node;
+	if (mktr_pipeline(&(node->left), tk_now))
+		return (1);
 	while (*tk_now && ((*tk_now)->type == T_AND || (*tk_now)->type == T_OR))
 	{
 		node->tk = *tk_now;
 		*tk_now = (*tk_now)->next;
 		next_node = mktr_alloc_s(TR_LIST, 0);
 		next_node->left = node;
-		next_node->right = mktr_pipeline(tk_now, tk_error);
+		if (mktr_pipeline(&(next_node->right), tk_now))
+			return (1);
 		node = next_node;
+		*head = node;
 	}
-	return (node);
+	return (0);
 }
 
 void	mktr_make_tree(t_token *tk_head)
 {
 	t_tr_node	*root;
 	t_token		*tk_now;
-	t_token		*tk_error;
 
-	tk_error = 0;
 	tk_now = tk_head;
-	root = mktr_list(&tk_now, &tk_error);
-	if (tk_now->type != T_NEWLINE)
-		tk_error = tk_now;
-	if (tk_error)
-		printf("minishell: syntax error near unexpected token `%s'\n", tk_error->str);
+	if (mktr_list(&root, &tk_now) || tk_now->type != T_NEWLINE)
+		printf("minishell: syntax error near unexpected token `%s'\n", tk_now->str);
 	printf("\n[TREE] DONE! <tk:%s, bnf:%d>\n│\n", tk_now ? tk_now->str : 0, root->bnf_type);
 	test_tr_print_tree(root);
 }

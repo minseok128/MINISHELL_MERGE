@@ -42,7 +42,7 @@ static int	tk_meta(char *str, t_token **tk_head, int now)
 	return (len);
 }
 
-static int	tk_word(char *str, t_token **tk_head, int now)
+static int	tk_word(char *str, t_token **tk_head, int now, int *is_error)
 {
 	char	*new_str;
 	int		len;
@@ -59,6 +59,8 @@ static int	tk_word(char *str, t_token **tk_head, int now)
 				len++;
 			if (str[now + len])
 				len++;
+			else
+				*is_error = 1;
 		}
 		else
 			len++;
@@ -73,7 +75,9 @@ void	tk_tokenize(char *str)
 {
 	t_token	*tk_head;
 	int		now;
+	int		is_error;
 
+	is_error = 0;
 	tk_head = 0;
 	now = 0;
 	while (str[now])
@@ -81,11 +85,16 @@ void	tk_tokenize(char *str)
 		if (tk_is_meta_char(&str[now]) != 0)
 			now += tk_meta(str, &tk_head, now);
 		else if (!ft_isspace(str[now]))
-			now += tk_word(str, &tk_head, now);
+			now += tk_word(str, &tk_head, now, &is_error);
 		else
 			now++;
 	}
 	tk_lstlast(tk_head)->next = tk_alloc_s(T_NEWLINE, "newline");
-	tk_print(tk_head);
-	mktr_make_tree(tk_head);
+	if (is_error)
+		printf("minishell: syntax error near unexpected token `newline'\n");
+	else
+	{
+		tk_print(tk_head);
+		mktr_make_tree(tk_head);
+	}
 }

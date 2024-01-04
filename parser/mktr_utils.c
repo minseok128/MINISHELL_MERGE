@@ -12,6 +12,12 @@
 
 #include "parser.h"
 
+int	mktr_free_node(t_tr_node *node)
+{
+	free(node);
+	return (1);
+}
+
 t_tr_node	*mktr_alloc_s(t_tr_type bnf_type, t_token *tk)
 {
 	t_tr_node	*node;
