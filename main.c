@@ -6,14 +6,14 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:32:34 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/04 16:19:40 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/04 21:02:08 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-t_cmds	*make_cmdsp()
+t_cmds	*ex_make_cmdsp()
 {
 	t_cmds	*cmdsp_head;
 
@@ -24,7 +24,7 @@ t_cmds	*make_cmdsp()
 	return (cmdsp_head);
 }
 
-void	add_cmdsp_node(t_cmds *cmdsp, char **argv, char *in, char *out)
+void	ex_add_cmdsp_node(t_cmds *cmdsp, char **argv, char *in, char *out)
 {
 	t_cmds	*new;
 	t_cmds	*node;
@@ -47,9 +47,9 @@ void builtin_test(t_envs *envsp)
 	t_cmds	*cmdsp;
 	char	**argv;
 
-	cmdsp = make_cmdsp();
+	cmdsp = ex_make_cmdsp();
 	argv = malloc(sizeof(char *) * 8);
-	add_cmdsp_node(cmdsp, argv, NULL, NULL);
+	ex_add_cmdsp_node(cmdsp, argv, NULL, NULL);
 
 	// pwd test
 		// cmdsp->next->argv[0] = "pwd";
@@ -173,7 +173,7 @@ int	main(int argc, char **argv, char **envp)
 	t_envs	*envsp;
 
 	argv[argc - argc] = NULL;
-	envsp = make_envsp(envp);
+	envsp = btin_make_envsp(envp);
 	
 	// builtin_test(envsp);
 	// command_test(envsp);

@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/04 17:30:46 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/04 20:36:52 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 int	ex_is_builtin(t_cmds *cmd, t_envs *envsp)
 {
 	if (ft_strncmp(cmd->argv[0], "cd", 3) == 0)
-		builtin_cd(cmd, envsp);
+		btin_cd(cmd, envsp);
 	else if (ft_strncmp(cmd->argv[0], "pwd", 4) == 0)
-		builtin_pwd();
+		btin_pwd();
 	else if (ft_strncmp(cmd->argv[0], "export", 7) == 0)
-		builtin_export(cmd, envsp);
+		btin_export(cmd, envsp);
 	else if (ft_strncmp(cmd->argv[0], "unset", 6) == 0)
-		builtin_unset(cmd, envsp);
+		btin_unset(cmd, envsp);
 	else if (ft_strncmp(cmd->argv[0], "echo", 5) == 0)
-		builtin_echo(cmd);
+		btin_echo(cmd);
 	else if (ft_strncmp(cmd->argv[0], "env", 4) == 0)
-		builtin_env(envsp);
+		btin_env(envsp);
 	else if (ft_strncmp(cmd->argv[0], "exit", 5) == 0)
-		builtin_error();
+		btin_error();
 	else
 		return (0);
 	return (1);
@@ -56,6 +56,10 @@ char	**ex_change_to_envp(t_envs *envsp)
 	return (envp);
 }
 
+int	ex_do_pipe()
+{
+	
+}
 int	ex_process_command(t_cmds *cmdsp_head, t_envs *envsp)
 {
 	t_cmds	*cmdsp;
@@ -72,7 +76,7 @@ int	ex_process_command(t_cmds *cmdsp_head, t_envs *envsp)
 		envp = ex_change_to_envp(envsp);
 		while (cmdsp->next != NULL)
 		{
-			pid = ex_do_pipe();
+			pid = ex_do_pipe(cmdsp);
 			cmdsp = cmdsp->next;
 		}
 		waitpid(pid, &status, NULL);

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   btin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	is_option_n(char *str, int is_n_appear, int is_hyphen_appear)
+int	btin_is_option_n(char *str, int is_n_appear, int is_hyphen_appear)
 {
 	int	i;
 
@@ -41,7 +41,7 @@ int	is_option_n(char *str, int is_n_appear, int is_hyphen_appear)
 		return (0);
 }
 
-void	builtin_echo(t_cmds *cmds)
+void	btin_echo(t_cmds *cmds)
 {
 	int		i;
 	int		n_flag;
@@ -52,7 +52,7 @@ void	builtin_echo(t_cmds *cmds)
 	i = 0;
 	while (cmds->argv[++i] != NULL)
 	{
-		if (print_flag == 0 && is_option_n(cmds->argv[i], 0, 0) == 1)
+		if (print_flag == 0 && btin_is_option_n(cmds->argv[i], 0, 0) == 1)
 			n_flag = 1;
 		else if (cmds->argv[i + 1] == NULL)
 		{

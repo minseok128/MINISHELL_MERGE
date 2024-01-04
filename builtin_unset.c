@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*   btin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:19 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/04 15:26:29 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/04 18:53:33 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_valid_identifier(char *str)
+int	btin_is_valid_identifier(char *str)
 {
 	int	i;
 
@@ -33,13 +33,13 @@ int	is_valid_identifier(char *str)
 	return (1);
 }
 
-void	remove_envsp_node(t_envs *envsp, char *key)
+void	btin_remove_envsp_node(t_envs *envsp, char *key)
 {
 	t_envs	*now;
 	t_envs	*next;
 	t_envs	*target;
 
-	target = find_node(envsp, key);
+	target = btin_find_node(envsp, key);
 	if (target != NULL)
 	{
 		now = envsp;
@@ -56,7 +56,7 @@ void	remove_envsp_node(t_envs *envsp, char *key)
 	}
 }
 
-void	builtin_unset(t_cmds *cmds, t_envs *envsp)
+void	btin_unset(t_cmds *cmds, t_envs *envsp)
 {
 	int		i;
 	int		j;
@@ -68,8 +68,8 @@ void	builtin_unset(t_cmds *cmds, t_envs *envsp)
 	{
 		str = cmds->argv[i++];
 		j = 0;
-		if (is_valid_identifier(str) == 1)
-			remove_envsp_node(envsp, str);
+		if (btin_is_valid_identifier(str) == 1)
+			btin_remove_envsp_node(envsp, str);
 		else
 		{
 			printf("bash: unset: '%s': not a valid identifier\n", str);

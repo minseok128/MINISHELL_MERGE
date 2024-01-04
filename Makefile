@@ -6,14 +6,14 @@
 #    By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/08 18:58:03 by seonjo            #+#    #+#              #
-#    Updated: 2024/01/04 15:50:01 by seonjo           ###   ########.fr        #
+#    Updated: 2024/01/04 18:57:41 by seonjo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS = main.c command.c builtin_make_envsp.c builtin_cd.c builtin_echo.c builtin_env.c builtin_export.c builtin_pwd.c builtin_unset.c wrap_libft.c
+SRCS = main.c command.c builtin_btin_make_envsp.c btin_cd.c btin_echo.c btin_env.c btin_export.c btin_pwd.c btin_unset.c wrap_libft.c
 OBJS = $(SRCS:.c=.o)
 LIBFT = ./libft/libft.a
 

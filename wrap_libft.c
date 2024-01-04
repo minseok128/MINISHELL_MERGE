@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:43:25 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/04 16:14:29 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/04 18:57:05 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft__strdup(const char *s1)
 
 	ret_str = ft_strdup(s1);
 	if (ret_str == NULL)
-		builtin_error();
+		btin_error();
 	return (ret_str);
 }
 
@@ -32,7 +32,7 @@ char	*ft__strjoin(char const *s1, char const *s2)
 	j = 0;
 	str = ft_calloc(sizeof(char), ft_strlen(s1) + ft_strlen(s2) + 2);
 	if (str == 0)
-		builtin_error();
+		btin_error();
 	while (s1[j])
 		str[i++] = s1[j++];
 	str[i++] = '=';
