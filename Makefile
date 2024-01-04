@@ -19,6 +19,7 @@ READLINE	= -L/usr/local/lib  -lreadline
 DIR			= ./
 BASE		= main signal_utils env env_init \
 			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils \
+			  parser/trtv \
 			  testdir/treeprint
 SRC			= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
 OBJ			= $(addprefix $(DIR), $(addsuffix .o, $(BASE)))

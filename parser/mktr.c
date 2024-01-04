@@ -127,5 +127,10 @@ void	mktr_make_tree(t_token *tk_head)
 	tk_now = tk_head;
 	if (mktr_list(&root, &tk_now) || tk_now->type != T_NEWLINE)
 		mktr_print_unexpected(tk_now->str);
-	test_tr_print_tree(root);
+	else
+	{
+		test_tr_print_tree(root);
+		trtv_traversal(root);
+	}
+
 }

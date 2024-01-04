@@ -15,7 +15,7 @@
 #include <string.h>
 #include "../parser/parser.h"
 
-static void print_node(t_tr_node *node)
+void test_print_node(t_tr_node *node)
 {
 	if (node->bnf_type == TR_LIST)
 	{
@@ -45,7 +45,8 @@ static void print_node(t_tr_node *node)
 	}
 	printf("\n");
 }
-void displayTree(t_tr_node *node, char *indent, int isLast) {
+
+void test_displayTree(t_tr_node *node, char *indent, int isLast) {
 	if (node == NULL)
 		return;
 
@@ -58,7 +59,7 @@ void displayTree(t_tr_node *node, char *indent, int isLast) {
 	}
 
 	// 노드 데이터 출력
-	print_node(node);
+	test_print_node(node);
 
 	// 들여쓰기 업데이트를 위한 새로운 임시 문자열
 	char newIndent[1000];
@@ -70,14 +71,14 @@ void displayTree(t_tr_node *node, char *indent, int isLast) {
 	}
 
 	// 재귀적으로 자식 노드 출력
-	displayTree(node->left, newIndent, node->right == NULL);
-	displayTree(node->right, newIndent, 1);
+	test_displayTree(node->left, newIndent, node->right == NULL);
+	test_displayTree(node->right, newIndent, 1);
 }
 
 int test_tr_print_tree(t_tr_node *root) {
 	char indent[1000] = ""; // 초기 들여쓰기 설정
 	printf("\n[TREE] DONE!\n│\n"); //test code
-	displayTree(root, indent, 1); // 트리 출력
+	test_displayTree(root, indent, 1); // 트리 출력
     printf("\n");
 
 	return 0;

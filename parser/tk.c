@@ -90,7 +90,7 @@ void	tk_tokenize(char *str)
 		else
 			now++;
 	}
-	tk_last = tk_lstlast(tk_head)->next;
+	tk_last = tk_lstlast(tk_head);
 	tk_last->next = tk_alloc_s(T_NEWLINE, ft_strdup_s("newline"));
 	if (is_error)
 		mktr_print_unexpected("newline");
