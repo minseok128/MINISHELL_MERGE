@@ -15,6 +15,20 @@
 #include <string.h>
 #include "../parser/parser.h"
 
+void test_print_command_part(t_tr_node *node)
+{
+	if (node->tk->type == T_REDIR_S_L)
+		printf("< ");
+	else if (node->tk->type == T_REDIR_S_R)
+		printf("> ");
+	else if (node->tk->type == T_REDIR_D_L)
+		printf("<< ");
+	else if (node->tk->type == T_REDIR_D_R)
+		printf(">> ");
+	printf("%s", node->tk->str);
+	printf("\n");
+}
+
 void test_print_node(t_tr_node *node)
 {
 	if (node->bnf_type == TR_LIST)
@@ -76,7 +90,7 @@ void test_displayTree(t_tr_node *node, char *indent, int isLast) {
 }
 
 int test_tr_print_tree(t_tr_node *root) {
-	char indent[1000] = ""; // 초기 들여쓰기 설정
+	char indent[2500] = ""; // 초기 들여쓰기 설정
 	printf("\n[TREE] DONE!\n│\n"); //test code
 	test_displayTree(root, indent, 1); // 트리 출력
     printf("\n");

@@ -74,5 +74,6 @@ void			trtv_traversal(t_tr_node *root);
 // test
 int				test_tr_print_tree(t_tr_node *root);
 void			test_print_node(t_tr_node *node);
+void			test_print_command_part(t_tr_node *node);
 
 #endif
