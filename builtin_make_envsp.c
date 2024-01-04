@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   make_envp.c                                        :+:      :+:    :+:   */
+/*   builtin_make_envsp.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:25:24 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/26 16:01:34 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/04 15:19:32 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ char	**divide_key_and_value(char *env)
 	return (key_and_value);
 }
 
-t_envp	*make_env_node(char **key_and_value)
+t_envs	*make_envsp_node(char **key_and_value)
 {
-	t_envp	*node;
+	t_envs	*node;
 
-	node = malloc(sizeof(t_envp));
+	node = malloc(sizeof(t_envs));
 	if (node == NULL)
 		builtin_error();
 	if (key_and_value != NULL)
@@ -68,22 +68,22 @@ t_envp	*make_env_node(char **key_and_value)
 	return (node);
 }
 
-t_envp	*make_env(char **char_envp)
+t_envs	*make_envsp(char **envp)
 {
-	t_envp	*envp_head;
-	t_envp	*envp_tail;
+	t_envs	*envsp_head;
+	t_envs	*envsp_tail;
 	char	**key_and_value;
 	int		i;
 
-	envp_head = make_env_node(NULL);
-	envp_tail = envp_head;
+	envsp_head = make_envsp_node(NULL);
+	envsp_tail = envsp_head;
 	i = 0;
-	while (char_envp[i] != NULL)
+	while (envp[i] != NULL)
 	{
-		key_and_value = divide_key_and_value(char_envp[i]);
-		envp_tail->next = make_env_node(key_and_value);
-		envp_tail = envp_tail->next;
+		key_and_value = divide_key_and_value(envp[i]);
+		envsp_tail->next = make_envsp_node(key_and_value);
+		envsp_tail = envsp_tail->next;
 		i++;
 	}
-	return (envp_head);
+	return (envsp_head);
 }

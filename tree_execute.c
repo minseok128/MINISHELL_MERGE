@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 16:17:18 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/15 17:46:34 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/04 15:23:21 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ char	*tr_strjoin(char const *s1, char const *s2, char c)
 	return (str);
 }
 
-char	**tr_get_input_envp(t_envp *envp, int len, int i)
+char	**tr_get_input_envs(t_envs *envp, int len, int i)
 {
-	t_envp	*tmp;
-	char	**input_envp;
+	t_envs	*tmp;
+	char	**input_envs;
 
 	tmp = envp;
 	while (tmp != NULL)
@@ -46,20 +46,20 @@ char	**tr_get_input_envp(t_envp *envp, int len, int i)
 		len++;
 		tmp = tmp->next;
 	}
-	input_envp = malloc(sizeof(char *) * (len + 1));
-	if (input_envp == NULL)
+	input_envs = malloc(sizeof(char *) * (len + 1));
+	if (input_envs == NULL)
 		bi_error();
 	tmp = envp;
 	while (tmp != NULL)
 	{
-		input_envp[i] = tr_strjoin(tmp->key, tmp->value, '=');
-		if (input_envp[i] == NULL)
+		input_envs[i] = tr_strjoin(tmp->key, tmp->value, '=');
+		if (input_envs[i] == NULL)
 			bi_error();
 		i++;
 		tmp = tmp->next;
 	}
-	input_envp[i] = NULL;
-	return (input_envp);
+	input_envs[i] = NULL;
+	return (input_envs);
 }
 
 void	*tr_free2(char **arr)
@@ -75,7 +75,7 @@ void	*tr_free2(char **arr)
 	return (NULL);
 }
 
-char	*tr_check_path(char *cmd, t_envp *envp, int i)
+char	*tr_check_path(char *cmd, t_envs *envp, int i)
 {
 	char	**envp_path;
 	char	*path;
@@ -104,21 +104,21 @@ char	*tr_check_path(char *cmd, t_envp *envp, int i)
 	return (NULL);
 }
 
-void	tr_execute(t_tree *tree, t_envp *envp, int pipe_fd[2])
+void	tr_execute(t_tree *tree, t_envs *envp, int pipe_fd[2])
 {
 	char	**cmd;
-	char	**input_envp;
+	char	**input_envs;
 
 	cmd = ft_split(tree->str, ' ');
 	if (cmd == NULL)
 		bi_error();
 	if (access(cmd[0], F_OK) == -1)
 		cmd[0] = tr_check_path(cmd[0], envp->next, 0);
-	input_envp = tr_get_input_envp(envp->next, 0, 0);
+	input_envs = tr_get_input_envs(envp->next, 0, 0);
 	if (dup2(pipe_fd[0], 0) == -1)
 		bi_error();
 	if (dup2(pipe_fd[1], 1) == -1)
 		bi_error();
-	if (execve(cmd[0], cmd, input_envp) == -1)
+	if (execve(cmd[0], cmd, input_envs) == -1)
 		exit(errno);
 }

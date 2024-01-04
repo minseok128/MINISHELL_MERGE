@@ -6,19 +6,19 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:35 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/25 19:58:21 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/04 15:26:29 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	modify_pwd(t_envp *envp_head, char *dest)
+void	modify_pwd(t_envs *envsp, char *dest)
 {
-	t_envp	*pwd;
-	t_envp	*oldpwd;
+	t_envs	*pwd;
+	t_envs	*oldpwd;
 
-	pwd = find_node(envp_head, "PWD");
-	oldpwd = find_node(envp_head, "OLDPWD");
+	pwd = find_node(envsp, "PWD");
+	oldpwd = find_node(envsp, "OLDPWD");
 	if (oldpwd != NULL && pwd != NULL)
 	{
 		free(oldpwd->value);
@@ -46,7 +46,7 @@ void	cd_error(int flag, char *dest)
 	errno = 1;
 }
 
-void	move_to_dest(t_envp *envp_head, char *dest)
+void	move_to_dest(t_envs *envsp, char *dest)
 {
 	struct stat	dir_stat;
 
@@ -59,18 +59,18 @@ void	move_to_dest(t_envp *envp_head, char *dest)
 	else if (chdir(dest) == -1)
 		builtin_error();
 	else
-		modify_pwd(envp_head, dest);
+		modify_pwd(envsp, dest);
 }
 
-void	builtin_cd(t_cmd *cmd, t_envp *envp_head)
+void	builtin_cd(t_cmds *cmds, t_envs *envsp)
 {
-	t_envp	*home;
+	t_envs	*home;
 	char	*dest;
 
 	errno = 0;
-	if (cmd->command[1] == NULL)
+	if (cmds->argv[1] == NULL)
 	{
-		home = find_node(envp_head, "HOME");
+		home = find_node(envsp, "HOME");
 		if (home == NULL)
 		{
 			cd_error(4, NULL);
@@ -79,9 +79,9 @@ void	builtin_cd(t_cmd *cmd, t_envp *envp_head)
 		dest = ft__strdup(home->value);
 	}
 	else
-		dest = ft__strdup(cmd->command[1]);
+		dest = ft__strdup(cmds->argv[1]);
 	if (access(dest, F_OK) == -1)
 		cd_error(1, dest);
 	else
-		move_to_dest(envp_head, dest);
+		move_to_dest(envsp, dest);
 }

@@ -6,19 +6,19 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:01 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/26 16:17:12 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/04 15:53:25 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_envp	*find_node(t_envp *envp_head, char *key)
+t_envs	*find_node(t_envs *envsp, char *key)
 {
-	t_envp	*node;
+	t_envs	*node;
 	int		key_len;
 
 	key_len = ft_strlen(key);
-	node = envp_head->next;
+	node = envsp->next;
 	while (node != NULL)
 	{
 		if (ft_strncmp(key, node->key, key_len + 1) == 0)
@@ -28,12 +28,12 @@ t_envp	*find_node(t_envp *envp_head, char *key)
 	return (NULL);
 }
 
-void	add_new_node(t_envp *now, char **key_and_value)
+void	add_new_node(t_envs *now, char **key_and_value)
 {
-	t_envp	*next;
+	t_envs	*next;
 
 	if (now == NULL)
-		now->next = make_env_node(key_and_value);
+		now->next = make_envsp_node(key_and_value);
 	else
 	{
 		next = now->next;
@@ -42,18 +42,18 @@ void	add_new_node(t_envp *now, char **key_and_value)
 			now = next;
 			next = next->next;
 		}
-		now->next = make_env_node(key_and_value);
+		now->next = make_envsp_node(key_and_value);
 		now->next->next = next;
 	}
 }
 
-void	traverse_list_to_add(t_envp *envp_head, char **key_and_value)
+void	traverse_list_to_add(t_envs *envsp, char **key_and_value)
 {
-	t_envp	*target;
+	t_envs	*target;
 
-	target = find_node(envp_head, key_and_value[0]);
+	target = find_node(envsp, key_and_value[0]);
 	if (target == NULL)
-		add_new_node(envp_head->next, key_and_value);
+		add_new_node(envsp->next, key_and_value);
 	else
 	{
 		free(target->value);
@@ -63,7 +63,7 @@ void	traverse_list_to_add(t_envp *envp_head, char **key_and_value)
 	}
 }
 
-void	builtin_export(t_cmd *cmd, t_envp *envp_head)
+void	builtin_export(t_cmds *cmds, t_envs *envsp)
 {
 	int		i;
 	char	*str;
@@ -71,14 +71,14 @@ void	builtin_export(t_cmd *cmd, t_envp *envp_head)
 
 	errno = 0;
 	i = 1;
-	while (cmd->command[i] != NULL)
+	while (cmds->argv[i] != NULL)
 	{
-		str = cmd->command[i++];
+		str = cmds->argv[i++];
 		key_and_value = divide_key_and_value(str);
 		if (key_and_value != NULL)
 		{
 			if (is_valid_identifier(key_and_value[0]) == 1)
-				traverse_list_to_add(envp_head, key_and_value);
+				traverse_list_to_add(envsp, key_and_value);
 			else
 			{
 				free(key_and_value[0]);

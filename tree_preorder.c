@@ -6,13 +6,13 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 18:58:17 by seonjo            #+#    #+#             */
-/*   Updated: 2023/10/15 17:39:28 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/04 15:23:21 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	tr_is_builtin(t_tree *tree, t_envp *envp)
+int	tr_is_builtin(t_tree *tree, t_envs *envp)
 {
 	char	*cmd;
 
@@ -33,7 +33,7 @@ int	tr_is_builtin(t_tree *tree, t_envp *envp)
 	return (1);
 }
 
-void	tr_fork(t_tree *tree, t_envp *envp, int pipe_fd[2], int input_fd)
+void	tr_fork(t_tree *tree, t_envs *envp, int pipe_fd[2], int input_fd)
 {
 	pid_t	pid;
 
@@ -56,7 +56,7 @@ void	tr_fork(t_tree *tree, t_envp *envp, int pipe_fd[2], int input_fd)
 	}
 }
 
-void	tr_pipe(t_tree *tree, t_fd *fdp, t_envp *envp, int input_fd)
+void	tr_pipe(t_tree *tree, t_fd *fdp, t_envs *envp, int input_fd)
 {
 	int		pipe_fd[2];
 
@@ -75,7 +75,7 @@ int	tr_get_input_fd(t_fd *pre_fd)
 		return (0);
 }
 
-void	tr_preorder(t_envp *envp, t_tree *tree, t_fd *fdp, int flag)
+void	tr_preorder(t_envs *envp, t_tree *tree, t_fd *fdp, int flag)
 {
 	int	fd[2];
 	int	input_fd;	

@@ -6,19 +6,19 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:25:10 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/21 20:20:28 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/04 15:26:29 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_env(t_envp *envp_head)
+void	builtin_env(t_envs *envsp)
 {
-	t_envp	*node;
+	t_envs	*node;
 
-	if (envp_head == NULL)
+	if (envsp == NULL)
 		return ;
-	node = envp_head->next;
+	node = envsp->next;
 	while (node != NULL)
 	{
 		printf("%s=%s\n", node->key, node->value);

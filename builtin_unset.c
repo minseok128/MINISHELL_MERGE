@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:19 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/26 16:20:42 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/04 15:26:29 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ int	is_valid_identifier(char *str)
 	return (1);
 }
 
-void	remove_env_node(t_envp *envp_head, char *key)
+void	remove_envsp_node(t_envs *envsp, char *key)
 {
-	t_envp	*now;
-	t_envp	*next;
-	t_envp	*target;
+	t_envs	*now;
+	t_envs	*next;
+	t_envs	*target;
 
-	target = find_node(envp_head, key);
+	target = find_node(envsp, key);
 	if (target != NULL)
 	{
-		now = envp_head;
+		now = envsp;
 		next = now->next;
 		while (next != target)
 		{
@@ -56,7 +56,7 @@ void	remove_env_node(t_envp *envp_head, char *key)
 	}
 }
 
-void	builtin_unset(t_cmd *cmd, t_envp *envp_head)
+void	builtin_unset(t_cmds *cmds, t_envs *envsp)
 {
 	int		i;
 	int		j;
@@ -64,12 +64,12 @@ void	builtin_unset(t_cmd *cmd, t_envp *envp_head)
 
 	errno = 0;
 	i = 1;
-	while (cmd->command[i] != NULL)
+	while (cmds->argv[i] != NULL)
 	{
-		str = cmd->command[i++];
+		str = cmds->argv[i++];
 		j = 0;
 		if (is_valid_identifier(str) == 1)
-			remove_env_node(envp_head, str);
+			remove_envsp_node(envsp, str);
 		else
 		{
 			printf("bash: unset: '%s': not a valid identifier\n", str);

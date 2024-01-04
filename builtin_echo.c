@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:27:35 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/26 17:12:36 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/04 15:53:07 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,34 +41,30 @@ int	is_option_n(char *str, int is_n_appear, int is_hyphen_appear)
 		return (0);
 }
 
-void	builtin_echo(t_cmd *cmd)
+void	builtin_echo(t_cmds *cmds)
 {
 	int		i;
 	int		n_flag;
 	int		print_flag;
-	char	*str;
 
-	errno = 0;
 	n_flag = 0;
 	print_flag = 0;
-	i = 1;
-	while (cmd->command[i] != NULL)
+	i = 0;
+	while (cmds->argv[++i] != NULL)
 	{
-		str = cmd->command[i];
-		if (print_flag == 0 && is_option_n(str, 0, 0) == 1)
+		if (print_flag == 0 && is_option_n(cmds->argv[i], 0, 0) == 1)
 			n_flag = 1;
-		else if (cmd->command[i + 1] == NULL)
+		else if (cmds->argv[i + 1] == NULL)
 		{
 			if (n_flag == 1)
-				printf("%s", str);
+				printf("%s", cmds->argv[i]);
 			else
-				printf("%s\n", str);
+				printf("%s\n", cmds->argv[i]);
 		}
 		else
 		{
-			printf("%s ", str);
+			printf("%s ", cmds->argv[i]);
 			print_flag = 1;
 		}
-		i++;
 	}
 }
