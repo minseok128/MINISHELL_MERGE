@@ -22,12 +22,15 @@
 # include "libft/libft.h"
 # include <errno.h>
 # include <string.h>
+# include "parser/parser.h"
 
 # define MODE_SHELL 0
 # define MODE_DEFAULT 1
 # define MODE_IGNORE 2
 
 void	set_signal(int sig_int, int sig_quit);
-void	tk_tokenize(char *str);
+int		tk_tokenize(char *str, t_token **token_head);
+int		mktr_make_tree(t_token *tk_head, t_tr_node **root);
+void	trtv_traversal(t_tr_node *root, t_envs *envsp);
 
 #endif
