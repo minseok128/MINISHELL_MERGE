@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command.c                                          :+:      :+:    :+:   */
+/*   ex_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/05 14:52:15 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/05 18:59:57 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execute.h"
 
 char	*ex_merge_key_and_value(char const *s1, char const *s2)
 {
@@ -20,9 +20,7 @@ char	*ex_merge_key_and_value(char const *s1, char const *s2)
 
 	i = 0;
 	j = 0;
-	str = ft_calloc(sizeof(char), ft_strlen(s1) + ft_strlen(s2) + 2);
-	if (str == 0)
-		btin_error();
+	str = ft_calloc_s(sizeof(char), ft_strlen(s1) + ft_strlen(s2) + 2);
 	while (s1[j])
 		str[i++] = s1[j++];
 	str[i++] = '=';
