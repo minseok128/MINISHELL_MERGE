@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "../btin/btin.h"
 
 void	trtv_env_expand(t_tr_node *node)
 {
