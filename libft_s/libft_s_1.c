@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:43:25 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/05 14:51:05 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/05 16:30:02 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ char	*ft_strdup_s(const char *s1)
 
 	ret_str = ft_strdup(s1);
 	if (ret_str == NULL)
-		btin_error();
+	{
+		printf("%s\n", strerror(errno));
+		exit(errno);
+	}
 	return (ret_str);
 }

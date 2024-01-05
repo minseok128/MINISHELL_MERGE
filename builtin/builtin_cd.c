@@ -91,10 +91,10 @@ void	btin_cd(t_cmds *cmds, t_envs *envsp, int fork_flag)
 			btin_cd_error(4, NULL, NULL, fork_flag);
 			return ;
 		}
-		dest = ft__strdup(home->value);
+		dest = ft_strdup_s(home->value);
 	}
 	else
-		dest = ft__strdup(cmds->argv[1]);
+		dest = ft_strdup_s(cmds->argv[1]);
 	if (access(dest, F_OK) == -1)
 		btin_cd_error(1, dest, NULL, fork_flag);
 	else
