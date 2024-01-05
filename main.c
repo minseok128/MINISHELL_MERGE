@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "btin/btin.h"
 
 void	trem_init(int argc, char **argv)
 {
@@ -38,14 +39,14 @@ int	jump_white_space(char *str)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_envp			*head;
+	t_envs			*envsp;
 	char			*line;
 	struct termios	term;
 
 	tcgetattr(STDIN_FILENO, &term);
 	trem_init(argc, argv);
-	head = envi_make_linkedlist(envp);
-	env_print(head);
+	envsp = btin_make_envsp(envp);
+	btin_env(envsp);
 	while (1)
 	{
 		line = readline("minishell $ ");
