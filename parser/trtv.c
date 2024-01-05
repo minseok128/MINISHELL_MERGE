@@ -11,10 +11,8 @@
 /* ************************************************************************** */
 
 #include "parser.h"
-#include "../btin/btin.h"
 
-
-int	trtv_dollar_sign(char *word, int now)
+int	trtv_dollar_sign(char *word, int now, t_envs *envsp)
 {
 	char	*key;
 	int		len;
@@ -27,11 +25,11 @@ int	trtv_dollar_sign(char *word, int now)
 	}
 	key = ft_calloc_s(len + 1, sizeof(char));
 	ft_strlcpy(key, &word[now], len + 1);
-	printf("key:%s\n", key);
+	printf("key:%s, v:%s\n", key, btin_find_node(envsp, key)->value);
 	return (len);
 }
 
-void	trtv_command_part(char *word)
+void	trtv_command_part(char *word, t_envs *envsp)
 {
 	int	double_quotes_flag;
 	int	now;
@@ -52,27 +50,27 @@ void	trtv_command_part(char *word)
 		else if (word[now] == '$')
 		{
 			now++;
-			now += trtv_dollar_sign(word, now);
+			now += trtv_dollar_sign(word, now, envsp);
 		}
 		else
 			now++;
 	}
 }
 
-void	trtv_env_expand(t_tr_node *node)
+void	trtv_env_expand(t_tr_node *node, t_envs *envsp)
 {
 	if (!node)
 		return ;
 	if (node->bnf_type == TR_COMMAND_PART)
 	{
 		// test_print_command_part(node);
-		trtv_command_part(node->tk->str);
+		trtv_command_part(node->tk->str, envsp);
 	}
-	trtv_env_expand(node->left);
-	trtv_env_expand(node->right);
+	trtv_env_expand(node->left, envsp);
+	trtv_env_expand(node->right, envsp);
 }
 
-void	trtv_traversal(t_tr_node *root)
+void	trtv_traversal(t_tr_node *root, t_envs *envsp)
 {
-	trtv_env_expand(root);
+	trtv_env_expand(root, envsp);
 }
