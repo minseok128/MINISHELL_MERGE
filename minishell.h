@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 17:19:24 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/05 11:53:32 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/05 14:53:44 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/stat.h>
-# include "./libft/libft.h"
+# include "./libft_s/libft_s.h"
 
 typedef struct s_envsp
 {
@@ -54,7 +54,6 @@ t_envs		*btin_make_envsp_node(char **key_and_value);
 t_envs		*btin_make_envsp(char **envp);
 t_envs		*btin_find_node(t_envs *envsp, char *key);
 char		**btin_divide_key_and_value(char *env);
-
 int			ex_process_command(t_cmds *cmds, t_envs *envsp);
 
 #endif

@@ -6,11 +6,32 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/05 11:37:55 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/05 14:52:15 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ex_merge_key_and_value(char const *s1, char const *s2)
+{
+	char	*str;
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	str = ft_calloc(sizeof(char), ft_strlen(s1) + ft_strlen(s2) + 2);
+	if (str == 0)
+		btin_error();
+	while (s1[j])
+		str[i++] = s1[j++];
+	str[i++] = '=';
+	j = 0;
+	while (s2[j])
+		str[i++] = s2[j++];
+	str[i] = 0;
+	return (str);
+}
 
 int	ex_is_builtin(t_cmds *cmds, t_envs *envsp)
 {
@@ -51,7 +72,7 @@ char	**ex_change_to_envp(t_envs *envsp)
 	node = envsp->next;
 	i = 0;
 	while (i < size)
-		envp[i++] = ft__strjoin(node->key, node->value);
+		envp[i++] = ex_merge_key_and_value(node->key, node->value);
 	envp[i] = NULL;
 	return (envp);
 }

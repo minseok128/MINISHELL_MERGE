@@ -3,13 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   libft_s.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michang <michang@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:11:16 by michang           #+#    #+#             */
-/*   Updated: 2024/01/05 14:11:17 by michang          ###   ########.fr       */
+/*   Updated: 2024/01/05 14:50:38 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-long long	ft__atoi(char *str);
-char		*ft__strdup(const char *s1);
-char		*ft__strjoin(char const *s1, char const *s2);
+#ifndef LIBFT_S_H
+# define LIBFT_S_H
+
+# include "../libft/libft.h"
+
+char	*ft_strdup_s(const char *s1);
+
+#endif
