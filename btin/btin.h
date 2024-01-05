@@ -31,5 +31,6 @@ typedef struct s_envsp
 
 void	btin_env(t_envs *envsp);
 t_envs	*btin_make_envsp(char **envp);
+t_envs	*btin_find_node(t_envs *envsp, char *key);
 
 #endif
