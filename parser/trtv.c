@@ -25,7 +25,7 @@ int	trtv_dollar_sign(char *word, int now, t_envs *envsp)
 	}
 	key = ft_calloc_s(len + 1, sizeof(char));
 	ft_strlcpy(key, &word[now], len + 1);
-	printf("key:%s, v:%s\n", key, btin_find_node(envsp, key)->value);
+	printf("key:%s, v:%s\n", key, btin_find_node(envsp, key) ? btin_find_node(envsp, key)->value : 0);
 	return (len);
 }
 
@@ -41,12 +41,7 @@ void	trtv_command_part(char *word, t_envs *envsp)
 		if (word[now] == '\"')
 			double_quotes_flag *= -1;
 		if (word[now] == '\'' && double_quotes_flag == -1)
-		{
-			now++;
-			while (word[now] != '\'')
-				now++;
-			now++;
-		}
+			now = ft_strchr(&word[now + 1], '\'') - word + 1;
 		else if (word[now] == '$')
 		{
 			now++;
