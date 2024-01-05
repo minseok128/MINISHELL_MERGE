@@ -27,18 +27,14 @@
 # define MODE_DEFAULT 1
 # define MODE_IGNORE 2
 
-typedef struct s_envp
+typedef struct s_envsp
 {
 	char			*key;
 	char			*value;
-	struct s_envp	*next;
-} t_envp;
+	struct s_envsp	*next;
+}	t_envs;
 
-t_envp	*env_init_list_s(char **envp);
-void	env_print(t_envp *head);
 void	set_signal(int sig_int, int sig_quit);
-t_envp	*envi_make_linkedlist(char **envp);
-t_envp	*ex_find_key(t_envp *head, char *key);
 void	tk_tokenize(char *str);
 
 #endif
