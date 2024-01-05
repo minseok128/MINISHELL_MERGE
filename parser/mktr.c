@@ -118,18 +118,13 @@ int	mktr_list(t_tr_node **head, t_token **tk_now)
 	return (0);
 }
 
-void	mktr_make_tree(t_token *tk_head)
+int	mktr_make_tree(t_token *tk_head, t_tr_node **root)
 {
-	t_tr_node	*root;
 	t_token		*tk_now;
 
 	tk_now = tk_head;
-	if (mktr_list(&root, &tk_now) || tk_now->type != T_NEWLINE)
-		mktr_print_unexpected(tk_now->str);
+	if (mktr_list(root, &tk_now) || tk_now->type != T_NEWLINE)
+		return (mktr_print_unexpected(tk_now->str));
 	else
-	{
-		test_tr_print_tree(root);
-		trtv_traversal(root);
-	}
-
+		return (test_tr_print_tree(*root));
 }
