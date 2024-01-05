@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "btin.h"
 
 int	btin_is_option_n(char *str, int is_n_appear, int is_hyphen_appear)
 {

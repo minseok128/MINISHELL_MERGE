@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "btin.h"
 
 void	btin_env(t_envs *envsp, int fork_flag)
 {

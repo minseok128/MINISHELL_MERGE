@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "btin.h"
 
 t_envs	*btin_find_node(t_envs *envsp, char *key)
 {

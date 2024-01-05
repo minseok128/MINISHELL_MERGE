@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   btin.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 15:15:27 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/05 15:18:12 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/05 18:57:45 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#ifndef BTIN_H
+# define BTIN_H
 
 # include <stdio.h>
 # include <errno.h>
@@ -33,8 +33,8 @@ typedef struct s_envsp
 typedef struct s_cmds
 {
 	char			**argv;
-	char			*in_file;
-	char			*out_file;
+	int				*in_file;
+	int				*out_file;
 	struct s_cmds	*next;
 }	t_cmds;
 
