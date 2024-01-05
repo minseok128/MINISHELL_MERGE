@@ -41,7 +41,7 @@ int	btin_is_option_n(char *str, int is_n_appear, int is_hyphen_appear)
 		return (0);
 }
 
-void	btin_echo(t_cmds *cmds)
+void	btin_echo(t_cmds *cmds, int fork_flag)
 {
 	int		i;
 	int		n_flag;
@@ -67,4 +67,5 @@ void	btin_echo(t_cmds *cmds)
 			print_flag = 1;
 		}
 	}
+	btin_out(fork_flag, 0, NULL);
 }

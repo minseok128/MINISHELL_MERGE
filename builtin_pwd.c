@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	btin_pwd(void)
+void	btin_pwd(int fork_flag)
 {
 	char	*pwd;
 
@@ -21,4 +21,5 @@ void	btin_pwd(void)
 		btin_error();
 	printf("%s\n", pwd);
 	free(pwd);
+	btin_out(fork_flag, 0, NULL);
 }

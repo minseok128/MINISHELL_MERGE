@@ -56,13 +56,13 @@ void	btin_remove_envsp_node(t_envs *envsp, char *key)
 	}
 }
 
-void	btin_unset(t_cmds *cmds, t_envs *envsp)
+void	btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag)
 {
 	int		i;
 	int		j;
 	char	*str;
 
-	errno = 0;
+	fork_flag = 1;
 	i = 1;
 	while (cmds->argv[i] != NULL)
 	{

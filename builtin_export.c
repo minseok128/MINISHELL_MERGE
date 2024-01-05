@@ -63,13 +63,13 @@ void	btin_traverse_list_to_add(t_envs *envsp, char **key_and_value)
 	}
 }
 
-void	btin_export(t_cmds *cmds, t_envs *envsp)
+void	btin_export(t_cmds *cmds, t_envs *envsp, int fork_flag)
 {
 	int		i;
 	char	*str;
 	char	**key_and_value;
 
-	errno = 0;
+	fork_flag = 1;
 	i = 1;
 	while (cmds->argv[i] != NULL)
 	{

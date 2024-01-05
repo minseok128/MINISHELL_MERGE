@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	btin_env(t_envs *envsp)
+void	btin_env(t_envs *envsp, int fork_flag)
 {
 	t_envs	*node;
 
@@ -24,6 +24,7 @@ void	btin_env(t_envs *envsp)
 		printf("%s=%s\n", node->key, node->value);
 		node = node->next;
 	}
+	btin_out(fork_flag, 0, NULL);
 	// 마지막 줄 빼고 개행까지 diff로 비교 완료
 	// _=/Users/seonjo/subjects/minishell/./a.out
 	// _=/usr/bin/env
