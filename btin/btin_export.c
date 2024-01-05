@@ -53,7 +53,9 @@ void	btin_traverse_list_to_add(t_envs *envsp, char **key_and_value)
 
 	target = btin_find_node(envsp, key_and_value[0]);
 	if (target == NULL)
+	{
 		btin_add_new_node(envsp->next, key_and_value);
+	}
 	else
 	{
 		free(target->value);
@@ -63,14 +65,15 @@ void	btin_traverse_list_to_add(t_envs *envsp, char **key_and_value)
 	}
 }
 
-void	btin_export(t_cmds *cmds, t_envs *envsp, int fork_flag)
+void	btin_export(t_cmds *cmds, t_envs *envsp, int error_code, int fork_flag)
 {
 	int		i;
 	char	*str;
 	char	**key_and_value;
 
-	fork_flag = 1;
 	i = 1;
+	if (cmds->argv[i] == NULL)
+		btin_print_declare_env(envsp);
 	while (cmds->argv[i] != NULL)
 	{
 		str = cmds->argv[i++];
@@ -81,12 +84,12 @@ void	btin_export(t_cmds *cmds, t_envs *envsp, int fork_flag)
 				btin_traverse_list_to_add(envsp, key_and_value);
 			else
 			{
-				free(key_and_value[0]);
-				free(key_and_value[1]);
-				free(key_and_value);
+				btin_free_key_and_value(key_and_value, key_and_value[0], \
+									key_and_value[1]);
 				printf("bash: export: '%s': not a valid identifier\n", str);
-				errno = 1;
+				error_code = 1;
 			}
 		}
 	}
+	btin_out(fork_flag, error_code, NULL);
 }

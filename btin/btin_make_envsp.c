@@ -12,10 +12,12 @@
 
 #include "btin.h"
 
-void	btin_error(void)
+void	btin_free_key_and_value(char **key_and_value, char *key, char *value)
 {
-	printf("%s\n", strerror(errno));
-	exit(errno);
+	free(key_and_value);
+	free(key);
+	if (value != NULL)
+		free(value);
 }
 
 int	btin_find_equal_index(char *str)
@@ -39,15 +41,18 @@ char	**btin_divide_key_and_value(char *env)
 
 	key_and_value = malloc(sizeof(char *) * 2);
 	if (key_and_value == NULL)
-		btin_error();
+		btin_out(1, errno, strerror(errno));
 	equal_index = btin_find_equal_index(env);
 	if (equal_index == -1)
-		return (NULL);
+	{
+		key_and_value[0] = ft_strdup_s(env);
+		return (key_and_value);
+	}
 	key_and_value[0] = malloc(sizeof(char) * (equal_index + 1));
 	if (key_and_value[0] == NULL)
-		btin_error();
+		btin_out(1, errno, strerror(errno));
 	ft_strlcpy(key_and_value[0], env, equal_index + 1);
-	key_and_value[1] = ft_strdup(env + (equal_index + 1));
+	key_and_value[1] = ft_strdup_s(env + (equal_index + 1));
 	return (key_and_value);
 }
 
@@ -57,7 +62,7 @@ t_envs	*btin_make_envsp_node(char **key_and_value)
 
 	node = malloc(sizeof(t_envs));
 	if (node == NULL)
-		btin_error();
+		btin_out(1, errno, strerror(errno));
 	if (key_and_value != NULL)
 	{
 		node->key = key_and_value[0];

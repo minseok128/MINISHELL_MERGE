@@ -12,6 +12,23 @@
 
 #include "btin.h"
 
+void	btin_print_declare_env(t_envs *envsp)
+{
+	t_envs	*node;
+
+	if (envsp == NULL)
+		return ;
+	node = envsp->next;
+	while (node != NULL)
+	{
+		if (node->value != NULL)
+			printf("declare -x %s=\"%s\"\n", node->key, node->value);
+		else
+			printf("declare -x %s\n", node->key);
+		node = node->next;
+	}
+}
+
 int	btin_is_valid_identifier(char *str)
 {
 	int	i;
@@ -51,7 +68,8 @@ void	btin_remove_envsp_node(t_envs *envsp, char *key)
 		}
 		now->next = next->next;
 		free(next->key);
-		free(next->value);
+		if (next->value != NULL)
+			free(next->value);
 		free(next);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/05 18:59:57 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/05 21:23:05 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ex_is_builtin(t_cmds *cmds, t_envs *envsp)
 	else if (ft_strncmp(cmds->argv[0], "pwd", 4) == 0)
 		btin_pwd(0);
 	else if (ft_strncmp(cmds->argv[0], "export", 7) == 0)
-		btin_export(cmds, envsp, 0);
+		btin_export(cmds, envsp, 0, 0);
 	else if (ft_strncmp(cmds->argv[0], "unset", 6) == 0)
 		btin_unset(cmds, envsp, 0);
 	else if (ft_strncmp(cmds->argv[0], "echo", 5) == 0)

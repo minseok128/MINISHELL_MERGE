@@ -18,7 +18,7 @@ void	btin_pwd(int fork_flag)
 
 	pwd = getcwd(NULL, 1024);
 	if (pwd == NULL)
-		btin_error();
+		btin_out(1, errno, strerror(errno));
 	printf("%s\n", pwd);
 	free(pwd);
 	btin_out(fork_flag, 0, NULL);
