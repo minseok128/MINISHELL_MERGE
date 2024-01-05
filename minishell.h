@@ -54,9 +54,7 @@ t_envs		*btin_make_envsp_node(char **key_and_value);
 t_envs		*btin_make_envsp(char **envp);
 t_envs		*btin_find_node(t_envs *envsp, char *key);
 char		**btin_divide_key_and_value(char *env);
-long long	ft__atoi(char *str);
-char		*ft__strdup(const char *s1);
-char		*ft__strjoin(char const *s1, char const *s2);
+
 int			ex_process_command(t_cmds *cmds, t_envs *envsp);
 
 #endif
