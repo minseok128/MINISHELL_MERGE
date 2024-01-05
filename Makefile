@@ -17,9 +17,10 @@ READLINE	= -L/usr/local/lib  -lreadline
 # READLINE	= -L/opt/homebrew/Cellar/readline/8.2.7/lib -lreadline
 
 DIR			= ./
-BASE		= main signal_utils env env_init \
+BASE		= main signal_utils \
 			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils \
 			  parser/trtv \
+			  btin/builtin_env btin/builtin_make_envsp btin/builtin_export \
 			  testdir/treeprint
 SRC			= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
 OBJ			= $(addprefix $(DIR), $(addsuffix .o, $(BASE)))
