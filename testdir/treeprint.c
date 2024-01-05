@@ -47,15 +47,15 @@ void test_print_node(t_tr_node *node)
 	if (node->bnf_type == TR_COMMAND_PART)
 	{
 		if (node->tk->type == T_REDIR_S_L)
-			printf("< %.3s", node->tk->str);
+			printf("< %s", node->tk->str);
 		else if (node->tk->type == T_REDIR_S_R)
-			printf("> %.3s", node->tk->str);
+			printf("> %s", node->tk->str);
 		else if (node->tk->type == T_REDIR_D_L)
-			printf("<< %.2s", node->tk->str);
+			printf("<< %s", node->tk->str);
 		else if (node->tk->type == T_REDIR_D_R)
-			printf(">> %.2s", node->tk->str);
+			printf(">> %s", node->tk->str);
 		else
-			printf("%.5s", node->tk->str);
+			printf("%s", node->tk->str);
 	}
 	printf("\n");
 }
