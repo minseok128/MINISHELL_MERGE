@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "builtin.h"
 
 t_envs	*btin_find_node(t_envs *envsp, char *key)
 {
