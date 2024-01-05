@@ -12,7 +12,7 @@
 
 #include "parser.h"
 
-static void	tk_print(t_token *tk)
+static int	tk_print(t_token *tk)
 {
 	printf("\n[TOKEN] DONE!\n");
 	while (tk)
@@ -23,6 +23,7 @@ static void	tk_print(t_token *tk)
 			printf(" ==> ");
 	}
 	printf("\n");
+	return (0);
 }
 
 static int	tk_meta(char *str, t_token **tk_head, int now)
@@ -71,32 +72,28 @@ static int	tk_word(char *str, t_token **tk_head, int now, int *is_error)
 	return (len);
 }
 
-void	tk_tokenize(char *str)
+int	tk_tokenize(char *str, t_token **tk_head)
 {
-	t_token	*tk_head;
 	t_token	*tk_last;
 	int		now;
 	int		is_error;
 
 	is_error = 0;
-	tk_head = 0;
+	*tk_head = 0;
 	now = 0;
 	while (str[now])
 	{
 		if (tk_is_meta_char(&str[now]) != 0)
-			now += tk_meta(str, &tk_head, now);
+			now += tk_meta(str, tk_head, now);
 		else if (!ft_isspace(str[now]))
-			now += tk_word(str, &tk_head, now, &is_error);
+			now += tk_word(str, tk_head, now, &is_error);
 		else
 			now++;
 	}
-	tk_last = tk_lstlast(tk_head);
+	tk_last = tk_lstlast(*tk_head);
 	tk_last->next = tk_alloc_s(T_NEWLINE, ft_strdup_s("newline"));
 	if (is_error)
-		mktr_print_unexpected("newline");
+		return (mktr_print_unexpected("newline"));
 	else
-	{
-		tk_print(tk_head); //test code
-		mktr_make_tree(tk_head);
-	}
+		return (tk_print(*tk_head));
 }
