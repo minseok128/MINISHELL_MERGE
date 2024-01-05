@@ -6,7 +6,7 @@
 #    By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/08 18:58:03 by seonjo            #+#    #+#              #
-#    Updated: 2024/01/05 18:28:19 by seonjo           ###   ########.fr        #
+#    Updated: 2024/01/05 21:09:49 by seonjo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,11 +32,11 @@ LIBFT_S_SRC = $(addprefix $(LIBFT_S_DIR), $(addsuffix .c, $(LIBFT_S_BASE)))
 LIBFT_S_OBJ = $(addprefix $(LIBFT_S_DIR), $(addsuffix .o, $(LIBFT_S_BASE)))
 
 DFT_DIR = ./
-DFT_BASE = main command
+DFT_BASE = main
 DFT_SRC = $(addprefix $(DFT_DIR), $(addsuffix .c, $(DFT_BASE)))
 DFT_OBJ = $(addprefix $(DFT_DIR), $(addsuffix .o, $(DFT_BASE)))
 
-OBJS = $(BTIN_OBJ) $(EX_DIR) $(LIBFT_S_OBJ) $(DFT_OBJ)
+OBJS = $(BTIN_OBJ) $(EX_OBJ) $(LIBFT_S_OBJ) $(DFT_OBJ)
 
 LIBFT = ./libft/libft.a
 
