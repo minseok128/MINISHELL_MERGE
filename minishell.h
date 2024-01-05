@@ -27,13 +27,6 @@
 # define MODE_DEFAULT 1
 # define MODE_IGNORE 2
 
-typedef struct s_envsp
-{
-	char			*key;
-	char			*value;
-	struct s_envsp	*next;
-}	t_envs;
-
 void	set_signal(int sig_int, int sig_quit);
 void	tk_tokenize(char *str);
 
