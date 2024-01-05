@@ -40,8 +40,8 @@ int	jump_white_space(char *str)
 int	main(int argc, char **argv, char **envp)
 {
 	t_envs			*envsp;
-	char			*line;
 	struct termios	term;
+	t_parser_info	p_info;
 
 	tcgetattr(STDIN_FILENO, &term);
 	trem_init(argc, argv);
@@ -49,16 +49,18 @@ int	main(int argc, char **argv, char **envp)
 	btin_env(envsp);
 	while (1)
 	{
-		line = readline("minishell $ ");
-		if (!line)
+		p_info.line = readline("minishell $ ");
+		if (!(p_info.line))
 			break ;
-		if (*line != 0)
-			add_history(line);
-		if (*line != 0 && !jump_white_space(line))
+		if (*(p_info.line) != 0)
+			add_history(p_info.line);
+		if (*(p_info.line) != 0 && !jump_white_space(p_info.line))
 		{
-			tk_tokenize(line);	
+			if (!tk_tokenize(p_info.line, &(p_info.tk_head)))
+				if (!mktr_make_tree(p_info.tk_head, &(p_info.root)))
+					trtv_traversal(p_info.root, envsp);
 		}
-		free(line);
+		free(p_info.line);
 	}
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
