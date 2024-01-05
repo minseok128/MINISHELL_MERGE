@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:25:24 by seonjo            #+#    #+#             */
-/*   Updated: 2023/12/26 19:43:30 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/05 20:50:16 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	**divide_key_and_value(char *env)
 	if (key_and_value[0] == NULL)
 		builtin_error();
 	ft_strlcpy(key_and_value[0], env, equal_index + 1);
-	key_and_value[1] = ft_strdup(env + (equal_index + 1));
+	key_and_value[1] = ft_strdups(env + (equal_index + 1));
 	return (key_and_value);
 }
 
