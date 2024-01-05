@@ -6,13 +6,13 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:32:34 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/05 15:18:35 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/05 21:17:13 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmds	*ex_make_cmdsp()
+t_cmds	*ex_make_cmdsp(void)
 {
 	t_cmds	*cmdsp_head;
 
@@ -23,7 +23,7 @@ t_cmds	*ex_make_cmdsp()
 	return (cmdsp_head);
 }
 
-void	ex_add_cmdsp_node(t_cmds *cmdsp, char **argv, char *in, char *out)
+void	ex_add_cmdsp_node(t_cmds *cmdsp, char **argv, int in, int out)
 {
 	t_cmds	*new;
 	t_cmds	*node;
@@ -48,7 +48,7 @@ void builtin_test(t_envs *envsp)
 
 	cmdsp = ex_make_cmdsp();
 	argv = malloc(sizeof(char *) * 8);
-	ex_add_cmdsp_node(cmdsp, argv, NULL, NULL);
+	ex_add_cmdsp_node(cmdsp, argv, 0, 0);
 
 	// pwd test       << no leak
 		// cmdsp->next->argv[0] = "pwd";
@@ -56,37 +56,48 @@ void builtin_test(t_envs *envsp)
 		// ex_process_command(cmdsp, envsp);
 
 	// env test       << no leak
+		// cmdsp->next->argv[0] = "env";
+		// cmdsp->next->argv[1] = NULL;
+		// ex_process_command(cmdsp, envsp);
+
+	// export & unset test
+		printf("export\n");
+		cmdsp->next->argv[0] = "export";
+		cmdsp->next->argv[1] = "test1=ls -l";
+		cmdsp->next->argv[2] = "test2=";
+		cmdsp->next->argv[3] = "1=100";
+		cmdsp->next->argv[4] = "test3";
+		cmdsp->next->argv[5] = "TEST=ls -l - a";
+		cmdsp->next->argv[6] = "p==23";
+		cmdsp->next->argv[7] = NULL;
+		ex_process_command(cmdsp, envsp);
 		cmdsp->next->argv[0] = "env";
 		cmdsp->next->argv[1] = NULL;
 		ex_process_command(cmdsp, envsp);
 
-	// export & unset test
-		// cmdsp->next->argv[0] = "export";
-		// cmdsp->next->argv[1] = "test1=ls -l";
-		// cmdsp->next->argv[2] = "test2=ls -al";
-		// cmdsp->next->argv[3] = "1=100";
-		// cmdsp->next->argv[4] = "test3=100";
-		// cmdsp->next->argv[5] = "TEST=ls -l - a";
-		// cmdsp->next->argv[6] = "p==23";
-		// cmdsp->next->argv[7] = NULL;
-		// ex_process_command(cmdsp, envsp);
-		// cmdsp->next->argv[0] = "env";
-		// cmdsp->next->argv[1] = NULL;
-		// ex_process_command(cmdsp, envsp);
+		printf("\n\nexport -no arg\n");
+		cmdsp->next->argv[0] = "export";
+		cmdsp->next->argv[1] = NULL;
+		ex_process_command(cmdsp, envsp);
 		
-		// printf("\n\n\nunset\n\n\n");
-		// cmdsp->next->argv[0] = "unset";
-		// cmdsp->next->argv[1] = "test1";
-		// cmdsp->next->argv[2] = "test2";
-		// cmdsp->next->argv[3] = "1-7fdf";
-		// cmdsp->next->argv[4] = "TEST";
-		// cmdsp->next->argv[5] = "12c";
-		// cmdsp->next->argv[6] = "p";
-		// cmdsp->next->argv[7] = NULL;
-		// ex_process_command(cmdsp, envsp);
-		// cmdsp->next->argv[0] = "env";
-		// cmdsp->next->argv[1] = NULL;
-		// ex_process_command(cmdsp, envsp);
+		printf("\n\n\nunset\n");
+		cmdsp->next->argv[0] = "unset";
+		cmdsp->next->argv[1] = "test1";
+		cmdsp->next->argv[2] = "test2";
+		cmdsp->next->argv[3] = "test34";
+		cmdsp->next->argv[4] = "TEST";
+		cmdsp->next->argv[5] = "12c";
+		cmdsp->next->argv[6] = "p";
+		cmdsp->next->argv[7] = NULL;
+		ex_process_command(cmdsp, envsp);
+		cmdsp->next->argv[0] = "env";
+		cmdsp->next->argv[1] = NULL;
+		ex_process_command(cmdsp, envsp);
+
+		printf("\n\nexport -no arg\n");
+		cmdsp->next->argv[0] = "export";
+		cmdsp->next->argv[1] = NULL;
+		ex_process_command(cmdsp, envsp);
 		
 	// cd test         << no leak
 		// cmdsp->next->argv[0] = "cd";
@@ -128,23 +139,16 @@ void builtin_test(t_envs *envsp)
 // 	cmdp[1] = NULL;
 // }
 
-void	leak_check()
-{
-	system("leaks minishell");
-}
+// void	leak_check()
+// {
+// 	system("leaks minishell");
+// }
 
-int	main(int argc, char **argv, char **envp)
+void	envs_free(t_envs *envsp)
 {
-	t_envs	*envsp;
+	t_envs	*tmp;
+	t_envs	*tmp2;
 
-	argv[argc - argc] = NULL;
-	envsp = btin_make_envsp(envp);
-	
-	builtin_test(envsp);
-	// command_test(envsp);
-	
-	t_envs *tmp;
-	t_envs *tmp2;
 	tmp = envsp->next;
 	while (tmp != NULL)
 	{
@@ -157,6 +161,19 @@ int	main(int argc, char **argv, char **envp)
 		free(tmp2);
 	}
 	free(envsp);
-	atexit(leak_check);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_envs	*envsp;
+
+	argv[argc - argc] = NULL;
+	envsp = btin_make_envsp(envp);
+
+	builtin_test(envsp);
+	// command_test(envsp);
+
+	envs_free(envsp);
+	// atexit(leak_check);
 	return (g_errno);
 }
