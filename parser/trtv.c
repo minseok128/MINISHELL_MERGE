@@ -63,7 +63,6 @@ void	trtv_env_expand(t_tr_node *node, t_envs *envsp)
 		return ;
 	if (node->bnf_type == TR_COMMAND_PART)
 	{
-		// test_print_command_part(node);
 		trtv_command_part(node->tk->str, envsp);
 	}
 	trtv_env_expand(node->left, envsp);

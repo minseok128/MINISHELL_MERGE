@@ -73,10 +73,10 @@ int				test_tr_print_tree(t_tr_node *root);
 void			test_print_node(t_tr_node *node);
 void			test_print_command_part(t_tr_node *node);
 
-typedef struct	s_parser_info {
+typedef struct s_parser_info {
 	char		*line;
 	t_token		*tk_head;
 	t_tr_node	*root;
-} t_parser_info;
+}	t_parser_info;
 
 #endif
