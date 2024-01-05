@@ -95,5 +95,5 @@ int test_tr_print_tree(t_tr_node *root) {
 	test_displayTree(root, indent, 1); // 트리 출력
     printf("\n");
 
-	return 0;
+	return (0);
 }
