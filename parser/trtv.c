@@ -12,7 +12,7 @@
 
 #include "parser.h"
 
-char	*trtv_strjoin_s(char const *s1, char const *s2)
+char	*trtv_strjoin_s(char *s1, char *s2)
 {
 	size_t	s1_len;
 	size_t	s2_len;
@@ -48,9 +48,13 @@ int	trtv_dollar_sign(char *word, int now, t_envs *envsp)
 
 void	trtv_command_part(char *word, t_envs *envsp)
 {
-	int	double_quotes_flag;
-	int	now;
+	int		double_quotes_flag;
+	int		now;
+	int		prev;
+	char	*new_word;
 
+	new_word = ft_calloc_s(1, sizeof(char));
+	prev = 0;
 	now = 0;
 	double_quotes_flag = -1;
 	while (word[now])
@@ -58,15 +62,23 @@ void	trtv_command_part(char *word, t_envs *envsp)
 		if (word[now] == '\"')
 			double_quotes_flag *= -1;
 		if (word[now] == '\'' && double_quotes_flag == -1)
+		{
 			now = ft_strchr(&word[now + 1], '\'') - word + 1;
+			new_word = trtv_strjoin_s(new_word, ft_substr_s(word, prev, prev - now));
+		}
 		else if (word[now] == '$')
 		{
 			now++;
 			now += trtv_dollar_sign(word, now, envsp);
 		}
 		else
+		{
 			now++;
+			new_word = trtv_strjoin_s(new_word, ft_substr_s(word, prev, 1));
+		}
+		prev = now;
 	}
+	printf("new_word:%s\n", new_word);
 }
 
 void	trtv_env_expand(t_tr_node *node, t_envs *envsp)
