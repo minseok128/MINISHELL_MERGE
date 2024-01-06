@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/06 21:19:55 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/06 22:16:20 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,15 @@ void	dup_to(int from, int to)
 		btin_out(1, errno, strerror(errno));
 }
 
-pid_t	ex_fork(t_cmds *cmdsp, char **envp, int pipe_fd[2])
+void	ex_execute(char **cmd, t_envs *envsp, char **envp)
+{
+	if (access(cmd[0], F_OK) == -1)
+		cmd[0] = ex_search_path(cmd[0], envsp);
+	if (execve(cmd[0], cmd, envp) == -1)
+		btin_out(1, errno, strerror(errno));
+}
+
+pid_t	ex_fork(t_cmds *cmdsp, t_envs *envsp, char **envp, int pipe_fd[2])
 {
 	pid_t	pid;
 
@@ -94,13 +102,13 @@ pid_t	ex_fork(t_cmds *cmdsp, char **envp, int pipe_fd[2])
 			close(pipe_fd[0]);
 		if (cmdsp->in_file != -1)
 			dup_to(cmdsp->in_file, 0);
-		else
+		else if (cmdsp->pipe_read != -1)
 			dup_to(cmdsp->pipe_read, 0);
 		if (cmdsp->out_file != -1)
 			dup_to(cmdsp->out_file, 1);
 		else if (pipe_fd[1] != -1)
 			dup_to(pipe_fd[1], 1);
-		ex_execute(cmdsp, envp);
+		ex_execute(cmdsp->argv, envsp, envp);
 	}
 }
 
@@ -115,14 +123,14 @@ pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
 		{
 			pipe_fd[0] = -1;
 			pipe_fd[1] = -1;
-			pid = ex_fork(cmdsp, envp, pipe_fd);
+			pid = ex_fork(cmdsp, envsp, envp, pipe_fd);
 			close(cmdsp->pipe_read);
 			return (pid);
 		}
 		else
 		{
 			pipe(pipe_fd);
-			pid = ex_fork(cmdsp, envp, pipe_fd);
+			pid = ex_fork(cmdsp, envsp, envp, pipe_fd);
 			close(pipe_fd[1]);
 			if (cmdsp->pipe_read != -1)
 				close(cmdsp->pipe_read);
