@@ -29,9 +29,10 @@ char	*trtv_strjoin_s(char *s1, char *s2)
 	return (new);
 }
 
-int	trtv_dollar_sign(char *word, int now, t_envs *envsp)
+int	trtv_dollar_sign(char *word, int now, char **new_word, t_envs *envsp)
 {
 	char	*key;
+	t_envs	*find_node;
 	int		len;
 
 	len = 0;
@@ -42,11 +43,14 @@ int	trtv_dollar_sign(char *word, int now, t_envs *envsp)
 	}
 	key = ft_calloc_s(len + 1, sizeof(char));
 	ft_strlcpy(key, &word[now], len + 1);
-	printf("key:%s, v:%s\n", key, btin_find_node(envsp, key) ? btin_find_node(envsp, key)->value : 0);
+	find_node = btin_find_node(envsp, key);
+	if (!find_node)
+		return (len);
+	*new_word = trtv_strjoin_s(*new_word, find_node->value);
 	return (len);
 }
 
-void	trtv_command_part(char *word, t_envs *envsp)
+char	*trtv_command_part(char *word, t_envs *envsp)
 {
 	int		double_quotes_flag;
 	int		now;
@@ -69,7 +73,7 @@ void	trtv_command_part(char *word, t_envs *envsp)
 		else if (word[now] == '$')
 		{
 			now++;
-			now += trtv_dollar_sign(word, now, envsp);
+			now += trtv_dollar_sign(word, now, &new_word, envsp);
 		}
 		else
 		{
@@ -78,16 +82,20 @@ void	trtv_command_part(char *word, t_envs *envsp)
 		}
 		prev = now;
 	}
-	printf("new_word:%s\n", new_word);
+	return (new_word);
 }
 
 void	trtv_env_expand(t_tr_node *node, t_envs *envsp)
 {
+	char	*new_word;
+
 	if (!node)
 		return ;
 	if (node->bnf_type == TR_COMMAND_PART)
 	{
-		trtv_command_part(node->tk->str, envsp);
+		new_word = trtv_command_part(node->tk->str, envsp);
+		free(node->tk->str);
+		node->tk->str = new_word;
 	}
 	trtv_env_expand(node->left, envsp);
 	trtv_env_expand(node->right, envsp);
@@ -96,4 +104,5 @@ void	trtv_env_expand(t_tr_node *node, t_envs *envsp)
 void	trtv_traversal(t_tr_node *root, t_envs *envsp)
 {
 	trtv_env_expand(root, envsp);
+	test_tr_print_tree(root, "$ EXPANSION");
 }
