@@ -15,6 +15,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include "../libft/libft.h"
+# include "../libft_s/libft_s.h"
 # include "../btin/btin.h"
 
 // tokenizer
