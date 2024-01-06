@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/06 21:12:09 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/06 21:19:55 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,12 @@ char	**ex_change_to_envp(t_envs *envsp)
 	return (envp);
 }
 
+void	dup_to(int from, int to)
+{
+	if (dup2(from, to) == -1)
+		btin_out(1, errno, strerror(errno));
+}
+
 pid_t	ex_fork(t_cmds *cmdsp, char **envp, int pipe_fd[2])
 {
 	pid_t	pid;
@@ -87,15 +93,13 @@ pid_t	ex_fork(t_cmds *cmdsp, char **envp, int pipe_fd[2])
 		if (pipe_fd[0] != -1)
 			close(pipe_fd[0]);
 		if (cmdsp->in_file != -1)
-			if (dup2(cmdsp->in_file, 0) == -1)
-				btin_out(1, errno, strerror(errno));
-		else if (dup2(cmdsp->pipe_read, 0) == -1)
-			btin_out(1, errno, strerror(errno));
+			dup_to(cmdsp->in_file, 0);
+		else
+			dup_to(cmdsp->pipe_read, 0);
 		if (cmdsp->out_file != -1)
-			if (dup2(cmdsp->out_file, 1) == -1)
-				btin_out(1, errno, strerror(errno));
-		else if (pipe_fd[1] != -1 && dup2(pipe_fd[1], 1) == -1)
-			btin_out(1, errno, strerror(errno));
+			dup_to(cmdsp->out_file, 1);
+		else if (pipe_fd[1] != -1)
+			dup_to(pipe_fd[1], 1);
 		ex_execute(cmdsp, envp);
 	}
 }
