@@ -6,13 +6,13 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/06 22:16:20 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/06 22:27:11 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-char	*ex_merge_key_and_value(char const *s1, char const *s2)
+char	*ex_strjoin_c(char const *s1, char const *s2, char c)
 {
 	char	*str;
 	size_t	i;
@@ -23,7 +23,7 @@ char	*ex_merge_key_and_value(char const *s1, char const *s2)
 	str = ft_calloc_s(sizeof(char), ft_strlen(s1) + ft_strlen(s2) + 2);
 	while (s1[j])
 		str[i++] = s1[j++];
-	str[i++] = '=';
+	str[i++] = c;
 	j = 0;
 	while (s2[j])
 		str[i++] = s2[j++];
@@ -70,7 +70,7 @@ char	**ex_change_to_envp(t_envs *envsp)
 	node = envsp->next;
 	i = 0;
 	while (i < size)
-		envp[i++] = ex_merge_key_and_value(node->key, node->value);
+		envp[i++] = ex_strjoin_c(node->key, node->value, '=');
 	envp[i] = NULL;
 	return (envp);
 }
@@ -79,6 +79,48 @@ void	dup_to(int from, int to)
 {
 	if (dup2(from, to) == -1)
 		btin_out(1, errno, strerror(errno));
+}
+
+void	*ex_free_envp_path(char **envp_path)
+{
+	int	i;
+
+	i = 0;
+	while (envp_path[i] != NULL)
+	{
+		free(envp_path[i]);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*ex_search_path(char *cmd, t_envs *envsp)
+{
+	char	**envp_path;
+	char	*path;
+	int		i;
+
+	while (envsp != NULL && strncmp(envsp->key, "PATH", 5) != 0)
+		envsp = envsp->next;
+	if (envsp == NULL)
+		return (cmd);
+	envp_path = ft_split(envsp->value, ':');
+	i = 0;
+	while (envp_path[i] != NULL)
+	{
+		path = ex_strjoin_c(envp_path[i++], cmd, '/');
+		if (path == NULL)
+			btin_out(1, errno, strerror(errno));
+		if (access(path, F_OK) == 0)
+		{
+			free(cmd);
+			ex_free_envp_path(envp_path);
+			return (path);
+		}
+		free(path);
+	}
+	ex_free_envp_path(envp_path);
+	return (cmd[0]);
 }
 
 void	ex_execute(char **cmd, t_envs *envsp, char **envp)
