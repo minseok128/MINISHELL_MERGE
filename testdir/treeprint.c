@@ -26,7 +26,6 @@ void test_print_command_part(t_tr_node *node)
 	else if (node->tk->type == T_REDIR_D_R)
 		printf(">> ");
 	printf("%s", node->tk->str);
-	printf("\n");
 }
 
 void test_print_node(t_tr_node *node)
@@ -45,18 +44,7 @@ void test_print_node(t_tr_node *node)
 	if (node->bnf_type == TR_COMMAND)
 		printf("[COMD]");
 	if (node->bnf_type == TR_COMMAND_PART)
-	{
-		if (node->tk->type == T_REDIR_S_L)
-			printf("< %s", node->tk->str);
-		else if (node->tk->type == T_REDIR_S_R)
-			printf("> %s", node->tk->str);
-		else if (node->tk->type == T_REDIR_D_L)
-			printf("<< %s", node->tk->str);
-		else if (node->tk->type == T_REDIR_D_R)
-			printf(">> %s", node->tk->str);
-		else
-			printf("%s", node->tk->str);
-	}
+		test_print_command_part(node);
 	printf("\n");
 }
 
