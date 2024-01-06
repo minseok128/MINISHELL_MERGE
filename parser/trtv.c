@@ -26,6 +26,7 @@ char	*trtv_join_s(char *s1, char *s2)
 	ft_strlcpy(new, s1, s1_len + 1);
 	ft_strlcat(new + s1_len, s2, s1_len + s2_len + 1);
 	free(s1);
+	free(s2);
 	return (new);
 }
 
@@ -46,7 +47,7 @@ int	trtv_dollar_sign(char *word, int now, char **e_w, t_envs *envsp)
 	find_node = btin_find_node(envsp, key);
 	if (!find_node)
 		return (len);
-	*e_w = trtv_join_s(*e_w, find_node->value);
+	*e_w = trtv_join_s(*e_w, ft_strdup_s(find_node->value));
 	return (len);
 }
 
