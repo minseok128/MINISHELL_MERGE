@@ -29,8 +29,8 @@ typedef enum e_token_type {
 	T_REDIR_D_L,
 	T_REDIR_D_R,
 	T_WORD,
-	T_NEWLINE = 98,
-	T_UNDEFINED = 99
+	T_NEWLINE,
+	T_UNDEFINED = 199
 }	t_token_type;
 
 typedef struct s_token {
