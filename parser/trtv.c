@@ -52,7 +52,7 @@ int	trtv_dollar_sign(char *word, int now, char **new_word, t_envs *envsp)
 
 char	*trtv_command_part(char *word, t_envs *envsp)
 {
-	int		double_quotes_flag;
+	int		dquote_flag;
 	int		now;
 	int		prev;
 	char	*new_word;
@@ -60,12 +60,12 @@ char	*trtv_command_part(char *word, t_envs *envsp)
 	new_word = ft_calloc_s(1, sizeof(char));
 	prev = 0;
 	now = 0;
-	double_quotes_flag = -1;
+	dquote_flag = -1;
 	while (word[now])
 	{
 		if (word[now] == '\"')
-			double_quotes_flag *= -1;
-		if (word[now] == '\'' && double_quotes_flag == -1)
+			dquote_flag *= -1;
+		if (word[now] == '\'' && dquote_flag == -1)
 		{
 			now = ft_strchr(&word[now + 1], '\'') - word + 1;
 			new_word = trtv_strjoin_s(new_word, ft_substr_s(word, prev, prev - now));
