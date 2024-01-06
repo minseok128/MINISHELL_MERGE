@@ -6,7 +6,7 @@
 #    By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/08 18:58:03 by seonjo            #+#    #+#              #
-#    Updated: 2024/01/05 21:09:49 by seonjo           ###   ########.fr        #
+#    Updated: 2024/01/06 17:40:17 by seonjo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ BTIN_SRC = $(addprefix $(BTIN_DIR), $(addsuffix .c, $(BTIN_BASE)))
 BTIN_OBJ = $(addprefix $(BTIN_DIR), $(addsuffix .o, $(BTIN_BASE)))
 
 EX_DIR = ./execute/
-EX_BASE = ex_command
+EX_BASE = ex_process_cmd
 EX_SRC = $(addprefix $(EX_DIR), $(addsuffix .c, $(EX_BASE)))
 EX_OBJ = $(addprefix $(EX_DIR), $(addsuffix .o, $(EX_BASE)))
 

@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 18:37:01 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/05 18:42:16 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/06 19:53:19 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "../btin/btin.h"
 
-int	ex_process_command(t_cmds *cmds, t_envs *envsp);
+void	ex_process_command(t_cmds *cmds, t_envs *envsp);
 
 #endif
