@@ -77,9 +77,9 @@ void test_displayTree(t_tr_node *node, char *indent, int isLast) {
 	test_displayTree(node->right, newIndent, 1);
 }
 
-int test_tr_print_tree(t_tr_node *root) {
+int test_tr_print_tree(t_tr_node *root, char *str) {
 	char indent[2500] = ""; // 초기 들여쓰기 설정
-	printf("\n[TREE] DONE!\n│\n"); //test code
+	printf("\n[TREE] : %s DONE!\n│\n", str); //test code
 	test_displayTree(root, indent, 1); // 트리 출력
     printf("\n");
 
