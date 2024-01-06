@@ -12,7 +12,7 @@
 
 #include "parser.h"
 
-char	*trtv_strjoin_s(char *s1, char *s2)
+char	*trtv_join_s(char *s1, char *s2)
 {
 	size_t	s1_len;
 	size_t	s2_len;
@@ -29,7 +29,7 @@ char	*trtv_strjoin_s(char *s1, char *s2)
 	return (new);
 }
 
-int	trtv_dollar_sign(char *word, int now, char **new_word, t_envs *envsp)
+int	trtv_dollar_sign(char *word, int now, char **e_w, t_envs *envsp)
 {
 	char	*key;
 	t_envs	*find_node;
@@ -46,18 +46,16 @@ int	trtv_dollar_sign(char *word, int now, char **new_word, t_envs *envsp)
 	find_node = btin_find_node(envsp, key);
 	if (!find_node)
 		return (len);
-	*new_word = trtv_strjoin_s(*new_word, find_node->value);
+	*e_w = trtv_join_s(*e_w, find_node->value);
 	return (len);
 }
 
-char	*trtv_command_part(char *word, t_envs *envsp)
+void	trtv_command_part(char *word, char **e_w, t_envs *envsp)
 {
 	int		dquote_flag;
 	int		now;
 	int		prev;
-	char	*new_word;
 
-	new_word = ft_calloc_s(1, sizeof(char));
 	prev = 0;
 	now = 0;
 	dquote_flag = -1;
@@ -68,34 +66,34 @@ char	*trtv_command_part(char *word, t_envs *envsp)
 		if (word[now] == '\'' && dquote_flag == -1)
 		{
 			now = ft_strchr(&word[now + 1], '\'') - word + 1;
-			new_word = trtv_strjoin_s(new_word, ft_substr_s(word, prev, prev - now));
+			*e_w = trtv_join_s(*e_w, ft_substr_s(word, prev, prev - now));
 		}
 		else if (word[now] == '$')
 		{
 			now++;
-			now += trtv_dollar_sign(word, now, &new_word, envsp);
+			now += trtv_dollar_sign(word, now, e_w, envsp);
 		}
 		else
 		{
 			now++;
-			new_word = trtv_strjoin_s(new_word, ft_substr_s(word, prev, 1));
+			*e_w = trtv_join_s(*e_w, ft_substr_s(word, prev, 1));
 		}
 		prev = now;
 	}
-	return (new_word);
 }
 
 void	trtv_env_expand(t_tr_node *node, t_envs *envsp)
 {
-	char	*new_word;
+	char	*e_w;
 
 	if (!node)
 		return ;
 	if (node->bnf_type == TR_COMMAND_PART)
 	{
-		new_word = trtv_command_part(node->tk->str, envsp);
+		e_w = ft_calloc_s(1, sizeof(char));
+		trtv_command_part(node->tk->str, &e_w, envsp);
 		free(node->tk->str);
-		node->tk->str = new_word;
+		node->tk->str = e_w;
 	}
 	trtv_env_expand(node->left, envsp);
 	trtv_env_expand(node->right, envsp);
