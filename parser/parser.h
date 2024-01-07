@@ -69,6 +69,9 @@ int				mktr_pipeline(t_tr_node **head, t_token **tk_now);
 int				mktr_command(t_tr_node **head, t_token **tk_now);
 int				mktr_command_part(t_tr_node **head, t_token **tk_now);
 
+// trtv
+void			trtv_env_expand(t_tr_node *node, t_envs *envsp);
+
 // test
 int				test_tr_print_tree(t_tr_node *root, char *str);
 void			test_print_node(t_tr_node *node);
