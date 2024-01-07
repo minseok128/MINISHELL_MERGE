@@ -50,7 +50,7 @@ static char	*trtv_wrap_quotes(char *word)
 	len = 0;
 	while (word[now])
 	{
-		if (word[now] == '\'' || word[now] == '\"')	
+		if (word[now] == '\'' || word[now] == '\"')
 		{
 			new_word[len++] = '$';
 			new_word[len++] = word[now++];

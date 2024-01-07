@@ -25,7 +25,6 @@ void	trtv_word_split(char *word, t_tr_node *node)
 		if (ft_isspace(word[now + len]) || !word[now + len])
 		{
 			vec_push_back(&(node->word_split), ft_substr_s(word, now, len));
-			printf("push this:%s, now:%d, len:%d\n", ft_substr_s(word, now, len), now, len);
 			now += len;
 			len = 0;
 			while (ft_isspace(word[now]))
@@ -35,7 +34,7 @@ void	trtv_word_split(char *word, t_tr_node *node)
 		}
 		else if ((word[now + len] == '\'' || word[now + len] == '\"')
 			&& (now + len == 0 || !(word[now + len - 1] == '$'
-				&& word[now + len + 1] == '$')))
+					&& word[now + len + 1] == '$')))
 		{
 			quotes = word[now + len++];
 			while (word[now + len] != quotes)
