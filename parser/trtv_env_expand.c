@@ -53,11 +53,11 @@ static int	trtv_dollar_sign(char *word, int now, char **e_w, t_envs *envsp)
 	return (len);
 }
 
-static void	trtv_command_part(char *word, char **e_w, t_envs *envsp)
+void	trtv_env_cmdp(char *word, char **e_w, t_envs *envsp)
 {
-	int		dquote_flag;
-	int		now;
-	int		prev;
+	int	dquote_flag;
+	int	now;
+	int	prev;
 
 	prev = 0;
 	now = 0;
@@ -81,21 +81,4 @@ static void	trtv_command_part(char *word, char **e_w, t_envs *envsp)
 		}
 		prev = now;
 	}
-}
-
-void	trtv_env_expand(t_tr_node *node, t_envs *envsp)
-{
-	char	*e_w;
-
-	if (!node)
-		return ;
-	if (node->bnf_type == TR_COMMAND_PART)
-	{
-		e_w = ft_calloc_s(1, sizeof(char));
-		trtv_command_part(node->tk->str, &e_w, envsp);
-		free(node->tk->str);
-		node->tk->str = e_w;
-	}
-	trtv_env_expand(node->left, envsp);
-	trtv_env_expand(node->right, envsp);
 }
