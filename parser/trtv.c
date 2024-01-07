@@ -69,7 +69,7 @@ void	trtv_command_part(char *word, char **e_w, t_envs *envsp)
 		if (word[now] == '\'' && dquote_flag == -1)
 		{
 			now = ft_strchr(&word[now + 1], '\'') - word + 1;
-			*e_w = trtv_join_s(*e_w, ft_substr_s(word, prev, prev - now));
+			*e_w = trtv_join_s(*e_w, ft_substr_s(word, prev, now - prev));
 		}
 		else if (word[now] == '$')
 		{
