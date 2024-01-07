@@ -42,6 +42,15 @@ void	vec_push_back(t_vector *v, void *item)
 	v->items[v->size++] = item;
 }
 
+void	vec_print(t_vector *v)
+{
+	int	i;
+
+	i = 0;
+	while (i < v->size)
+		printf("%s\n", v->items[i++]);
+}
+
 void	vec_free(t_vector *v)
 {
 	free(v->items);
