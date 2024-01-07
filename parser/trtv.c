@@ -17,26 +17,25 @@ void	trtv_word_split(char *word, t_tr_node *node)
 	unsigned int		now;
 	unsigned int		len;
 	char				quotes;
-	int					is_in_dollar;
 
 	now = 0;
 	len = 0;
-	is_in_dollar = -1;
 	while (now + len <= ft_strlen(word))
 	{
 		if (ft_isspace(word[now + len]) || !word[now + len])
 		{
 			vec_push_back(&(node->word_split), ft_substr_s(word, now, len));
-			if (!word[now + len])
-				break ;
+			printf("push this:%s, now:%d, len:%d\n", ft_substr_s(word, now, len), now, len);
 			now += len;
 			len = 0;
 			while (ft_isspace(word[now]))
 				now++;
+			if (!word[now])
+				now++;
 		}
-		if (word[now + len] == '$')
-			is_in_dollar *= -1;
-		if ((word[now + len] == '\'' || word[now + len] == '\"') && is_in_dollar == -1)
+		else if ((word[now + len] == '\'' || word[now + len] == '\"')
+			&& (now + len == 0 || !(word[now + len - 1] == '$'
+				&& word[now + len + 1] == '$')))
 		{
 			quotes = word[now + len++];
 			while (word[now + len] != quotes)
