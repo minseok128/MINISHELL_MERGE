@@ -12,6 +12,11 @@
 
 #include "libft_s.h"
 
+int	ft_isspace(char c)
+{
+	return (c == 32 || (c >= 9 && c <= 13));
+}
+
 char	*ft_substr_s(char const *s, unsigned int start, size_t len)
 {
 	char	*new;

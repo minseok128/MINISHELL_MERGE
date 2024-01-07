@@ -34,11 +34,6 @@ void	tk_lstadd_back(t_token **lst, t_token *new_token)
 		*lst = new_token;
 }
 
-int	ft_isspace(char c)
-{
-	return (c == 32 || (c >= 9 && c <= 13));
-}
-
 t_token	*tk_alloc_s(t_token_type type, char *str)
 {
 	t_token	*tk;

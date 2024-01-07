@@ -40,7 +40,6 @@ typedef struct s_token {
 	struct s_token	*next;
 }	t_token;
 
-int				ft_isspace(char c);
 t_token			*tk_lstlast(t_token *lst);
 void			tk_lstadd_back(t_token **lst, t_token *new_token);
 t_token			*tk_alloc_s(t_token_type type, char *str);
@@ -59,6 +58,7 @@ typedef struct s_tr_node {
 	t_token				*tk;
 	struct s_tr_node	*left;
 	struct s_tr_node	*right;
+	char				**word_split;
 }	t_tr_node;
 
 int				mktr_print_unexpected(char *str);
