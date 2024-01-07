@@ -71,15 +71,13 @@ void	trtv_command_part(char *word, char **e_w, t_envs *envsp)
 			now = ft_strchr(&word[now + 1], '\'') - word + 1;
 			*e_w = trtv_join_s(*e_w, ft_substr_s(word, prev, now - prev));
 		}
-		else if (word[now] == '$')
-		{
-			now++;
-			now += trtv_dollar_sign(word, now, e_w, envsp);
-		}
 		else
 		{
 			now++;
-			*e_w = trtv_join_s(*e_w, ft_substr_s(word, prev, 1));
+			if (word[now - 1] == '$')
+				now += trtv_dollar_sign(word, now, e_w, envsp);
+			else
+				*e_w = trtv_join_s(*e_w, ft_substr_s(word, prev, 1));
 		}
 		prev = now;
 	}
