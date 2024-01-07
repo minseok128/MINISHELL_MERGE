@@ -21,7 +21,7 @@ BASE		= main signal_utils \
 			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils \
 			  parser/trtv parser/trtv_env_expand \
 			  btin/builtin_env btin/builtin_make_envsp btin/builtin_export \
-			  libft_s/libft_s_1 \
+			  libft_s/libft_s_1 libft_s/ft_vector\
 			  testdir/treeprint
 SRC			= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
 OBJ			= $(addprefix $(DIR), $(addsuffix .o, $(BASE)))
