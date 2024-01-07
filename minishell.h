@@ -20,6 +20,7 @@
 # include <readline/history.h>
 # include <term.h>
 # include "libft/libft.h"
+# include "libft_s/libft_s.h"
 # include <errno.h>
 # include <string.h>
 # include "parser/parser.h"
