@@ -10,10 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef LIBFT_S_H
 # define LIBFT_S_H
 # include "../libft/libft.h"
+
+typedef struct s_vector {
+	void	**items;
+	int		capacity;
+	int		size;
+}	t_vector;
 
 char	*ft_substr_s(char const *s, unsigned int start, size_t len);
 
