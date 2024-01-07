@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			if (!tk_tokenize(p_info.line, &(p_info.tk_head)))
 				if (!mktr_make_tree(p_info.tk_head, &(p_info.root)))
-					(p_info.root, envsp);
+					trtv_start(p_info.root, envsp);
 		}
 		free(p_info.line);
 	}
