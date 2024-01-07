@@ -12,6 +12,42 @@
 
 #include "parser.h"
 
+void	trtv_word_split(char *word, t_tr_node *node)
+{
+	unsigned int		now;
+	unsigned int		len;
+	char				quotes;
+	int					is_in_dollar;
+
+	now = 0;
+	len = 0;
+	is_in_dollar = -1;
+	while (now + len <= ft_strlen(word))
+	{
+		if (ft_isspace(word[now + len]) || !word[now + len])
+		{
+			vec_push_back(&(node->word_split), ft_substr_s(word, now, len));
+			if (!word[now + len])
+				break ;
+			now += len;
+			len = 0;
+			while (ft_isspace(word[now]))
+				now++;
+		}
+		if (word[now + len] == '$')
+			is_in_dollar *= -1;
+		if ((word[now + len] == '\'' || word[now + len] == '\"') && is_in_dollar == -1)
+		{
+			quotes = word[now + len++];
+			while (word[now + len] != quotes)
+				len++;
+			len++;
+		}
+		else
+			len++;
+	}
+}
+
 void	trtv_traversal(t_tr_node *node, t_envs *envsp)
 {
 	char	*e_w;
@@ -24,6 +60,9 @@ void	trtv_traversal(t_tr_node *node, t_envs *envsp)
 		trtv_env_cmdp(node->tk->str, &e_w, envsp);
 		free(node->tk->str);
 		node->tk->str = e_w;
+		vec_init(&(node->word_split), 1);
+		trtv_word_split(node->tk->str, node);
+		vec_print(&(node->word_split));
 	}
 	trtv_traversal(node->left, envsp);
 	trtv_traversal(node->right, envsp);

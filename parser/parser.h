@@ -58,7 +58,7 @@ typedef struct s_tr_node {
 	t_token				*tk;
 	struct s_tr_node	*left;
 	struct s_tr_node	*right;
-	char				**word_split;
+	t_vector			word_split;
 }	t_tr_node;
 
 int				mktr_print_unexpected(char *str);
