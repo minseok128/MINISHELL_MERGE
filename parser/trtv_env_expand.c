@@ -30,39 +30,12 @@ static char	*trtv_join_s(char *s1, char *s2)
 	return (new);
 }
 
-static char	*trtv_wrap_quotes(char *word)
-{
-	char	*new_word;
-	int		now;
-	int		len;
-
-	now = 0;
-	len = 0;
-	while (word[now])
-	{
-		if (word[now] == '\'' || word[now] == '\"')
-			len++;
-		now++;
-	}
-	new_word = ft_calloc_s(sizeof(char), len * 2 + now + 1);
-	now = 0;
-	len = 0;
-	while (word[now])
-	{
-		if (word[now] == '\'' || word[now] == '\"')
-			new_word[len++] = '$';
-		new_word[len++] = word[now++];
-		if (word[now - 1] == '\'' || word[now - 1] == '\"')
-			new_word[len++] = '$';
-	}
-	return (new_word);
-}
-
 static int	trtv_dollar_sign(char *word, int now, char **e_w, t_envs *envsp)
 {
 	char	*key;
-	t_envs	*finded;
+	char	*value;
 	int		len;
+	int		i;
 
 	len = 0;
 	if (ft_isalpha(word[now + len]) || word[now + len] == '_')
@@ -72,10 +45,17 @@ static int	trtv_dollar_sign(char *word, int now, char **e_w, t_envs *envsp)
 	}
 	key = ft_calloc_s(len + 1, sizeof(char));
 	ft_strlcpy(key, &word[now], len + 1);
-	finded = btin_find_node(envsp, key);
-	if (!finded)
+	if (!btin_find_node(envsp, key))
 		return (len);
-	*e_w = trtv_join_s(*e_w, trtv_wrap_quotes(finded->value));
+	value = ft_strdup_s(btin_find_node(envsp, key)->value);
+	i = 0;
+	while (value[i])
+	{
+		if (value[i] == '\'' || value[i] == '\"')
+			value[i] *= -1;
+		i++;
+	}
+	*e_w = trtv_join_s(*e_w, value);
 	return (len);
 }
 
