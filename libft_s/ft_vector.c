@@ -48,7 +48,7 @@ void	vec_print(t_vector *v)
 
 	i = 0;
 	while (i < v->size)
-		printf("%s\n", v->items[i++]);
+		printf("%s\n", (char *)v->items[i++]);
 }
 
 void	vec_free(t_vector *v)
