@@ -12,6 +12,53 @@
 
 #include "parser.h"
 
+int	trtv_is_wrap_qoute(char	*word, int now)
+{
+	return (word[now + 1] && word[now + 2]
+		&& (word[now + 1] == '\'' || word[now + 1] == '\"')
+		&& word[now] == '$' && word[now + 2] == '$');
+}
+
+void	trtv_quotes_removal(t_vector *word_split)
+{
+	int		i;
+	char	*word;
+	char	*new_word;
+	int		now;
+	int		new_now;
+	int		in_squote;
+	int		in_dquote;
+
+	i = 0;
+	while (i < word_split->size)
+	{
+		word = word_split->items[i];
+		new_word = ft_calloc_s(sizeof(char), ft_strlen(word) + 1);
+		now = 0;
+		new_now = 0;
+		in_squote = 0;
+		in_dquote = 0;
+		while (word[now])
+		{
+			if (trtv_is_wrap_qoute(word, now))
+			{
+				new_word[new_now++] = word[++now];
+				now++;
+			}
+			else if (word[now] == '\"' && !in_squote)
+				in_dquote = !in_dquote;
+			else if (word[now] == '\'' && !in_dquote)
+				in_squote = !in_squote;
+			else
+				new_word[new_now++] = word[now];
+			now++;
+		}
+		free(word);
+		word_split->items[i] = new_word;
+		i++;
+	}
+}
+
 void	trtv_word_split(char *word, t_tr_node *node)
 {
 	unsigned int		now;
@@ -58,6 +105,10 @@ void	trtv_traversal(t_tr_node *node, t_envs *envsp)
 		node->tk->str = e_w;
 		vec_init(&(node->word_split), 1);
 		trtv_word_split(node->tk->str, node);
+		printf("[WORD SPLIT] : %s\n", node->tk->str);
+		vec_print(&(node->word_split));
+		trtv_quotes_removal(&(node->word_split));
+		printf("[QUORTES REMOVAL] : %s\n", node->tk->str);
 		vec_print(&(node->word_split));
 	}
 	trtv_traversal(node->left, envsp);
