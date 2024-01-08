@@ -12,13 +12,6 @@
 
 #include "parser.h"
 
-int	trtv_is_wrap_qoute(char	*word, int now)
-{
-	return (word[now + 1] && word[now + 2]
-		&& (word[now + 1] == '\'' || word[now + 1] == '\"')
-		&& word[now] == '$' && word[now + 2] == '$');
-}
-
 void	trtv_quotes_removal(t_vector *word_split)
 {
 	int		i;
@@ -40,12 +33,7 @@ void	trtv_quotes_removal(t_vector *word_split)
 		in_dquote = 0;
 		while (word[now])
 		{
-			if (trtv_is_wrap_qoute(word, now))
-			{
-				new_word[new_now++] = word[++now];
-				now++;
-			}
-			else if (word[now] == '\"' && !in_squote)
+			if (word[now] == '\"' && !in_squote)
 				in_dquote = !in_dquote;
 			else if (word[now] == '\'' && !in_dquote)
 				in_squote = !in_squote;
@@ -79,9 +67,7 @@ void	trtv_word_split(char *word, t_tr_node *node)
 				now++;
 			len = -1;
 		}
-		else if ((word[now + len] == '\'' || word[now + len] == '\"')
-			&& (now + len == 0 || !(word[now + len - 1] == '$'
-					&& word[now + len + 1] == '$')))
+		else if (word[now + len] == '\'' || word[now + len] == '\"')
 		{
 			quotes = word[now + len++];
 			while (word[now + len] != quotes)
