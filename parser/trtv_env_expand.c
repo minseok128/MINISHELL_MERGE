@@ -43,8 +43,12 @@ static int	trtv_dollar_sign(char *word, int now, char **e_w, t_envs *envsp)
 		while (ft_isalnum(word[now + len]) || word[now + len] == '_')
 			len++;
 	}
-	key = ft_calloc_s(len + 1, sizeof(char));
-	ft_strlcpy(key, &word[now], len + 1);
+	else
+	{
+		word[now - 1] *= -1;
+		return (-1);
+	}
+	key = ft_substr_s(word, now, len);
 	if (!btin_find_node(envsp, key))
 		return (len);
 	value = ft_strdup_s(btin_find_node(envsp, key)->value);
