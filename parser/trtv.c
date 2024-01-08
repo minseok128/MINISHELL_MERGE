@@ -12,7 +12,7 @@
 
 #include "parser.h"
 
-char	trtv_make_new_word_without_quotes(char *word)
+char	*trtv_make_new_word_without_quotes(char *word)
 {
 	int		now;
 	char	*new_word;
