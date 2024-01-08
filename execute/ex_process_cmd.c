@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/06 22:27:11 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/08 20:54:44 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,11 +142,11 @@ pid_t	ex_fork(t_cmds *cmdsp, t_envs *envsp, char **envp, int pipe_fd[2])
 	{
 		if (pipe_fd[0] != -1)
 			close(pipe_fd[0]);
-		if (cmdsp->in_file != -1)
+		if (cmdsp->in_file != NULL)
 			dup_to(cmdsp->in_file, 0);
-		else if (cmdsp->pipe_read != -1)
-			dup_to(cmdsp->pipe_read, 0);
-		if (cmdsp->out_file != -1)
+		else if (cmdsp->prev_out != -1)
+			dup_to(cmdsp->prev_out, 0);
+		if (cmdsp->out_file != NULL)
 			dup_to(cmdsp->out_file, 1);
 		else if (pipe_fd[1] != -1)
 			dup_to(pipe_fd[1], 1);
@@ -166,7 +166,7 @@ pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
 			pipe_fd[0] = -1;
 			pipe_fd[1] = -1;
 			pid = ex_fork(cmdsp, envsp, envp, pipe_fd);
-			close(cmdsp->pipe_read);
+			close(cmdsp->prev_out);
 			return (pid);
 		}
 		else
@@ -174,9 +174,9 @@ pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
 			pipe(pipe_fd);
 			pid = ex_fork(cmdsp, envsp, envp, pipe_fd);
 			close(pipe_fd[1]);
-			if (cmdsp->pipe_read != -1)
-				close(cmdsp->pipe_read);
-			cmdsp->pipe_read = pipe_fd[0];
+			if (cmdsp->prev_out != -1)
+				close(cmdsp->prev_out);
+			cmdsp->prev_out = pipe_fd[0];
 			return (pid);
 		}
 	}
@@ -190,7 +190,7 @@ void	ex_process_command(t_cmds *cmdsp_head, t_envs *envsp)
 	pid_t	pid;
 
 	cmdsp = cmdsp_head->next;
-	cmdsp->pipe_read = -1;
+	cmdsp->prev_out = -1;
 	//단일 builtin 명령어 처리
 	if (cmdsp->next == NULL && ex_is_builtin(cmdsp, envsp, 0) == 1)
 		;

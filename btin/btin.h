@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 15:15:27 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/06 19:51:06 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/08 20:52:46 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ typedef struct s_envsp
 typedef struct s_cmds
 {
 	char			**argv;
-	int				in_file;
-	int				out_file;
-	int				pipe_read;
+	char			*in_file;
+	char			*out_file;
+	int				prev_out;
 	struct s_cmds	*next;
 }	t_cmds;
 
