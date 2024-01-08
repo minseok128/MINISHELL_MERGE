@@ -44,8 +44,7 @@ static char	*trtv_wrap_quotes(char *word)
 			len++;
 		now++;
 	}
-	len += now;
-	new_word = ft_calloc_s(sizeof(char), len);
+	new_word = ft_calloc_s(sizeof(char), len * 2 + now + 1);
 	now = 0;
 	len = 0;
 	while (word[now])
