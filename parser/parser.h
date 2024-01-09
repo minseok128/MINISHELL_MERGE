@@ -71,6 +71,8 @@ int				mktr_command_part(t_tr_node **head, t_token **tk_now);
 
 // trtv
 void			trtv_env_cmdp(char *word, char **e_w, t_envs *envsp);
+void			trtv_word_split(char *word, t_tr_node *node);
+void			trtv_quotes_removal(t_vector *word_split);
 
 // test
 int				test_tr_print_tree(t_tr_node *root, char *str);
