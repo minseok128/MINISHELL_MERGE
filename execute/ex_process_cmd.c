@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/09 18:41:39 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/09 18:44:21 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,8 +259,8 @@ void	ex_process_command(t_cmds *cmdsp_head, t_envs *envsp)
 			pid = ex_do_pipe(cmdsp, envsp, envp);
 			cmdsp = cmdsp->next;
 		}
-		waitpid(pid, &status, NULL);
-		while (waitpid(-1, NULL, NULL) != -1)
+		waitpid(pid, &status, 0);
+		while (waitpid(-1, NULL, 0) != -1)
 			;
 		if (WIFEXITED(status) != 0)
 			g_errno = WEXITSTATUS(status);
