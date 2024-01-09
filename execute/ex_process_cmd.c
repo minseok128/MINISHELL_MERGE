@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/09 18:21:12 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/09 18:29:27 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,14 @@ void	ex_dup_to(int from, int to)
 		btin_out(1, errno, strerror(errno));
 }
 
-void	*ex_free_envp_path(char **envp_path)
+void	*ex_free_string_array(char **string_array)
 {
 	int	i;
 
 	i = 0;
-	while (envp_path[i] != NULL)
+	while (string_array[i] != NULL)
 	{
-		free(envp_path[i]);
+		free(string_array[i]);
 		i++;
 	}
 	return (NULL);
@@ -114,12 +114,12 @@ char	*ex_search_path(char *cmd, t_envs *envsp)
 		if (access(path, F_OK) == 0)
 		{
 			free(cmd);
-			ex_free_envp_path(envp_path);
+			ex_free_string_array(envp_path);
 			return (path);
 		}
 		free(path);
 	}
-	ex_free_envp_path(envp_path);
+	ex_free_string_array(envp_path);
 	return (cmd);
 }
 
@@ -221,6 +221,23 @@ pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
 	}
 }
 
+void	ex_all_close(t_cmds *cmdsp)
+{
+	t_cmds	*tmp;
+
+	while (cmdsp != NULL)
+	{
+		ex_free_string_array(cmdsp->argv);
+		if (cmdsp->in_file != NULL)
+			free(cmdsp->in_file);
+		if (cmdsp->out_file != NULL)
+			free(cmdsp->out_file);
+		tmp = cmdsp;
+		cmdsp = cmdsp->next;
+		free(tmp);
+	}
+}
+
 void	ex_process_command(t_cmds *cmdsp_head, t_envs *envsp)
 {
 	t_cmds	*cmdsp;
@@ -248,6 +265,6 @@ void	ex_process_command(t_cmds *cmdsp_head, t_envs *envsp)
 			g_errno = WEXITSTATUS(status);
 		else
 			g_errno = WTERMSIG(status) + 128;
-		all_close();
+		ex_all_close(cmdsp_head->next);
 	}
 }
