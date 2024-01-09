@@ -12,7 +12,21 @@
 
 #include "parser.h"
 
-static int	tk_meta(char *str, t_vector *tokens, int now)
+static int	tk_print(t_token *tk)
+{
+	printf("\n[TOKEN] DONE!\n");
+	while (tk)
+	{
+		printf("%s[%d]", tk->str, tk->type);
+		tk = tk->next;
+		if (tk)
+			printf(" ==> ");
+	}
+	printf("\n");
+	return (0);
+}
+
+static int	tk_meta(char *str, t_token **tk_head, int now)
 {
 	t_token_type	new_type;
 	char			*new_str;
@@ -23,11 +37,13 @@ static int	tk_meta(char *str, t_vector *tokens, int now)
 	if (new_type == T_AND || new_type == T_OR
 		|| new_type == T_REDIR_D_L || new_type == T_REDIR_D_R)
 		len++;
-	vec_push_back(tokens, tk_alloc_s(new_type, ft_substr_s(str, now, len)));
+	new_str = (char *)ft_calloc_s(len + 1, sizeof(char));
+	ft_strlcpy(new_str, &str[now], len + 1);
+	tk_lstadd_back(tk_head, tk_alloc_s(new_type, new_str));
 	return (len);
 }
 
-static int	tk_word(char *str, t_vector *tokens, int now, int *is_error)
+static int	tk_word(char *str, t_token **tk_head, int now, int *is_error)
 {
 	char	*new_str;
 	int		len;
@@ -50,30 +66,34 @@ static int	tk_word(char *str, t_vector *tokens, int now, int *is_error)
 		else
 			len++;
 	}
-	vec_push_back(tokens, tk_alloc_s(T_WORD, ft_substr_s(str, now, len)));
+	new_str = (char *)ft_calloc_s(len + 1, sizeof(char));
+	ft_strlcpy(new_str, &str[now], len + 1);
+	tk_lstadd_back(tk_head, tk_alloc_s(T_WORD, new_str));
 	return (len);
 }
 
-int	tk_tokenize(char *str, t_vector *tokens)
+int	tk_tokenize(char *str, t_token **tk_head)
 {
+	t_token	*tk_last;
 	int		now;
 	int		is_error;
 
-	vec_init(tokens, 1);
 	is_error = 0;
+	*tk_head = 0;
 	now = 0;
 	while (str[now])
 	{
 		if (tk_is_meta_char(&str[now]) != 0)
-			now += tk_meta(str, tokens, now);
+			now += tk_meta(str, tk_head, now);
 		else if (!ft_isspace(str[now]))
-			now += tk_word(str, tokens, now, &is_error);
+			now += tk_word(str, tk_head, now, &is_error);
 		else
 			now++;
 	}
-	vec_push_back(tokens, tk_alloc_s(T_NEWLINE, ft_strdup_s("newline")));
+	tk_last = tk_lstlast(*tk_head);
+	tk_last->next = tk_alloc_s(T_NEWLINE, ft_strdup_s("newline"));
 	if (is_error)
 		return (mktr_print_unexpected("newline"));
 	else
-		return (tk_print(tokens));
+		return (tk_print(*tk_head));
 }
