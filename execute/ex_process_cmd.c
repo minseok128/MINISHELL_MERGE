@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/09 20:40:20 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/09 20:54:39 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,13 +140,13 @@ void	ex_open_input_fd(t_cmds *cmdsp)
 
 	if (access(cmdsp->in_file, F_OK) != 0)
 	{
-		printf("bash: %s: No such file or directory\n", cmdsp->in_file);
+		printf("bash: %s: ", cmdsp->in_file);
 		btin_out(1, errno, strerror(errno));
 	}
 	in_fd = open(cmdsp->in_file, O_RDONLY);
 	if (in_fd == -1)
 	{
-		printf("bash: %s: Permission denied\n", cmdsp->in_file);
+		printf("bash: %s: ", cmdsp->in_file);
 		btin_out(1, errno, strerror(errno));
 	}
 	ex_dup_to(in_fd, 0);
@@ -158,7 +158,7 @@ void	ex_open_output_fd(t_cmds *cmdsp)
 
 	if (access(cmdsp->out_file, F_OK) != 0)
 	{
-		printf("bash: %s: No such file or directory\n", cmdsp->out_file);
+		printf("bash: %s: ", cmdsp->out_file);
 		btin_out(1, errno, strerror(errno));
 	}
 	if (cmdsp->type == APPEND)
@@ -167,7 +167,7 @@ void	ex_open_output_fd(t_cmds *cmdsp)
 		out_fd = open(cmdsp->out_file, O_WRONLY);
 	if (out_fd == -1)
 	{
-		printf("bash: %s: Permission denied\n", cmdsp->out_file);
+		printf("bash: %s: ", cmdsp->out_file);
 		btin_out(1, errno, strerror(errno));
 	}
 	ex_dup_to(out_fd, 1);
@@ -231,11 +231,13 @@ void	ex_all_close(t_cmds *cmdsp)
 
 	while (cmdsp != NULL)
 	{
-		ex_free_string_array(cmdsp->argv);
-		if (cmdsp->in_file != NULL)
-			free(cmdsp->in_file);
-		if (cmdsp->out_file != NULL)
-			free(cmdsp->out_file);
+		// ex_free_string_array(cmdsp->argv);
+		free(cmdsp->argv);
+		//	
+		// if (cmdsp->in_file != NULL)
+		// 	free(cmdsp->in_file);
+		// if (cmdsp->out_file != NULL)
+		// 	free(cmdsp->out_file);
 		tmp = cmdsp;
 		cmdsp = cmdsp->next;
 		free(tmp);
@@ -269,6 +271,6 @@ void	ex_process_command(t_cmds *cmdsp_head, t_envs *envsp)
 			g_errno = WEXITSTATUS(status);
 		else
 			g_errno = WTERMSIG(status) + 128;
-		// ex_all_close(cmdsp_head->next);
 	}
+	ex_all_close(cmdsp_head->next);
 }
