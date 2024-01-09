@@ -94,7 +94,7 @@ void	trtv_word_split(char *word, t_tr_node *node)
 	}
 }
 
-void	trtv_traversal(t_tr_node *node, t_envs *envsp)
+void	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
 {
 	char	*e_w;
 
@@ -114,12 +114,12 @@ void	trtv_traversal(t_tr_node *node, t_envs *envsp)
 		printf("[QUORTES REMOVAL] : %s\n", node->tk->str);
 		vec_print(&(node->word_split));
 	}
-	trtv_traversal(node->left, envsp);
-	trtv_traversal(node->right, envsp);
+	trtv_expansion_travel(node->left, envsp);
+	trtv_expansion_travel(node->right, envsp);
 }
 
 void	trtv_start(t_tr_node *root, t_envs *envsp)
 {
-	trtv_traversal(root, envsp);
+	trtv_expansion_travel(root, envsp);
 	test_tr_print_tree(root, "$ EXPANSION");
 }
