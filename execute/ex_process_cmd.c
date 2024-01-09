@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/09 20:19:48 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/09 20:40:20 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,6 @@ void	ex_open_output_fd(t_cmds *cmdsp)
 	{
 		printf("bash: %s: No such file or directory\n", cmdsp->out_file);
 		btin_out(1, errno, strerror(errno));
-
 	}
 	if (cmdsp->type == APPEND)
 		out_fd = open(cmdsp->out_file, O_WRONLY | O_APPEND);
@@ -219,7 +218,7 @@ pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
 			close(pipe_fd[1]);
 			if (cmdsp->prev_out != -1)
 				close(cmdsp->prev_out);
-			cmdsp->prev_out = pipe_fd[0];
+			cmdsp->next->prev_out = pipe_fd[0];
 		}
 		return (pid);
 	}
