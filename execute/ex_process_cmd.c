@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/09 18:29:27 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/09 18:41:39 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,7 @@ pid_t	ex_fork(t_cmds *cmdsp, t_envs *envsp, char **envp, int pipe_fd[2])
 			ex_dup_to(pipe_fd[1], 1);
 		ex_execute(cmdsp->argv, envsp, envp);
 	}
+	return (pid);
 }
 
 pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
@@ -206,7 +207,6 @@ pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
 			pipe_fd[1] = -1;
 			pid = ex_fork(cmdsp, envsp, envp, pipe_fd);
 			close(cmdsp->prev_out);
-			return (pid);
 		}
 		else
 		{
@@ -216,9 +216,10 @@ pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
 			if (cmdsp->prev_out != -1)
 				close(cmdsp->prev_out);
 			cmdsp->prev_out = pipe_fd[0];
-			return (pid);
 		}
+		return (pid);
 	}
+	return (0);
 }
 
 void	ex_all_close(t_cmds *cmdsp)
