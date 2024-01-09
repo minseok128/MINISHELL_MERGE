@@ -37,6 +37,7 @@ typedef enum e_token_type {
 typedef struct s_token {
 	t_token_type	type;
 	char			*str;
+	struct s_token	*next;
 }	t_token;
 
 t_token			*tk_lstlast(t_token *lst);
@@ -63,10 +64,10 @@ typedef struct s_tr_node {
 int				mktr_print_unexpected(char *str);
 int				mktr_free_node(t_tr_node *node);
 t_tr_node		*mktr_alloc_s(t_tr_type bnf_type, t_token *tk);
-int				mktr_list(t_tr_node **head, t_vector *tks, int *now);
-int				mktr_pipeline(t_tr_node **head, t_vector *tks, int *now);
-int				mktr_command(t_tr_node **head, t_vector *tks, int *now);
-int				mktr_command_part(t_tr_node **head, t_vector *tks, int *now);
+int				mktr_list(t_tr_node **head, t_token **tk_now);
+int				mktr_pipeline(t_tr_node **head, t_token **tk_now);
+int				mktr_command(t_tr_node **head, t_token **tk_now);
+int				mktr_command_part(t_tr_node **head, t_token **tk_now);
 
 // trtv
 void			trtv_env_cmdp(char *word, char **e_w, t_envs *envsp);
@@ -75,11 +76,10 @@ void			trtv_env_cmdp(char *word, char **e_w, t_envs *envsp);
 int				test_tr_print_tree(t_tr_node *root, char *str);
 void			test_print_node(t_tr_node *node);
 void			test_print_command_part(t_tr_node *node);
-int				tk_print(t_vector *tokens);
 
 typedef struct s_parser_info {
 	char		*line;
-	t_vector	tokens;
+	t_token		*tk_head;
 	t_tr_node	*root;
 }	t_parser_info;
 
