@@ -63,10 +63,10 @@ typedef struct s_tr_node {
 int				mktr_print_unexpected(char *str);
 int				mktr_free_node(t_tr_node *node);
 t_tr_node		*mktr_alloc_s(t_tr_type bnf_type, t_token *tk);
-int				mktr_list(t_tr_node **head, t_token **tk_now);
-int				mktr_pipeline(t_tr_node **head, t_token **tk_now);
-int				mktr_command(t_tr_node **head, t_token **tk_now);
-int				mktr_command_part(t_tr_node **head, t_token **tk_now);
+int				mktr_list(t_tr_node **head, t_vector *tks, int *now);
+int				mktr_pipeline(t_tr_node **head, t_vector *tks, int *now);
+int				mktr_command(t_tr_node **head, t_vector *tks, int *now);
+int				mktr_command_part(t_tr_node **head, t_vector *tks, int *now);
 
 // trtv
 void			trtv_env_cmdp(char *word, char **e_w, t_envs *envsp);
