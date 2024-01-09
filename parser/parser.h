@@ -37,7 +37,6 @@ typedef enum e_token_type {
 typedef struct s_token {
 	t_token_type	type;
 	char			*str;
-	struct s_token	*next;
 }	t_token;
 
 t_token			*tk_lstlast(t_token *lst);
@@ -79,7 +78,7 @@ void			test_print_command_part(t_tr_node *node);
 
 typedef struct s_parser_info {
 	char		*line;
-	t_token		*tk_head;
+	t_vector	tokens;
 	t_tr_node	*root;
 }	t_parser_info;
 
