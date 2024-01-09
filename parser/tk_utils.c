@@ -12,6 +12,28 @@
 
 #include "parser.h"
 
+t_token	*tk_lstlast(t_token *lst)
+{
+	if (!lst)
+		return (0);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
+
+void	tk_lstadd_back(t_token **lst, t_token *new_token)
+{
+	t_token	*last;
+
+	if (!new_token)
+		return ;
+	last = tk_lstlast(*lst);
+	if (last)
+		last->next = new_token;
+	else
+		*lst = new_token;
+}
+
 t_token	*tk_alloc_s(t_token_type type, char *str)
 {
 	t_token	*tk;
