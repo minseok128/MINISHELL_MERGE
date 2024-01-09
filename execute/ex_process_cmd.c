@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/09 18:11:45 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/09 18:18:39 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,11 @@ char	*ex_search_path(char *cmd, t_envs *envsp)
 	char	*path;
 	int		i;
 
-	while (envsp != NULL && strncmp(envsp->key, "PATH", 5) != 0)
+	while (envsp != NULL && strncmp(envsp->key, "PATH=", 5) != 0)
 		envsp = envsp->next;
 	if (envsp == NULL)
 		return (cmd);
-	envp_path = ft_split(envsp->value, ':');
+	envp_path = ft_split(envsp->value + 5, ':');
 	i = 0;
 	while (envp_path[i] != NULL)
 	{
@@ -120,7 +120,7 @@ char	*ex_search_path(char *cmd, t_envs *envsp)
 		free(path);
 	}
 	ex_free_envp_path(envp_path);
-	return (cmd[0]);
+	return (cmd);
 }
 
 void	ex_execute(char **cmd, t_envs *envsp, char **envp)
@@ -138,13 +138,13 @@ void	open_input_fd(t_cmds *cmdsp)
 	if (access(cmdsp->in_file, F_OK) != 0)
 	{
 		printf("bash: %s: No such file or directory\n", cmdsp->in_file);
-		exit(1);
+		btin_out(1, errno, strerror(errno));
 	}
 	in_fd = open(cmdsp->in_file, O_RDONLY);
 	if (in_fd == -1)
 	{
 		printf("bash: %s: Permission denied\n", cmdsp->in_file);
-		exit(1);
+		btin_out(1, errno, strerror(errno));
 	}
 	dup_to(in_fd, 0);
 }
