@@ -41,16 +41,24 @@ char	*trtv_make_new_word_without_quotes(char *word)
 void	trtv_quotes_removal(t_vector *word_split)
 {
 	int		i;
+	int		now;
 	char	*new_word;
 
 	i = 0;
 	while (i < word_split->size)
 	{
+		now = 0;
 		if (*(char *)(word_split->items[i]) == '\0')
 			new_word = 0;
 		else
 			new_word = trtv_make_new_word_without_quotes(word_split->items[i]);
 		free(word_split->items[i]);
+		while (new_word && new_word[now])
+		{
+			if (new_word[now] < 0)
+				new_word[now] *= -1;
+			now++;
+		}
 		word_split->items[i] = new_word;
 		i++;
 	}
