@@ -75,6 +75,7 @@ void			trtv_env_cmdp(char *word, char **e_w, t_envs *envsp);
 int				test_tr_print_tree(t_tr_node *root, char *str);
 void			test_print_node(t_tr_node *node);
 void			test_print_command_part(t_tr_node *node);
+int				tk_print(t_vector *tokens);
 
 typedef struct s_parser_info {
 	char		*line;
