@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 15:15:27 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/08 20:52:46 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/09 18:00:00 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <sys/stat.h>
 # include "../libft_s/libft_s.h"
 
+# define APPEND 999
+
 typedef struct s_envsp
 {
 	char			*key;
@@ -36,6 +38,7 @@ typedef struct s_cmds
 	char			*in_file;
 	char			*out_file;
 	int				prev_out;
+	int				type;
 	struct s_cmds	*next;
 }	t_cmds;
 
@@ -56,6 +59,5 @@ t_envs		*btin_make_envsp_node(char **key_and_value);
 t_envs		*btin_make_envsp(char **envp);
 t_envs		*btin_find_node(t_envs *envsp, char *key);
 char		**btin_divide_key_and_value(char *env);
-
 
 #endif
