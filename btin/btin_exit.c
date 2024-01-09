@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 10:55:22 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/05 18:29:11 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/09 20:14:46 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ long long	btin_atoi(char *str)
 void	btin_out(int fork_flag, int error_code, char *errmsg)
 {
 	if (errmsg != NULL)
-		printf("%s", errmsg);
+		printf("%s\n", errmsg);
 	if (fork_flag == 1)
 		exit(error_code);
 	else
