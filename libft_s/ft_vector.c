@@ -49,7 +49,10 @@ void	vec_print(t_vector *v)
 	i = 0;
 	while (i < v->size)
 	{
-		printf("%d:%s\n", i, (char *)v->items[i]);
+		if (!(v->items[i]))
+			printf("%d:(null)", i);
+		else
+			printf("%d:%s\n", i, (char *)v->items[i]);
 		i++;
 	}
 }
