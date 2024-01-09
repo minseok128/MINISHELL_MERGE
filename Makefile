@@ -19,7 +19,7 @@ READLINE	= -L/opt/homebrew/Cellar/readline/8.2.7/lib -lreadline
 DIR			= ./
 BASE		= main signal_utils \
 			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils \
-			  parser/trtv parser/trtv_env_expand \
+			  parser/trtv parser/trtv_env_expand parser/trtv_word_split \
 			  btin/builtin_env btin/builtin_make_envsp btin/builtin_export \
 			  libft_s/libft_s_1 libft_s/ft_vector\
 			  testdir/treeprint
