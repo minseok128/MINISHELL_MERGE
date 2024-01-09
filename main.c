@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 			add_history(p_info.line);
 		if (*(p_info.line) != 0 && !jump_white_space(p_info.line))
 		{
-			if (!tk_tokenize(p_info.line, &(p_info.tk_head)))
+			if (!tk_tokenize(p_info.line, &(p_info.tokens)))
 				if (!mktr_make_tree(p_info.tk_head, &(p_info.root)))
 					trtv_start(p_info.root, envsp);
 		}
