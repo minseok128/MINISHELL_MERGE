@@ -12,6 +12,11 @@
 
 #include "parser.h"
 
+void	trtv_ex_travel(t_tr_node *node)
+{
+
+}
+
 void	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
 {
 	char	*e_w;
