@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/09 18:44:21 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/09 19:03:11 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ pid_t	ex_fork(t_cmds *cmdsp, t_envs *envsp, char **envp, int pipe_fd[2])
 	{
 		if (pipe_fd[0] != -1)
 			close(pipe_fd[0]);
-		if (cmdsp != NULL)
+		if (cmdsp->in_file != NULL)
 			ex_open_input_fd(cmdsp);
 		else if (cmdsp->prev_out != -1)
 			ex_dup_to(cmdsp->prev_out, 0);
@@ -199,7 +199,7 @@ pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
 	pid_t	pid;
 	int		pipe_fd[2];
 
-	if (ex_is_builtin(cmdsp, envsp, 1) != 0)
+	if (ex_is_builtin(cmdsp, envsp, 1) == 0)
 	{
 		if (cmdsp->next == NULL)
 		{
@@ -266,6 +266,6 @@ void	ex_process_command(t_cmds *cmdsp_head, t_envs *envsp)
 			g_errno = WEXITSTATUS(status);
 		else
 			g_errno = WTERMSIG(status) + 128;
-		ex_all_close(cmdsp_head->next);
+		// ex_all_close(cmdsp_head->next);
 	}
 }
