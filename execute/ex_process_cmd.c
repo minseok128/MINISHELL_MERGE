@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/09 19:03:11 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/09 20:19:48 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	*ex_search_path(char *cmd, t_envs *envsp)
 	char	*path;
 	int		i;
 
-	while (envsp != NULL && strncmp(envsp->key, "PATH=", 5) != 0)
+	while (envsp != NULL && ft_strncmp(envsp->key, "PATH", 5) != 0)
 		envsp = envsp->next;
 	if (envsp == NULL)
 		return (cmd);
@@ -113,7 +113,7 @@ char	*ex_search_path(char *cmd, t_envs *envsp)
 			btin_out(1, errno, strerror(errno));
 		if (access(path, F_OK) == 0)
 		{
-			free(cmd);
+			// free(cmd);
 			ex_free_string_array(envp_path);
 			return (path);
 		}
@@ -125,8 +125,11 @@ char	*ex_search_path(char *cmd, t_envs *envsp)
 
 void	ex_execute(char **cmd, t_envs *envsp, char **envp)
 {
+	t_envs	*envsp_cp;
+
+	envsp_cp = envsp->next;
 	if (access(cmd[0], F_OK) == -1)
-		cmd[0] = ex_search_path(cmd[0], envsp);
+		cmd[0] = ex_search_path(cmd[0], envsp_cp);
 	if (execve(cmd[0], cmd, envp) == -1)
 		btin_out(1, errno, strerror(errno));
 }
@@ -156,7 +159,8 @@ void	ex_open_output_fd(t_cmds *cmdsp)
 	if (access(cmdsp->out_file, F_OK) != 0)
 	{
 		printf("bash: %s: No such file or directory\n", cmdsp->out_file);
-		exit(1);
+		btin_out(1, errno, strerror(errno));
+
 	}
 	if (cmdsp->type == APPEND)
 		out_fd = open(cmdsp->out_file, O_WRONLY | O_APPEND);
@@ -165,7 +169,7 @@ void	ex_open_output_fd(t_cmds *cmdsp)
 	if (out_fd == -1)
 	{
 		printf("bash: %s: Permission denied\n", cmdsp->out_file);
-		exit(1);
+		btin_out(1, errno, strerror(errno));
 	}
 	ex_dup_to(out_fd, 1);
 }
