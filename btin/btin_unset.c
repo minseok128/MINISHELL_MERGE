@@ -21,7 +21,7 @@ void	btin_print_declare_env(t_envs *envsp)
 	node = envsp->next;
 	while (node != NULL)
 	{
-		if (node->value != NULL)
+		if (node->value != NULL && (node->value)[0] != "?")
 			printf("declare -x %s=\"%s\"\n", node->key, node->value);
 		else
 			printf("declare -x %s\n", node->key);
