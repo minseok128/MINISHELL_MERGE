@@ -12,57 +12,78 @@
 
 #include "parser.h"
 
-// void	trtv_comd_part_travel(t_tr_node *node)
-// {
-// 	if (node->tk->type == T_WORD)
-// 	{
+int	trtv_comd_part_travel(t_tr_node *node, t_cmd *cmd)
+{
+	int	i;
 
-// 	}
-// 	else
-// 	{
+	if (node->tk->type == T_WORD)
+	{
+		i = 0;
+		while (i < node->word_split.size)
+		{
+			if (node->word_split.items[i])
+				vec_push_back(&(cmd->argv.items), node->word_split.items[i]); 
+			i++;
+		}
+	}
+	else if (node->tk->type >= T_REDIR_S_L && node->tk->type <= T_REDIR_D_R)
+	{
+	}
+	return (0);
+}
 
-// 	}
-// }
+void	trtv_comd_travel(t_tr_node *node, t_cmd *cmd)
+{
+	if (node->left && node->left->bnf_type == TR_COMMAND)
+		trtv_comd_travel(node->left, cmd);
+	else if (node->left && node->left->bnf_type == TR_COMMAND_PART)
+		trtv_comd_part_travel(node->left, cmd);
+	if (node->right && node->right->bnf_type == TR_COMMAND_PART)
+		trtv_comd_part_travel(node->right, cmd);
+}
 
-// void	trtv_comd_travel(t_tr_node *node)
-// {
-// 	if (node->left && node->left->bnf_type == TR_COMMAND)
-// 		trtv_comd_travel(node->left);
-// 	else if (node->left && node->left->bnf_type == TR_COMMAND_PART)
-// 		trtv_comd_part_travel(node->left);
-// 	if (node->right && node->right->bnf_type == TR_COMMAND_PART)
-// 		trtv_comd_part_travel(node->right);
-// }
+void	trtv_pipe_travel(t_tr_node *node, t_vector *cmds)
+{
+	t_cmd		*cmd;
 
-// void	trtv_pipe_travel(t_tr_node *node, t_vector *argv)
-// {
-// 	// t_vector	*
+	if (node->left && node->left->bnf_type == TR_LIST)
+		trtv_list_travel(node->left);
+	else if (node->left && node->left->bnf_type == TR_PIPELINE)
+		trtv_pipe_travel(node->left, cmds);
+	if (node->left && node->left->bnf_type == TR_COMMAND)
+	{
+		cmd = ft_calloc_s(sizeof(t_cmd), 1);
+		vec_init(&(cmd->argv) ,1);
+		trtv_comd_travel(node->left, cmd);
+		vec_push_back(cmd->argv.items, 0);
+		vec_push_back(cmds, cmd);
+	}
+	if (node->right && node->right->bnf_type == TR_COMMAND)
+	{
+		cmd = ft_calloc_s(sizeof(t_cmd), 1);
+		vec_init(&(cmd->argv), 1);
+		trtv_comd_travel(node->right, cmd);
+		vec_push_back(cmd->argv.items, 0);
+		vec_push_back(cmds, cmd);
+	}
+}
 
-// 	if (node->left && node->left->bnf_type == TR_LIST)
-// 		trtv_list_travel(node->left);
-// 	else if (node->left && node->left->bnf_type == TR_PIPELINE)
-// 		trtv_pipe_travel(node->left, argv);
-// 	else
+void	trtv_list_travel(t_tr_node *node)
+{
+	t_vector	cmds;
 
-// 	else
-// 	{
+	if (node->left && node->left->bnf_type == TR_LIST)
+		trtv_list_travel(node->left);
+	vec_init(&cmds, 1);
+	if (node->left && node->left->bnf_type == TR_PIPELINE)
+	{
+		trtv_pipe_travel(node->left, &cmds);
+	}
+	if (node->right && node->right->bnf_type == TR_PIPELINE)
+	{
 
-// 	}
-// }
-
-// void	trtv_list_travel(t_tr_node *node)
-// {
-// 	if (node->left && node->left->bnf_type == TR_PIPELINE)
-// 	{
-
-// 	}
-// 	else
-// 		trtv_list_travel(node->left);
-// 	if (node->right && node->right->bnf_type == TR_PIPELINE)
-// 	{
-
-// 	}
-// }
+	}
+}
 
 void	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
 {
