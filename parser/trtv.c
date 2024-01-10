@@ -12,9 +12,47 @@
 
 #include "parser.h"
 
-void	trtv_ex_travel(t_tr_node *node)
+void	trtv_comd_part_travel(t_tr_node *node)
+{
+	if (node->tk->type == T_WORD)
+	{
+
+	}
+	else
+	{
+
+	}
+}
+
+void	trtv_comd_travel(t_tr_node *node)
+{
+	if (node->left && node->left->bnf_type == TR_COMMAND)
+		trtv_comd_travel(node->left);
+	else if (node->left && node->left->bnf_type == TR_COMMAND_PART)
+		trtv_comd_part_travel(node->left);
+	if (node->right && node->right->bnf_type == TR_COMMAND_PART)
+		trtv_comd_part_travel(node->right);
+}
+
+void	trtv_pipe_travel(t_tr_node *node)
 {
 
+}
+
+void	trtv_list_travel(t_tr_node *node)
+{
+	if (node->left && node->left->bnf_type == TR_PIPELINE)
+	{
+
+	}
+	else
+		trtv_list_travel(node->left);
+	if (node->right && node->right->bnf_type == TR_PIPELINE)
+	{
+
+	}
+	else
+		trtv_list_travel(node->right);
 }
 
 void	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
