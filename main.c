@@ -6,40 +6,11 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:32:34 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/09 18:54:07 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/10 17:05:48 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_cmds	*ex_make_cmdsp(void)
-{
-	t_cmds	*cmdsp_head;
-
-	cmdsp_head = malloc(sizeof(t_cmds));
-	if (cmdsp_head == NULL)
-		exit(0);
-	cmdsp_head->next = NULL;
-	return (cmdsp_head);
-}
-
-void	ex_add_cmdsp_node(t_cmds *cmdsp, char **argv, char *in, char *out)
-{
-	t_cmds	*new;
-	t_cmds	*node;
-
-	new = malloc(sizeof(t_cmds));
-	if (new == NULL)
-		exit(0);
-	new->argv = argv;
-	new->in_file = in;
-	new->out_file = out;
-	new->next = NULL;
-	node = cmdsp;
-	while(node->next != NULL)
-		node = node->next;
-	node->next = new;
-}
 
 void builtin_test(t_envs *envsp)
 {
@@ -60,7 +31,7 @@ void builtin_test(t_envs *envsp)
 		// cmdsp->next->argv[1] = NULL;
 		// ex_process_command(cmdsp, envsp);
 
-	// export & unset test
+	// export & unset test         << no leak
 		// printf("export\n");
 		// cmdsp->next->argv[0] = "export";
 		// cmdsp->next->argv[1] = "test1=ls -l";
@@ -136,11 +107,12 @@ void command_test(t_envs *envsp)
 	cmdsp = ex_make_cmdsp();
 	char **argv1 = malloc(sizeof(char *) * 100);
 	char **argv2 = malloc(sizeof(char *) * 100);
-	argv1[0] = "cat";
-	argv1[1] = NULL;
-	ex_add_cmdsp_node(cmdsp, argv1, "a", NULL);
-	argv2[0] = "wc";
-	argv2[1] = "-l";
+	argv1[0] = "echo";
+	argv1[1] = "123";
+	argv1[2] = NULL;
+	ex_add_cmdsp_node(cmdsp, argv1, NULL, NULL);
+	argv2[0] = "lsd";
+	argv2[1] = "-xyz";
 	argv2[2] = NULL;
 	ex_add_cmdsp_node(cmdsp, argv2, NULL, NULL);
 	ex_process_command(cmdsp, envsp);
@@ -179,7 +151,6 @@ int	main(int argc, char **argv, char **envp)
 
 	// builtin_test(envsp);
 	command_test(envsp);
-
 	envs_free(envsp);
 	// atexit(leak_check);
 	return (g_errno);
