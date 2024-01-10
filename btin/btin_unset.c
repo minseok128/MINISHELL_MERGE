@@ -79,8 +79,9 @@ void	btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag)
 	int		i;
 	int		j;
 	char	*str;
+	int		error_flag;
 
-	fork_flag = 1;
+	error_flag = 0;
 	i = 1;
 	while (cmds->argv[i] != NULL)
 	{
@@ -91,7 +92,11 @@ void	btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag)
 		else
 		{
 			printf("bash: unset: '%s': not a valid identifier\n", str);
-			errno = 1;
+			error_flag = 1;
 		}
 	}
+	if (fork_flag == 1)
+		exit(error_flag);
+	else
+		g_errno = error_flag;
 }
