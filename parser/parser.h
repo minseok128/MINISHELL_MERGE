@@ -74,10 +74,22 @@ void			trtv_env_cmdp(char *word, char **e_w, t_envs *envsp);
 void			trtv_word_split(char *word, t_tr_node *node);
 void			trtv_quotes_removal(t_vector *word_split);
 
+# define APPEND 999
+
+typedef struct s_cmd
+{
+	t_vector		argv;
+	char			*in_file;
+	char			*out_file;
+	int				prev_out;
+	int				type;
+}	t_cmd;
+
 // test
 int				test_tr_print_tree(t_tr_node *root, char *str);
 void			test_print_node(t_tr_node *node);
 void			test_print_command_part(t_tr_node *node);
+void			test_cmds_print(t_vector *cmds);
 
 typedef struct s_parser_info {
 	char		*line;
