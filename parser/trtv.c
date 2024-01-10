@@ -12,6 +12,11 @@
 
 #include "parser.h"
 
+int			trtv_comd_part_travel(t_tr_node *node, t_cmd *cmd);
+void		trtv_comd_travel(t_tr_node *node, t_cmd *cmd);
+void		trtv_list_travel(t_tr_node *node);
+void		trtv_pipe_travel(t_tr_node *node, t_vector *cmds);
+
 int	trtv_comd_part_travel(t_tr_node *node, t_cmd *cmd)
 {
 	int	i;
@@ -22,12 +27,25 @@ int	trtv_comd_part_travel(t_tr_node *node, t_cmd *cmd)
 		while (i < node->word_split.size)
 		{
 			if (node->word_split.items[i])
-				vec_push_back(&(cmd->argv.items), node->word_split.items[i]); 
+				vec_push_back(&(cmd->argv), node->word_split.items[i]); 
 			i++;
 		}
 	}
-	else if (node->tk->type >= T_REDIR_S_L && node->tk->type <= T_REDIR_D_R)
+	if (node->tk->type == T_REDIR_S_L)
 	{
+
+	}
+	else if (node->tk->type == T_REDIR_S_R)
+	{
+
+	}
+	else if (node->tk->type == T_REDIR_D_L)
+	{
+
+	}
+	else if (node->tk->type == T_REDIR_D_R)
+	{
+
 	}
 	return (0);
 }
@@ -55,7 +73,7 @@ void	trtv_pipe_travel(t_tr_node *node, t_vector *cmds)
 		cmd = ft_calloc_s(sizeof(t_cmd), 1);
 		vec_init(&(cmd->argv) ,1);
 		trtv_comd_travel(node->left, cmd);
-		vec_push_back(cmd->argv.items, 0);
+		vec_push_back(&(cmd->argv), 0);
 		vec_push_back(cmds, cmd);
 	}
 	if (node->right && node->right->bnf_type == TR_COMMAND)
@@ -63,7 +81,7 @@ void	trtv_pipe_travel(t_tr_node *node, t_vector *cmds)
 		cmd = ft_calloc_s(sizeof(t_cmd), 1);
 		vec_init(&(cmd->argv), 1);
 		trtv_comd_travel(node->right, cmd);
-		vec_push_back(cmd->argv.items, 0);
+		vec_push_back(&(cmd->argv), 0);
 		vec_push_back(cmds, cmd);
 	}
 }
@@ -78,10 +96,12 @@ void	trtv_list_travel(t_tr_node *node)
 	if (node->left && node->left->bnf_type == TR_PIPELINE)
 	{
 		trtv_pipe_travel(node->left, &cmds);
+		test_cmds_print(&cmds);
 	}
 	if (node->right && node->right->bnf_type == TR_PIPELINE)
 	{
-
+		trtv_pipe_travel(node->right, &cmds);
+		test_cmds_print(&cmds);
 	}
 }
 
@@ -112,5 +132,5 @@ void	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
 void	trtv_start(t_tr_node *root, t_envs *envsp)
 {
 	trtv_expansion_travel(root, envsp);
-	test_tr_print_tree(root, "$ EXPANSION");
+	trtv_list_travel(root);
 }
