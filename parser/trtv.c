@@ -15,7 +15,7 @@
 int			trtv_comd_part_travel(t_tr_node *node, t_cmd *cmd);
 void		trtv_comd_travel(t_tr_node *node, t_cmd *cmd);
 void		trtv_list_travel(t_tr_node *node);
-void		trtv_pipe_travel(t_tr_node *node, t_vector *cmds);
+int			trtv_pipe_travel(t_tr_node *node, t_vector *cmds);
 
 int	trtv_comd_part_travel(t_tr_node *node, t_cmd *cmd)
 {
@@ -60,12 +60,15 @@ void	trtv_comd_travel(t_tr_node *node, t_cmd *cmd)
 		trtv_comd_part_travel(node->right, cmd);
 }
 
-void	trtv_pipe_travel(t_tr_node *node, t_vector *cmds)
+int	trtv_pipe_travel(t_tr_node *node, t_vector *cmds)
 {
 	t_cmd		*cmd;
 
 	if (node->left && node->left->bnf_type == TR_LIST)
+	{
 		trtv_list_travel(node->left);
+		return (1);
+	}
 	else if (node->left && node->left->bnf_type == TR_PIPELINE)
 		trtv_pipe_travel(node->left, cmds);
 	if (node->left && node->left->bnf_type == TR_COMMAND)
@@ -84,6 +87,7 @@ void	trtv_pipe_travel(t_tr_node *node, t_vector *cmds)
 		vec_push_back(&(cmd->argv), 0);
 		vec_push_back(cmds, cmd);
 	}
+	return (0);
 }
 
 void	trtv_list_travel(t_tr_node *node)
@@ -95,13 +99,17 @@ void	trtv_list_travel(t_tr_node *node)
 	vec_init(&cmds, 1);
 	if (node->left && node->left->bnf_type == TR_PIPELINE)
 	{
-		trtv_pipe_travel(node->left, &cmds);
-		test_cmds_print(&cmds);
+		if (!trtv_pipe_travel(node->left, &cmds))
+			test_cmds_print(&cmds);
+		else
+			vec_free(&cmds);
 	}
 	if (node->right && node->right->bnf_type == TR_PIPELINE)
 	{
-		trtv_pipe_travel(node->right, &cmds);
-		test_cmds_print(&cmds);
+		if (!trtv_pipe_travel(node->right, &cmds))
+			test_cmds_print(&cmds);
+		else
+			vec_free(&cmds);
 	}
 }
 
