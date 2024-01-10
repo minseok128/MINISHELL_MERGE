@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/10 16:41:59 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/10 16:50:59 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,8 @@ void	ex_execute(char **cmd, t_envs *envsp, char **envp)
 	envsp_cp = envsp->next;
 	if (access(cmd[0], F_OK) == -1)
 		cmd[0] = ex_search_path(cmd[0], envsp_cp);
-	if (execve(cmd[0], cmd, envp) == -1)
-		btin_out(1, errno, strerror(errno));
+	execve(cmd[0], cmd, envp);
+	btin_out(1, errno, strerror(errno));
 }
 
 void	ex_open_input_fd(t_cmds *cmdsp)
@@ -187,7 +187,8 @@ pid_t	ex_fork(t_cmds *cmdsp, t_envs *envsp, char **envp, int pipe_fd[2])
 			ex_open_output_fd(cmdsp);
 		else if (pipe_fd[1] != -1)
 			ex_dup_to(pipe_fd[1], 1);
-		ex_execute(cmdsp->argv, envsp, envp);
+		if (ex_is_builtin(cmdsp, envsp, 1) == 0)
+			ex_execute(cmdsp->argv, envsp, envp);
 	}
 	return (pid);
 }
@@ -197,27 +198,23 @@ pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
 	pid_t	pid;
 	int		pipe_fd[2];
 
-	if (ex_is_builtin(cmdsp, envsp, 1) == 0)
+	if (cmdsp->next == NULL)
 	{
-		if (cmdsp->next == NULL)
-		{
-			pipe_fd[0] = -1;
-			pipe_fd[1] = -1;
-			pid = ex_fork(cmdsp, envsp, envp, pipe_fd);
-			close(cmdsp->prev_out);
-		}
-		else
-		{
-			pipe(pipe_fd);
-			pid = ex_fork(cmdsp, envsp, envp, pipe_fd);
-			close(pipe_fd[1]);
-			if (cmdsp->prev_out != -1)
-				close(cmdsp->prev_out);
-			cmdsp->next->prev_out = pipe_fd[0];
-		}
-		return (pid);
+		pipe_fd[0] = -1;
+		pipe_fd[1] = -1;
+		pid = ex_fork(cmdsp, envsp, envp, pipe_fd);
+		close(cmdsp->prev_out);
 	}
-	return (0);
+	else
+	{
+		pipe(pipe_fd);
+		pid = ex_fork(cmdsp, envsp, envp, pipe_fd);
+		close(pipe_fd[1]);
+		if (cmdsp->prev_out != -1)
+			close(cmdsp->prev_out);
+		cmdsp->next->prev_out = pipe_fd[0];
+	}
+	return (pid);
 }
 
 void	ex_all_close(t_cmds *cmdsp)
