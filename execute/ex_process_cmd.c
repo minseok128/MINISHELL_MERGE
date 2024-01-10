@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/09 20:54:39 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/10 16:41:59 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,14 +140,14 @@ void	ex_open_input_fd(t_cmds *cmdsp)
 
 	if (access(cmdsp->in_file, F_OK) != 0)
 	{
-		printf("bash: %s: ", cmdsp->in_file);
-		btin_out(1, errno, strerror(errno));
+		printf("bash: %s: No such file or directory\n", cmdsp->in_file);
+		btin_out(1, 1, NULL);
 	}
 	in_fd = open(cmdsp->in_file, O_RDONLY);
 	if (in_fd == -1)
 	{
-		printf("bash: %s: ", cmdsp->in_file);
-		btin_out(1, errno, strerror(errno));
+		printf("bash: %s: Permission denied\n", cmdsp->in_file);
+		btin_out(1, 1, NULL);
 	}
 	ex_dup_to(in_fd, 0);
 }
@@ -156,19 +156,14 @@ void	ex_open_output_fd(t_cmds *cmdsp)
 {
 	int	out_fd;
 
-	if (access(cmdsp->out_file, F_OK) != 0)
-	{
-		printf("bash: %s: ", cmdsp->out_file);
-		btin_out(1, errno, strerror(errno));
-	}
 	if (cmdsp->type == APPEND)
 		out_fd = open(cmdsp->out_file, O_WRONLY | O_APPEND);
 	else
 		out_fd = open(cmdsp->out_file, O_WRONLY);
 	if (out_fd == -1)
 	{
-		printf("bash: %s: ", cmdsp->out_file);
-		btin_out(1, errno, strerror(errno));
+		printf("bash: %s: Permission denied\n", cmdsp->out_file);
+		btin_out(1, 1, NULL);
 	}
 	ex_dup_to(out_fd, 1);
 }
@@ -269,7 +264,7 @@ void	ex_process_command(t_cmds *cmdsp_head, t_envs *envsp)
 			;
 		if (WIFEXITED(status) != 0)
 			g_errno = WEXITSTATUS(status);
-		else
+		if (WIFSIGNALED(status) != 0)
 			g_errno = WTERMSIG(status) + 128;
 	}
 	ex_all_close(cmdsp_head->next);
