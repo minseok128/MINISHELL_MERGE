@@ -26,3 +26,13 @@ char	*ft_substr_s(char const *s, unsigned int start, size_t len)
 		exit(1);
 	return (new);
 }
+
+char	*ft_itoa_s(int n)
+{
+	char	*new;
+
+	new = ft_itoa(n);
+	if (!new)
+		exit(1);
+	return (new);
+}
