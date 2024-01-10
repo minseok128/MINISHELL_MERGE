@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 10:55:22 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/09 20:51:51 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/10 17:38:02 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	btin_exit(t_cmds *cmds, int fork_flag)
 			btin_out(1, 255, NULL);
 		}
 		else if (cmds->argv[2] != NULL)
-			btin_out(fork_flag, 255, "bash: exit: too many arguments\n");
+			btin_out(fork_flag, 1, "bash: exit: too many arguments\n");
 		else
 			btin_out(1, (char)n, NULL);
 	}
