@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/10 16:50:59 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/10 17:02:47 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,18 +94,16 @@ void	*ex_free_string_array(char **string_array)
 	return (NULL);
 }
 
-char	*ex_search_path(char *cmd, t_envs *envsp)
+char	*ex_search_path(char *cmd, t_envs *envsp, int i)
 {
 	char	**envp_path;
 	char	*path;
-	int		i;
 
 	while (envsp != NULL && ft_strncmp(envsp->key, "PATH", 5) != 0)
 		envsp = envsp->next;
 	if (envsp == NULL)
 		return (cmd);
 	envp_path = ft_split(envsp->value + 5, ':');
-	i = 0;
 	while (envp_path[i] != NULL)
 	{
 		path = ex_strjoin_c(envp_path[i++], cmd, '/');
@@ -120,6 +118,8 @@ char	*ex_search_path(char *cmd, t_envs *envsp)
 		free(path);
 	}
 	ex_free_string_array(envp_path);
+	printf("bash: %s: command not found\n", cmd);
+	btin_out(1, 127, NULL);
 	return (cmd);
 }
 
@@ -129,7 +129,7 @@ void	ex_execute(char **cmd, t_envs *envsp, char **envp)
 
 	envsp_cp = envsp->next;
 	if (access(cmd[0], F_OK) == -1)
-		cmd[0] = ex_search_path(cmd[0], envsp_cp);
+		cmd[0] = ex_search_path(cmd[0], envsp_cp, 0);
 	execve(cmd[0], cmd, envp);
 	btin_out(1, errno, strerror(errno));
 }
