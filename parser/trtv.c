@@ -36,7 +36,14 @@ void	trtv_comd_travel(t_tr_node *node)
 
 void	trtv_pipe_travel(t_tr_node *node)
 {
+	t_vector	*
 
+	if (node->left && node->left->bnf_type == TR_LIST)
+		trtv_list_travel(node->left);
+	else
+	{
+
+	}
 }
 
 void	trtv_list_travel(t_tr_node *node)
