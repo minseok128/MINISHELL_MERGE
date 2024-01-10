@@ -78,11 +78,11 @@ void	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
 		node->tk->str = e_w;
 		vec_init(&(node->word_split), 1);
 		trtv_word_split(node->tk->str, node);
-		printf("[WORD SPLIT] : %s\n", node->tk->str);
-		vec_print(&(node->word_split));
+		// printf("[WORD SPLIT] : %s\n", node->tk->str);
+		// vec_print(&(node->word_split));
 		trtv_quotes_removal(&(node->word_split));
-		printf("[QUORTES REMOVAL] : %s\n", node->tk->str);
-		vec_print(&(node->word_split));
+		// printf("[QUORTES REMOVAL] : %s\n", node->tk->str);
+		// vec_print(&(node->word_split));
 	}
 	trtv_expansion_travel(node->left, envsp);
 	trtv_expansion_travel(node->right, envsp);
