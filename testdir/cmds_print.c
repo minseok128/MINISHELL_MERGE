@@ -20,7 +20,7 @@ void	test_cmds_print(t_vector *cmds)
 		printf("  #%d [cmd words]\n", i);
 		for (int j = 0; j < ((t_cmd *)(cmds->items[i]))->argv.size; j++)
 		{
-			printf("    #%d-%d: %s\n", i, j, ((t_cmd *)(cmds->items[i]))->argv.items[j]);
+			printf("    #%d-%d: %s\n", i, j, (char *)((t_cmd *)(cmds->items[i]))->argv.items[j]);
 		}
 	}
 	printf("\n");
