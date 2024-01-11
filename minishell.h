@@ -82,13 +82,13 @@ typedef struct s_parser_info {
 
 typedef struct s_cmds
 {
-	t_vector		argv;
+	t_vector		**argv;
 	char			*in_file;
 	char			*out_file;
 	int				prev_out;
 	int				type;
+	struct s_cmds	*next;
 }	t_cmds;
-
 int				g_errno;
 
 void			set_signal(int sig_int, int sig_quit);
