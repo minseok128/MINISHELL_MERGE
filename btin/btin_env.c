@@ -21,7 +21,7 @@ void	btin_env(t_envs *envsp, int fork_flag)
 	node = envsp->next;
 	while (node != NULL)
 	{
-		if (node->value != NULL && (node->key)[0] != "?")
+		if (node->value != NULL && (node->key)[0] != '?')
 			printf("%s=%s\n", node->key, node->value);
 		node = node->next;
 	}
