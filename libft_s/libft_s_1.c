@@ -46,3 +46,13 @@ char	*ft_strdup_s(const char *s1)
 		exit(1);
 	return (new);
 }
+
+void	*ft_calloc_s(size_t count, size_t size)
+{
+	void	*new;
+
+	new = ft_calloc_s(count, size);
+	if (!new)
+		exit(1);
+	return (new);
+}
