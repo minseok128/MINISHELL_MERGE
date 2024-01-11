@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../parser/parser.h"
+#include "../minishell.h"
 
 void	test_cmds_print(t_vector *cmds)
 {
