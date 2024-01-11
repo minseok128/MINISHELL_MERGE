@@ -55,17 +55,17 @@ void	trtv_comd_travel(t_tr_node *node, t_cmds *cmd)
 		trtv_comd_part_travel(node->right, cmd);
 }
 
-int	trtv_pipe_travel(t_tr_node *node, t_vector *cmds)
+int	trtv_pipe_travel(t_tr_node *node, t_vector *cmds, t_envs *envsp)
 {
 	t_cmds		*cmd;
 
 	if (node->left && node->left->bnf_type == TR_LIST)
 	{
-		trtv_list_travel(node->left);
+		trtv_list_travel(node->left, envsp);
 		return (1);
 	}
 	else if (node->left && node->left->bnf_type == TR_PIPELINE)
-		trtv_pipe_travel(node->left, cmds);
+		trtv_pipe_travel(node->left, cmds, envsp);
 	if (node->left && node->left->bnf_type == TR_COMMAND)
 	{
 		cmd = ft_calloc_s(sizeof(t_cmds), 1);
@@ -85,24 +85,32 @@ int	trtv_pipe_travel(t_tr_node *node, t_vector *cmds)
 	return (0);
 }
 
-void	trtv_list_travel(t_tr_node *node)
+void	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 {
 	t_vector	cmds;
 
 	if (node->left && node->left->bnf_type == TR_LIST)
-		trtv_list_travel(node->left);
+		trtv_list_travel(node->left, envsp);
 	vec_init(&cmds, 1);
 	if (node->left && node->left->bnf_type == TR_PIPELINE)
 	{
-		if (!trtv_pipe_travel(node->left, &cmds))
+		if (!trtv_pipe_travel(node->left, &cmds, envsp))
+		{
+			vec_push_back(&cmds, 0);
 			test_cmds_print(&cmds);
+			ex_process_command(&cmds, envsp);
+		}
 		else
 			vec_free(&cmds);
 	}
 	if (node->right && node->right->bnf_type == TR_PIPELINE)
 	{
-		if (!trtv_pipe_travel(node->right, &cmds))
+		if (!trtv_pipe_travel(node->right, &cmds, envsp))
+		{
+			vec_push_back(&cmds, 0);
 			test_cmds_print(&cmds);
+			ex_process_command(&cmds, envsp);
+		}
 		else
 			vec_free(&cmds);
 	}
@@ -131,5 +139,5 @@ void	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
 void	trtv_start(t_tr_node *root, t_envs *envsp)
 {
 	trtv_expansion_travel(root, envsp);
-	trtv_list_travel(root);
+	trtv_list_travel(root, envsp);
 }
