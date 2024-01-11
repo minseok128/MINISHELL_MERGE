@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../parser/parser.h"
+#include "../minishell.h"
 
 void test_print_command_part(t_tr_node *node)
 {
