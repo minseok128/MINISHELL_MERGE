@@ -46,19 +46,19 @@ char	*ex_strjoin_c(char const *s1, char const *s2, char c)
 
 int	ex_is_builtin(t_cmds *cmds, t_envs *envsp, int fork_flag)
 {
-	if (ft_strncmp(cmds->argv[0], "cd", 3) == 0)
+	if (ft_strncmp(cmds->argv.items[0], "cd", 3) == 0)
 		btin_cd(cmds, envsp, fork_flag);
-	else if (ft_strncmp(cmds->argv[0], "pwd", 4) == 0)
+	else if (ft_strncmp(cmds->argv.items[0], "pwd", 4) == 0)
 		btin_pwd(fork_flag);
-	else if (ft_strncmp(cmds->argv[0], "export", 7) == 0)
+	else if (ft_strncmp(cmds->argv.items[0], "export", 7) == 0)
 		btin_export(cmds, envsp, 0, fork_flag);
-	else if (ft_strncmp(cmds->argv[0], "unset", 6) == 0)
+	else if (ft_strncmp(cmds->argv.items[0], "unset", 6) == 0)
 		btin_unset(cmds, envsp, fork_flag);
-	else if (ft_strncmp(cmds->argv[0], "echo", 5) == 0)
+	else if (ft_strncmp(cmds->argv.items[0], "echo", 5) == 0)
 		btin_echo(cmds, fork_flag);
-	else if (ft_strncmp(cmds->argv[0], "env", 4) == 0)
+	else if (ft_strncmp(cmds->argv.items[0], "env", 4) == 0)
 		btin_env(envsp, fork_flag);
-	else if (ft_strncmp(cmds->argv[0], "exit", 5) == 0)
+	else if (ft_strncmp(cmds->argv.items[0], "exit", 5) == 0)
 		btin_exit(cmds, fork_flag);
 	else
 		return (0);
@@ -94,13 +94,13 @@ char	*ex_search_path(char *cmd, t_envs *envsp, int i)
 	return (cmd);
 }
 
-void	ex_execute(char **cmd, t_envs *envsp, char **envp)
+void	ex_execute(t_vector *cmd, t_envs *envsp, char **envp)
 {
 	t_envs	*envsp_cp;
 
 	envsp_cp = envsp->next;
-	if (access(cmd[0], F_OK) == -1)
-		cmd[0] = ex_search_path(cmd[0], envsp_cp, 0);
-	execve(cmd[0], cmd, envp);
+	if (access(cmd->items[0], F_OK) == -1)
+		cmd->items[0] = ex_search_path(cmd->items[0], envsp_cp, 0);
+	execve((char *)(cmd->items[0]), *(cmd->items), envp);
 	btin_out(1, errno, strerror(errno));
 }
