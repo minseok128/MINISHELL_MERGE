@@ -148,8 +148,8 @@ void			ex_execute(t_vector *cmds, t_envs *envsp, char **envp);
 int				ex_is_builtin(t_cmds *cmds, t_envs *envsp, int fork_flag);
 char			*ex_strjoin_c(char const *s1, char const *s2, char c);
 void			*ex_free_string_array(char **string_array);
-t_cmds			*ex_make_cmdsp(void);
-void			ex_add_cmdsp_node(t_cmds *cmdsp, char **argv, char *in, char *out);
+t_cmds			*ex_cmdsp_init(void);
+void			ex_cmdsp_add_back(t_cmds *cmdsp, char **argv, char *in, char *out);
 
 // !test codes!
 int				tk_print(t_token *tk);

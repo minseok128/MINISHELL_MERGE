@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-t_cmds	*ex_make_cmdsp(void)
+t_cmds	*ex_cmdsp_init(void)
 {
 	t_cmds	*cmdsp_head;
 
@@ -22,7 +22,7 @@ t_cmds	*ex_make_cmdsp(void)
 	return (cmdsp_head);
 }
 
-void	ex_add_cmdsp_node(t_cmds *cmdsp, char **argv, char *in, char *out)
+void	ex_cmdsp_add_back(t_cmds *cmdsp, char **argv, char *in, char *out)
 {
 	t_cmds	*new;
 	t_cmds	*node;
