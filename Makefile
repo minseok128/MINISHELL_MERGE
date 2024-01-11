@@ -23,7 +23,7 @@ BASE		= main signal_utils \
 			  btin/btin_exit btin/btin_make_envsp btin/btin_cd \
 			  btin/btin_echo btin/btin_env btin/btin_export \
 			  btin/btin_pwd btin/btin_unset \
-			  execute/ex_cmd_loop execute/ex_execute execute/ex_handle_fd \
+			  execute/ex_cmdsp execute/ex_cmd_loop execute/ex_execute execute/ex_handle_fd \
 			  libft_s/libft_s_1 libft_s/ft_vector \
 			  testdir/tree_print testdir/cmds_print
 SRC			= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
