@@ -30,24 +30,3 @@ char	*ft_strdup(const char *s1)
 	}
 	return (new);
 }
-
-char	*ft_strdup_s(const char *s1)
-{
-	char	*new;
-	size_t	i;
-	size_t	len;
-
-	if (!s1)
-		return (0);
-	len = ft_strlen(s1);
-	new = ft_calloc(len + 1, sizeof(char));
-	if (!new)
-		exit(1);
-	i = 0;
-	while (i < len)
-	{
-		new[i] = s1[i];
-		i++;
-	}
-	return (new);
-}
