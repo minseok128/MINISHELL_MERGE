@@ -74,17 +74,18 @@ void	btin_exit(t_cmds *cmds, int fork_flag)
 	int	n;
 
 	printf("exit\n");
-	if (cmds->argv[1] == NULL)
+	if (cmds->argv.items[1] == NULL)
 		btin_out(1, 0, NULL);
 	else
 	{
-		n = btin_atoi(cmds->argv[1]);
+		n = btin_atoi(cmds->argv.items[1]);
 		if (n == -1)
 		{
-			printf("bash: exit: %s: numeric argument required\n", cmds->argv[1]);
+			printf("bash: exit: %s:", (char *)(cmds->argv.items[1]));
+			printf("numeric argument required\n");
 			btin_out(1, 255, NULL);
 		}
-		else if (cmds->argv[2] != NULL)
+		else if (cmds->argv.items[2] != NULL)
 			btin_out(fork_flag, 1, "bash: exit: too many arguments");
 		else
 			btin_out(1, (char)n, NULL);
