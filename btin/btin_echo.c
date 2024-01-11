@@ -50,20 +50,20 @@ void	btin_echo(t_cmds *cmds, int fork_flag)
 	n_flag = 0;
 	print_flag = 0;
 	i = 0;
-	while (cmds->argv.items[++i] != NULL)
+	while (cmds->argv[++i] != NULL)
 	{
-		if (print_flag == 0 && btin_is_option_n(cmds->argv.items[i], 0, 0) == 1)
+		if (print_flag == 0 && btin_is_option_n(cmds->argv[i], 0, 0) == 1)
 			n_flag = 1;
-		else if (cmds->argv.items[i + 1] == NULL)
+		else if (cmds->argv[i + 1] == NULL)
 		{
 			if (n_flag == 1)
-				printf("%s", (char *)(cmds->argv.items[i]));
+				printf("%s", cmds->argv[i]);
 			else
-				printf("%s\n", (char *)(cmds->argv.items[i]));
+				printf("%s\n", cmds->argv[i]);
 		}
 		else
 		{
-			printf("%s ", (char *)(cmds->argv.items[i]));
+			printf("%s ", cmds->argv[i]);
 			print_flag = 1;
 		}
 	}
