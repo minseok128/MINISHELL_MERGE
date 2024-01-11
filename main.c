@@ -46,7 +46,6 @@ int	main(int argc, char **argv, char **envp)
 	tcgetattr(STDIN_FILENO, &term);
 	trem_init(argc, argv);
 	envsp = btin_make_envsp(envp);
-	btin_env(envsp);
 	while (1)
 	{
 		p_info.line = readline("minishell $ ");
