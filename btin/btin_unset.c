@@ -21,7 +21,7 @@ void	btin_print_declare_env(t_envs *envsp)
 	node = envsp->next;
 	while (node != NULL)
 	{
-		if ((node->key)[0] == "?")
+		if ((node->key)[0] == '?')
 			continue ;
 		if (node->value != NULL)
 			printf("declare -x %s=\"%s\"\n", node->key, node->value);
@@ -79,7 +79,6 @@ void	btin_remove_envsp_node(t_envs *envsp, char *key)
 void	btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag)
 {
 	int		i;
-	int		j;
 	char	*str;
 	int		error_flag;
 
@@ -88,7 +87,6 @@ void	btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag)
 	while (cmds->argv[i] != NULL)
 	{
 		str = cmds->argv[i++];
-		j = 0;
 		if (btin_is_valid_identifier(str) == 1)
 			btin_remove_envsp_node(envsp, str);
 		else
