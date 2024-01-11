@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "btin.h"
+#include "../minishell.h"
 
 int	btin_is_option_n(char *str, int is_n_appear, int is_hyphen_appear)
 {
