@@ -36,3 +36,13 @@ char	*ft_itoa_s(int n)
 		exit(1);
 	return (new);
 }
+
+char	*ft_strdup_s(const char *s1)
+{
+	char	*new;
+
+	new = ft_strdup(s1);
+	if (!new)
+		exit(1);
+	return (new);
+}
