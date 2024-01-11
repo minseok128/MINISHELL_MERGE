@@ -94,7 +94,7 @@ void	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 	{
 		if (!trtv_pipe_travel(node->left, cmds_h, envsp))
 		{
-			test_cmds_print(cmds_h);
+			// test_cmds_print(cmds_h);
 			ex_process_command(cmds_h, envsp);
 		}
 	}
@@ -102,7 +102,7 @@ void	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 	{
 		if (!trtv_pipe_travel(node->right, cmds_h, envsp))
 		{
-			test_cmds_print(cmds_h);
+			// test_cmds_print(cmds_h);
 			ex_process_command(cmds_h, envsp);
 		}
 	}

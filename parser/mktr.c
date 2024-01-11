@@ -126,6 +126,6 @@ int	mktr_make_tree(t_token *tk_head, t_tr_node **root)
 	if (mktr_list(root, &tk_now) || tk_now->type != T_NEWLINE)
 		return (mktr_print_unexpected(tk_now->str));
 	else
-		// return (0);
-		return (test_tr_print_tree(*root, "INIT TREE"));
+		return (0);
+		// return (test_tr_print_tree(*root, "INIT TREE"));
 }
