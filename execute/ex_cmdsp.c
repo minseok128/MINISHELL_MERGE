@@ -22,7 +22,7 @@ t_cmds	*ex_cmdsp_init(void)
 	return (cmdsp_head);
 }
 
-t_cmds	*ex_cmdsp_add_back(t_cmds *cmdsp, char **argv, char *in, char *out)
+t_cmds	*ex_cmdsp_add_back(t_cmds *cmdsp)
 {
 	t_cmds	*new;
 	t_cmds	*node;
@@ -30,9 +30,6 @@ t_cmds	*ex_cmdsp_add_back(t_cmds *cmdsp, char **argv, char *in, char *out)
 	new = ft_calloc_s(sizeof(t_cmds), 1);
 	if (new == NULL)
 		exit(0);
-	new->argv = argv;
-	new->in_file = in;
-	new->out_file = out;
 	node = cmdsp;
 	while(node->next != NULL)
 		node = node->next;

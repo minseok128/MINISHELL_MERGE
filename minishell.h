@@ -138,8 +138,8 @@ t_envs			*btin_find_node(t_envs *envsp, char *key);
 char			**btin_divide_key_and_value(char *env);
 
 // ex
-t_cmds			*ex_make_cmdsp(void);
-void			ex_add_cmdsp_node(t_cmds *cmdsp, char **argv, char *in, char *out);
+t_cmds			*ex_cmdsp_init(void);
+t_cmds			*ex_cmdsp_add_back(t_cmds *cmdsp);
 void			ex_process_command(t_cmds *cmdsp_head, t_envs *envsp);
 void			ex_open_output_fd(t_cmds *cmdsp);
 void			ex_open_input_fd(t_cmds *cmdsp);
@@ -148,8 +148,6 @@ void			ex_execute(t_vector *cmds, t_envs *envsp, char **envp);
 int				ex_is_builtin(t_cmds *cmds, t_envs *envsp, int fork_flag);
 char			*ex_strjoin_c(char const *s1, char const *s2, char c);
 void			*ex_free_string_array(char **string_array);
-t_cmds			*ex_cmdsp_init(void);
-t_cmds			*ex_cmdsp_add_back(t_cmds *cmdsp, char **argv, char *in, char *out);
 
 // !test codes!
 int				tk_print(t_token *tk);
