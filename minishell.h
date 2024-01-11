@@ -21,6 +21,8 @@
 # include <term.h>
 # include <errno.h>
 # include <string.h>
+# include <fcntl.h>
+# include <sys/stat.h>
 # include "libft/libft.h"
 # include "libft_s/libft_s.h"
 
