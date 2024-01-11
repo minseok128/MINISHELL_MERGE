@@ -82,7 +82,7 @@ typedef struct s_parser_info {
 
 typedef struct s_cmds
 {
-	t_vector		**argv;
+	t_vector		argv;
 	char			*in_file;
 	char			*out_file;
 	int				prev_out;
@@ -118,7 +118,7 @@ void			trtv_quotes_removal(t_vector *word_split);
 int				trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd);
 void			trtv_comd_travel(t_tr_node *node, t_cmds *cmd);
 void			trtv_list_travel(t_tr_node *node, t_envs *envsp);
-int				trtv_pipe_travel(t_tr_node *node, t_vector *cmds, t_envs *envsp);
+int				trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, t_envs *envsp);
 
 // btin
 void			btin_pwd(int fork_flag);
@@ -144,7 +144,7 @@ void			ex_process_command(t_cmds *cmdsp_head, t_envs *envsp);
 void			ex_open_output_fd(t_cmds *cmdsp);
 void			ex_open_input_fd(t_cmds *cmdsp);
 void			ex_dup_to(int from, int to);
-void			ex_execute(t_vector *cmds, t_envs *envsp, char **envp);
+void			ex_execute(char **cmd, t_envs *envsp, char **envp);
 int				ex_is_builtin(t_cmds *cmds, t_envs *envsp, int fork_flag);
 char			*ex_strjoin_c(char const *s1, char const *s2, char c);
 void			*ex_free_string_array(char **string_array);
@@ -154,6 +154,6 @@ int				tk_print(t_token *tk);
 int				test_tr_print_tree(t_tr_node *root, char *str);
 void			test_print_node(t_tr_node *node);
 void			test_print_command_part(t_tr_node *node);
-void			test_cmds_print(t_vector *cmds);
+void			test_cmds_print(t_cmds *cmds);
 
 #endif
