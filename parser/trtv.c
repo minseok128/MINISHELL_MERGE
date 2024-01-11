@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "../minishell.h"
 
-int	trtv_comd_part_travel(t_tr_node *node, t_cmd *cmd)
+int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd)
 {
 	int	i;
 
@@ -45,7 +45,7 @@ int	trtv_comd_part_travel(t_tr_node *node, t_cmd *cmd)
 	return (0);
 }
 
-void	trtv_comd_travel(t_tr_node *node, t_cmd *cmd)
+void	trtv_comd_travel(t_tr_node *node, t_cmds *cmd)
 {
 	if (node->left && node->left->bnf_type == TR_COMMAND)
 		trtv_comd_travel(node->left, cmd);
@@ -57,7 +57,7 @@ void	trtv_comd_travel(t_tr_node *node, t_cmd *cmd)
 
 int	trtv_pipe_travel(t_tr_node *node, t_vector *cmds)
 {
-	t_cmd		*cmd;
+	t_cmds		*cmd;
 
 	if (node->left && node->left->bnf_type == TR_LIST)
 	{
@@ -68,7 +68,7 @@ int	trtv_pipe_travel(t_tr_node *node, t_vector *cmds)
 		trtv_pipe_travel(node->left, cmds);
 	if (node->left && node->left->bnf_type == TR_COMMAND)
 	{
-		cmd = ft_calloc_s(sizeof(t_cmd), 1);
+		cmd = ft_calloc_s(sizeof(t_cmds), 1);
 		vec_init(&(cmd->argv) ,1);
 		trtv_comd_travel(node->left, cmd);
 		vec_push_back(&(cmd->argv), 0);
@@ -76,7 +76,7 @@ int	trtv_pipe_travel(t_tr_node *node, t_vector *cmds)
 	}
 	if (node->right && node->right->bnf_type == TR_COMMAND)
 	{
-		cmd = ft_calloc_s(sizeof(t_cmd), 1);
+		cmd = ft_calloc_s(sizeof(t_cmds), 1);
 		vec_init(&(cmd->argv), 1);
 		trtv_comd_travel(node->right, cmd);
 		vec_push_back(&(cmd->argv), 0);
