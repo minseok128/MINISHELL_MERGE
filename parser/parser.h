@@ -73,6 +73,10 @@ int				mktr_command_part(t_tr_node **head, t_token **tk_now);
 void			trtv_env_cmdp(char *word, char **e_w, t_envs *envsp);
 void			trtv_word_split(char *word, t_tr_node *node);
 void			trtv_quotes_removal(t_vector *word_split);
+int				trtv_comd_part_travel(t_tr_node *node, t_cmd *cmd);
+void			trtv_comd_travel(t_tr_node *node, t_cmd *cmd);
+void			trtv_list_travel(t_tr_node *node);
+int				trtv_pipe_travel(t_tr_node *node, t_vector *cmds);
 
 # define APPEND 999
 
