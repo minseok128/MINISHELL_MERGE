@@ -12,11 +12,6 @@
 
 #include "parser.h"
 
-int			trtv_comd_part_travel(t_tr_node *node, t_cmd *cmd);
-void		trtv_comd_travel(t_tr_node *node, t_cmd *cmd);
-void		trtv_list_travel(t_tr_node *node);
-int			trtv_pipe_travel(t_tr_node *node, t_vector *cmds);
-
 int	trtv_comd_part_travel(t_tr_node *node, t_cmd *cmd)
 {
 	int	i;
