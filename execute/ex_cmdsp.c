@@ -22,7 +22,7 @@ t_cmds	*ex_cmdsp_init(void)
 	return (cmdsp_head);
 }
 
-void	ex_cmdsp_add_back(t_cmds *cmdsp, char **argv, char *in, char *out)
+t_cmds	*ex_cmdsp_add_back(t_cmds *cmdsp, char **argv, char *in, char *out)
 {
 	t_cmds	*new;
 	t_cmds	*node;
@@ -37,4 +37,5 @@ void	ex_cmdsp_add_back(t_cmds *cmdsp, char **argv, char *in, char *out)
 	while(node->next != NULL)
 		node = node->next;
 	node->next = new;
+	return (new);
 }
