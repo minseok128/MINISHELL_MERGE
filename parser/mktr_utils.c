@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "../minishell.h"
 
 int	mktr_print_unexpected(char *str)
 {
