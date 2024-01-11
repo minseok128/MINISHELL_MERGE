@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "btin.h"
+#include "../minishell.h"
 
 void	btin_modify_pwd(t_envs *envsp, char *old_pwd, int fork_flag)
 {
