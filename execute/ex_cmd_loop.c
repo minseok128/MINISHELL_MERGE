@@ -31,7 +31,7 @@ char	**ex_change_to_envp(t_envs *envsp)
 	i = 0;
 	while (i < size)
 	{
-		if ((node->key)[0] != "?")
+		if ((node->key)[0] != '?')
 			envp[i] = ex_strjoin_c(node->key, node->value, '=');
 		i++;
 	}
@@ -59,17 +59,17 @@ pid_t	ex_fork(t_cmds *cmdsp, t_envs *envsp, char **envp, int pipe_fd[2])
 		else if (pipe_fd[1] != -1)
 			ex_dup_to(pipe_fd[1], 1);
 		if (ex_is_builtin(cmdsp, envsp, 1) == 0)
-			ex_execute(cmdsp->argv, envsp, envp);
+			ex_execute(&(cmdsp->argv), envsp, envp);
 	}
 	return (pid);
 }
 
-pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
+pid_t	ex_do_pipe(t_cmds *cmdsp, t_cmds *cmdsp_n, t_envs *envsp, char **envp)
 {
 	pid_t	pid;
 	int		pipe_fd[2];
 
-	if (cmdsp->next == NULL)
+	if (!cmdsp_n)
 	{
 		pipe_fd[0] = -1;
 		pipe_fd[1] = -1;
@@ -83,30 +83,30 @@ pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
 		close(pipe_fd[1]);
 		if (cmdsp->prev_out != -1)
 			close(cmdsp->prev_out);
-		cmdsp->next->prev_out = pipe_fd[0];
+		cmdsp_n->prev_out = pipe_fd[0];
 	}
 	return (pid);
 }
 
-void	ex_process_command(t_cmds *cmdsp_head, t_envs *envsp)
+void	ex_process_command(t_vector *cmds, t_envs *envsp)
 {
-	t_cmds	*cmdsp;
+	int		i;
 	char	**envp;
 	int		status;
 	pid_t	pid;
 
-	cmdsp = cmdsp_head->next;
-	cmdsp->prev_out = -1;
+	((t_cmds *)(cmds->items[0]))->prev_out = -1;
 	//단일 builtin 명령어 처리
-	if (cmdsp->next == NULL && ex_is_builtin(cmdsp, envsp, 0) == 1)
+	if (cmds->size == 1 && ex_is_builtin(cmds->items[0], envsp, 0) == 1)
 		;
 	else
 	{
 		envp = ex_change_to_envp(envsp);
-		while (cmdsp != NULL)
+		i = 0;
+		while (i < cmds->size - 1)
 		{
-			pid = ex_do_pipe(cmdsp, envsp, envp);
-			cmdsp = cmdsp->next;
+			pid = ex_do_pipe(cmds->items[i], cmds->items[i + 1], envsp, envp);
+			i++;
 		}
 		waitpid(pid, &status, 0);
 		while (waitpid(-1, NULL, 0) != -1)
