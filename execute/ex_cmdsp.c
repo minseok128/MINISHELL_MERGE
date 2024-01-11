@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execute.h"
+#include "../minishell.h"
 
 t_cmds	*ex_make_cmdsp(void)
 {
