@@ -12,25 +12,6 @@
 
 #include "../minishell.h"
 
-void	ex_all_close(t_cmds *cmdsp)
-{
-	t_cmds	*tmp;
-
-	while (cmdsp != NULL)
-	{
-		// ex_free_string_array(cmdsp->argv);
-		free(cmdsp->argv);
-		//	
-		// if (cmdsp->in_file != NULL)
-		// 	free(cmdsp->in_file);
-		// if (cmdsp->out_file != NULL)
-		// 	free(cmdsp->out_file);
-		tmp = cmdsp;
-		cmdsp = cmdsp->next;
-		free(tmp);
-	}
-}
-
 char	**ex_change_to_envp(t_envs *envsp)
 {
 	t_envs	*node;
@@ -135,5 +116,4 @@ void	ex_process_command(t_cmds *cmdsp_head, t_envs *envsp)
 		if (WIFSIGNALED(status) != 0)
 			g_errno = WTERMSIG(status) + 128;
 	}
-	ex_all_close(cmdsp_head->next);
 }
