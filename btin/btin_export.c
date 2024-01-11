@@ -72,11 +72,11 @@ void	btin_export(t_cmds *cmds, t_envs *envsp, int error_code, int fork_flag)
 	char	**key_and_value;
 
 	i = 1;
-	if (cmds->argv[i] == NULL)
+	if (cmds->argv.items[i] == NULL)
 		btin_print_declare_env(envsp);
-	while (cmds->argv[i] != NULL)
+	while (cmds->argv.items[i] != NULL)
 	{
-		str = cmds->argv[i++];
+		str = cmds->argv.items[i++];
 		key_and_value = btin_divide_key_and_value(str);
 		if (key_and_value != NULL)
 		{
