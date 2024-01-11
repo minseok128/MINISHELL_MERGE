@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "btin/btin.h"
 
 void	trem_init(int argc, char **argv)
 {
