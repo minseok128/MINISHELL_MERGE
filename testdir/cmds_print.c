@@ -12,21 +12,21 @@
 
 #include "../minishell.h"
 
-void	test_cmds_print(t_vector *cmds)
+void	test_cmds_print(t_cmds *cmds)
 {
+	int	i;
+
+	i = 0;
 	printf("[cmds print]\n");
-	for (int i = 0; i < cmds->size; i++)
+	while (cmds)
 	{
-		if (!cmds->items[i])
-		{
-			printf("  (null)\n");
-			continue; ;
-		}
 		printf("  #%d [cmd words]\n", i);
-		for (int j = 0; j < ((t_cmds *)(cmds->items[i]))->argv.size; j++)
+		for (int j = 0; j < cmds->argv.size; j++)
 		{
-			printf("    #%d-%d: %s\n", i, j, (char *)((t_cmds *)(cmds->items[i]))->argv.items[j]);
+			printf("    #%d-%d: %s\n", i, j, (char *)(cmds->argv.items[j]));
 		}
+		cmds = cmds->next;
+		i++;
 	}
 	printf("\n");
 }
