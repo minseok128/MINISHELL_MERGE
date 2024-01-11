@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "btin.h"
+#include "../minishell.h"
 
 void	btin_pwd(int fork_flag)
 {
