@@ -140,7 +140,7 @@ char			**btin_divide_key_and_value(char *env);
 // ex
 t_cmds			*ex_make_cmdsp(void);
 void			ex_add_cmdsp_node(t_cmds *cmdsp, char **argv, char *in, char *out);
-void			ex_process_command(t_vector *cmds, t_envs *envsp);
+void			ex_process_command(t_cmds *cmdsp_head, t_envs *envsp);
 void			ex_open_output_fd(t_cmds *cmdsp);
 void			ex_open_input_fd(t_cmds *cmdsp);
 void			ex_dup_to(int from, int to);
