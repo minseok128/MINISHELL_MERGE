@@ -12,6 +12,25 @@
 
 #include "../minishell.h"
 
+void	ex_all_close(t_cmds *cmdsp)
+{
+	t_cmds	*tmp;
+
+	while (cmdsp != NULL)
+	{
+		// ex_free_string_array(cmdsp->argv);
+		free(cmdsp->argv);
+		//	
+		// if (cmdsp->in_file != NULL)
+		// 	free(cmdsp->in_file);
+		// if (cmdsp->out_file != NULL)
+		// 	free(cmdsp->out_file);
+		tmp = cmdsp;
+		cmdsp = cmdsp->next;
+		free(tmp);
+	}
+}
+
 char	**ex_change_to_envp(t_envs *envsp)
 {
 	t_envs	*node;
@@ -31,7 +50,7 @@ char	**ex_change_to_envp(t_envs *envsp)
 	i = 0;
 	while (i < size)
 	{
-		if ((node->key)[0] != '?')
+		if ((node->key)[0] != "?")
 			envp[i] = ex_strjoin_c(node->key, node->value, '=');
 		i++;
 	}
@@ -59,17 +78,17 @@ pid_t	ex_fork(t_cmds *cmdsp, t_envs *envsp, char **envp, int pipe_fd[2])
 		else if (pipe_fd[1] != -1)
 			ex_dup_to(pipe_fd[1], 1);
 		if (ex_is_builtin(cmdsp, envsp, 1) == 0)
-			ex_execute(&(cmdsp->argv), envsp, envp);
+			ex_execute(cmdsp->argv, envsp, envp);
 	}
 	return (pid);
 }
 
-pid_t	ex_do_pipe(t_cmds *cmdsp, t_cmds *cmdsp_n, t_envs *envsp, char **envp)
+pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
 {
 	pid_t	pid;
 	int		pipe_fd[2];
 
-	if (!cmdsp_n)
+	if (cmdsp->next == NULL)
 	{
 		pipe_fd[0] = -1;
 		pipe_fd[1] = -1;
@@ -83,30 +102,30 @@ pid_t	ex_do_pipe(t_cmds *cmdsp, t_cmds *cmdsp_n, t_envs *envsp, char **envp)
 		close(pipe_fd[1]);
 		if (cmdsp->prev_out != -1)
 			close(cmdsp->prev_out);
-		cmdsp_n->prev_out = pipe_fd[0];
+		cmdsp->next->prev_out = pipe_fd[0];
 	}
 	return (pid);
 }
 
-void	ex_process_command(t_vector *cmds, t_envs *envsp)
+void	ex_process_command(t_cmds *cmdsp_head, t_envs *envsp)
 {
-	int		i;
+	t_cmds	*cmdsp;
 	char	**envp;
 	int		status;
 	pid_t	pid;
 
-	((t_cmds *)(cmds->items[0]))->prev_out = -1;
+	cmdsp = cmdsp_head->next;
+	cmdsp->prev_out = -1;
 	//단일 builtin 명령어 처리
-	if (cmds->size == 1 && ex_is_builtin(cmds->items[0], envsp, 0) == 1)
+	if (cmdsp->next == NULL && ex_is_builtin(cmdsp, envsp, 0) == 1)
 		;
 	else
 	{
 		envp = ex_change_to_envp(envsp);
-		i = 0;
-		while (i < cmds->size - 1)
+		while (cmdsp != NULL)
 		{
-			pid = ex_do_pipe(cmds->items[i], cmds->items[i + 1], envsp, envp);
-			i++;
+			pid = ex_do_pipe(cmdsp, envsp, envp);
+			cmdsp = cmdsp->next;
 		}
 		waitpid(pid, &status, 0);
 		while (waitpid(-1, NULL, 0) != -1)
@@ -116,4 +135,5 @@ void	ex_process_command(t_vector *cmds, t_envs *envsp)
 		if (WIFSIGNALED(status) != 0)
 			g_errno = WTERMSIG(status) + 128;
 	}
+	ex_all_close(cmdsp_head->next);
 }
