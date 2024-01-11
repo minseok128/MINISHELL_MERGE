@@ -55,7 +55,7 @@ void	trtv_comd_travel(t_tr_node *node, t_cmds *cmd)
 		trtv_comd_part_travel(node->right, cmd);
 }
 
-int	trtv_pipe_travel(t_tr_node *node, t_vector *cmds, t_envs *envsp)
+int	trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, t_envs *envsp)
 {
 	t_cmds		*cmd;
 
@@ -65,54 +65,46 @@ int	trtv_pipe_travel(t_tr_node *node, t_vector *cmds, t_envs *envsp)
 		return (1);
 	}
 	else if (node->left && node->left->bnf_type == TR_PIPELINE)
-		trtv_pipe_travel(node->left, cmds, envsp);
+		trtv_pipe_travel(node->left, cmds_h, envsp);
 	if (node->left && node->left->bnf_type == TR_COMMAND)
 	{
-		cmd = ft_calloc_s(sizeof(t_cmds), 1);
+		cmd = ex_cmdsp_add_back(cmds_h);
 		vec_init(&(cmd->argv) ,1);
 		trtv_comd_travel(node->left, cmd);
 		vec_push_back(&(cmd->argv), 0);
-		vec_push_back(cmds, cmd);
 	}
 	if (node->right && node->right->bnf_type == TR_COMMAND)
 	{
-		cmd = ft_calloc_s(sizeof(t_cmds), 1);
-		vec_init(&(cmd->argv), 1);
+		cmd = ex_cmdsp_add_back(cmds_h);
+		vec_init(&(cmd->argv) ,1);
 		trtv_comd_travel(node->right, cmd);
 		vec_push_back(&(cmd->argv), 0);
-		vec_push_back(cmds, cmd);
 	}
 	return (0);
 }
 
 void	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 {
-	t_vector	cmds;
+	t_cmds	*cmds_h;
 
 	if (node->left && node->left->bnf_type == TR_LIST)
 		trtv_list_travel(node->left, envsp);
-	vec_init(&cmds, 1);
+	cmds_h = ex_cmdsp_init();
 	if (node->left && node->left->bnf_type == TR_PIPELINE)
 	{
-		if (!trtv_pipe_travel(node->left, &cmds, envsp))
+		if (!trtv_pipe_travel(node->left, cmds_h, envsp))
 		{
-			vec_push_back(&cmds, 0);
-			test_cmds_print(&cmds);
-			ex_process_command(&cmds, envsp);
+			test_cmds_print(cmds_h);
+			ex_process_command(cmds_h, envsp);
 		}
-		else
-			vec_free(&cmds);
 	}
 	if (node->right && node->right->bnf_type == TR_PIPELINE)
 	{
-		if (!trtv_pipe_travel(node->right, &cmds, envsp))
+		if (!trtv_pipe_travel(node->right, cmds_h, envsp))
 		{
-			vec_push_back(&cmds, 0);
-			test_cmds_print(&cmds);
-			ex_process_command(&cmds, envsp);
+			test_cmds_print(cmds_h);
+			ex_process_command(cmds_h, envsp);
 		}
-		else
-			vec_free(&cmds);
 	}
 }
 
