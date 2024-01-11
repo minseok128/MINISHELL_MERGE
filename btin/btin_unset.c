@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "btin.h"
+#include "../minishell.h"
 
 void	btin_print_declare_env(t_envs *envsp)
 {
