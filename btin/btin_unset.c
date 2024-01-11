@@ -84,9 +84,9 @@ void	btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag)
 
 	error_flag = 0;
 	i = 1;
-	while (cmds->argv[i] != NULL)
+	while (cmds->argv.items[i] != NULL)
 	{
-		str = cmds->argv[i++];
+		str = cmds->argv.items[i++];
 		if (btin_is_valid_identifier(str) == 1)
 			btin_remove_envsp_node(envsp, str);
 		else
