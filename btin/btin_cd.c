@@ -83,7 +83,7 @@ void	btin_cd(t_cmds *cmds, t_envs *envsp, int fork_flag)
 	t_envs	*home;
 	char	*dest;
 
-	if (cmds->argv.items[1] == NULL)
+	if (cmds->argv[1] == NULL)
 	{
 		home = btin_find_node(envsp, "HOME");
 		if (home == NULL)
@@ -94,7 +94,7 @@ void	btin_cd(t_cmds *cmds, t_envs *envsp, int fork_flag)
 		dest = ft_strdup_s(home->value);
 	}
 	else
-		dest = ft_strdup_s(cmds->argv.items[1]);
+		dest = ft_strdup_s(cmds->argv[1]);
 	if (access(dest, F_OK) == -1)
 		btin_cd_error(1, dest, NULL, fork_flag);
 	else
