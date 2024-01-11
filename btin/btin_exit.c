@@ -38,10 +38,8 @@ long long	btin_is_overflow(long long num, int n, long long minus)
 long long	btin_atoi(char *str)
 {
 	long long	minus;
-	long long	i;
 	long long	num;
 
-	i = 0;
 	num = 0;
 	minus = 1;
 	while (*str >= 9 && *str <= 13)
@@ -55,8 +53,6 @@ long long	btin_atoi(char *str)
 			return (-1);
 		num = num * 10 + *str - '0';
 		str++;
-		if (num > 0)
-			i++;
 	}
 	if (*str != '\0')
 		return (-1);
