@@ -20,8 +20,10 @@ DIR			= ./
 BASE		= main signal_utils \
 			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils \
 			  parser/trtv parser/trtv_env_expand parser/trtv_word_split \
-			  btin/builtin_env btin/builtin_make_envsp btin/builtin_export \
-			  libft_s/libft_s_1 libft_s/ft_vector\
+			  btin/btin_exit btin/btin_make_envsp btin/btin_cd \
+			  btin/btin_echo btin/btin_env btin/btin_export \
+			  btin/btin_pwd btin/btin_unset \
+			  libft_s/libft_s_1 libft_s/ft_vector \
 			  testdir/tree_print testdir/cmds_print
 SRC			= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
 OBJ			= $(addprefix $(DIR), $(addsuffix .o, $(BASE)))
