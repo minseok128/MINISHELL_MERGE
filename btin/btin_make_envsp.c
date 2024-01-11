@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "btin.h"
+#include "../minishell.h"
 
 void	btin_free_key_and_value(char **key_and_value, char *key, char *value)
 {
