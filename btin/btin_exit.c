@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "btin.h"
+#include "../minishell.h"
 
 char	*btin_sign_check(char *str, long long *minus)
 {
