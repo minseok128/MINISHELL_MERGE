@@ -12,20 +12,6 @@
 
 #include "../minishell.h"
 
-static int	tk_print(t_token *tk)
-{
-	printf("\n[TOKEN] DONE!\n");
-	while (tk)
-	{
-		printf("%s[%d]", tk->str, tk->type);
-		tk = tk->next;
-		if (tk)
-			printf(" ==> ");
-	}
-	printf("\n");
-	return (0);
-}
-
 static int	tk_meta(char *str, t_token **tk_head, int now)
 {
 	t_token_type	new_type;
@@ -95,5 +81,6 @@ int	tk_tokenize(char *str, t_token **tk_head)
 	if (is_error)
 		return (mktr_print_unexpected("newline"));
 	else
-		return (tk_print(*tk_head));
+		return (0);
+		// return (tk_print(*tk_head));
 }
