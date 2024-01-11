@@ -50,7 +50,7 @@ char	**ex_change_to_envp(t_envs *envsp)
 	i = 0;
 	while (i < size)
 	{
-		if ((node->key)[0] != "?")
+		if ((node->key)[0] != '?')
 			envp[i] = ex_strjoin_c(node->key, node->value, '=');
 		i++;
 	}
@@ -78,7 +78,7 @@ pid_t	ex_fork(t_cmds *cmdsp, t_envs *envsp, char **envp, int pipe_fd[2])
 		else if (pipe_fd[1] != -1)
 			ex_dup_to(pipe_fd[1], 1);
 		if (ex_is_builtin(cmdsp, envsp, 1) == 0)
-			ex_execute(cmdsp->argv, envsp, envp);
+			ex_execute((char **)(cmdsp->argv.items), envsp, envp);
 	}
 	return (pid);
 }
