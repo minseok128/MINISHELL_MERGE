@@ -86,7 +86,7 @@ void	btin_export(t_cmds *cmds, t_envs *envsp, int error_code, int fork_flag)
 			{
 				btin_free_key_and_value(key_and_value, key_and_value[0], \
 									key_and_value[1]);
-				printf("bash: export: '%s': not a valid identifier\n", str);
+				printf("minishell: export: '%s': not a valid identifier\n", str);
 				error_code = 1;
 			}
 		}
