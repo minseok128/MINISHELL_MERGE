@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   trtv.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michang <michang@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:37:45 by michang           #+#    #+#             */
-/*   Updated: 2024/01/04 20:37:46 by michang          ###   ########.fr       */
+/*   Updated: 2024/01/12 15:55:37 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 		if (!trtv_pipe_travel(node->left, cmds_h, envsp))
 		{
 			// test_cmds_print(cmds_h);
-			ex_process_command(cmds_h, envsp);
+			ex_cmd_loop(cmds_h, envsp);
 		}
 	}
 	if (node->right && node->right->bnf_type == TR_PIPELINE)
@@ -103,7 +103,7 @@ void	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 		if (!trtv_pipe_travel(node->right, cmds_h, envsp))
 		{
 			// test_cmds_print(cmds_h);
-			ex_process_command(cmds_h, envsp);
+			ex_cmd_loop(cmds_h, envsp);
 		}
 	}
 }

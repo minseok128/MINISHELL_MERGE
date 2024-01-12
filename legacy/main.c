@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:32:34 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/10 17:05:48 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/12 15:55:37 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void builtin_test(t_envs *envsp)
 	// pwd test       << no leak
 		cmdsp->next->argv[0] = "pwd";
 		cmdsp->next->argv[1] = NULL;
-		ex_process_command(cmdsp, envsp);
+		ex_cmd_loop(cmdsp, envsp);
 
 	// env test       << no leak
 		// cmdsp->next->argv[0] = "env";
 		// cmdsp->next->argv[1] = NULL;
-		// ex_process_command(cmdsp, envsp);
+		// ex_cmd_loop(cmdsp, envsp);
 
 	// export & unset test         << no leak
 		// printf("export\n");
@@ -41,15 +41,15 @@ void builtin_test(t_envs *envsp)
 		// cmdsp->next->argv[5] = "TEST=ls -l - a";
 		// cmdsp->next->argv[6] = "p==23";
 		// cmdsp->next->argv[7] = NULL;
-		// ex_process_command(cmdsp, envsp);
+		// ex_cmd_loop(cmdsp, envsp);
 		// cmdsp->next->argv[0] = "env";
 		// cmdsp->next->argv[1] = NULL;
-		// ex_process_command(cmdsp, envsp);
+		// ex_cmd_loop(cmdsp, envsp);
 
 		// printf("\n\nexport -no arg\n");
 		// cmdsp->next->argv[0] = "export";
 		// cmdsp->next->argv[1] = NULL;
-		// ex_process_command(cmdsp, envsp);
+		// ex_cmd_loop(cmdsp, envsp);
 		
 		// printf("\n\n\nunset\n");
 		// cmdsp->next->argv[0] = "unset";
@@ -60,25 +60,25 @@ void builtin_test(t_envs *envsp)
 		// cmdsp->next->argv[5] = "12c";
 		// cmdsp->next->argv[6] = "p";
 		// cmdsp->next->argv[7] = NULL;
-		// ex_process_command(cmdsp, envsp);
+		// ex_cmd_loop(cmdsp, envsp);
 		// cmdsp->next->argv[0] = "env";
 		// cmdsp->next->argv[1] = NULL;
-		// ex_process_command(cmdsp, envsp);
+		// ex_cmd_loop(cmdsp, envsp);
 
 		// printf("\n\nexport -no arg\n");
 		// cmdsp->next->argv[0] = "export";
 		// cmdsp->next->argv[1] = NULL;
-		// ex_process_command(cmdsp, envsp);
+		// ex_cmd_loop(cmdsp, envsp);
 		
 	// cd test         << no leak
 		// cmdsp->next->argv[0] = "cd";
 		// cmdsp->next->argv[1] = "test";
 		// cmdsp->next->argv[2] = NULL;
-		// ex_process_command(cmdsp, envsp);
+		// ex_cmd_loop(cmdsp, envsp);
 		// printf("errno : %d\n", g_errno);
 		// cmdsp->next->argv[0] = "pwd";
 		// cmdsp->next->argv[1] = NULL;
-		// ex_process_command(cmdsp, envsp);
+		// ex_cmd_loop(cmdsp, envsp);
 		
 	// echo test           << no leak
 		// cmdsp->next->argv[0] = "echo";
@@ -87,13 +87,13 @@ void builtin_test(t_envs *envsp)
 		// cmdsp->next->argv[3] = "hi";
 		// cmdsp->next->argv[4] = "-n";
 		// cmdsp->next->argv[5] = NULL;
-		// ex_process_command(cmdsp, envsp);
+		// ex_cmd_loop(cmdsp, envsp);
 
 	// exit test              << no leak
 		// cmdsp->next->argv[0] = "exit";
 		// cmdsp->next->argv[1] = "1s";
 		// cmdsp->next->argv[2] = NULL;
-		// ex_process_command(cmdsp, envsp);
+		// ex_cmd_loop(cmdsp, envsp);
 
 	free(cmdsp->next->argv);
 	free(cmdsp->next);
@@ -115,7 +115,7 @@ void command_test(t_envs *envsp)
 	argv2[1] = "-xyz";
 	argv2[2] = NULL;
 	ex_add_cmdsp_node(cmdsp, argv2, NULL, NULL);
-	ex_process_command(cmdsp, envsp);
+	ex_cmd_loop(cmdsp, envsp);
 }
 
 // void	leak_check()
