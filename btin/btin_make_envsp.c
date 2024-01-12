@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_btin_make_envsp.c                          :+:      :+:    :+:   */
+/*   btin_make_envsp.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:25:24 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/04 15:19:32 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/12 15:46:39 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,6 @@ t_envs	*btin_make_envsp(char **envp)
 
 	envsp_head = btin_make_envsp_node(NULL);
 	envsp_tail = envsp_head;
-	key_and_value = btin_divide_key_and_value("?=0");
-	envsp_tail->next = btin_make_envsp_node(key_and_value);
-	envsp_tail = envsp_tail->next;
 	i = 0;
 	while (envp[i] != NULL)
 	{
