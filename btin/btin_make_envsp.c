@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:25:24 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/12 15:46:39 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/12 17:06:00 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	**btin_divide_key_and_value(char *env)
 	if (equal_index == -1)
 	{
 		key_and_value[0] = ft_strdup_s(env);
+		key_and_value[1] = NULL;
 		return (key_and_value);
 	}
 	key_and_value[0] = malloc(sizeof(char) * (equal_index + 1));
