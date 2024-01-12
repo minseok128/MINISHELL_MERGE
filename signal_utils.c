@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signal_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michang <michang@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:32 by michang           #+#    #+#             */
-/*   Updated: 2023/09/09 14:46:33 by michang          ###   ########.fr       */
+/*   Updated: 2024/01/12 16:14:11 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	siganal_handler(int signo)
+void	signal_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
@@ -21,19 +21,21 @@ void	siganal_handler(int signo)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	if (signo == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_redisplay();
-	}
+}
+
+void	signal_heredoc_handler(int signo)
+{
+	(void)signo;
+	printf("\n");
+	exit(1);
 }
 
 void	set_signal(int sig_int, int sig_quit)
 {
 	if (sig_int == MODE_SHELL)
-		signal(SIGINT, siganal_handler);
+		signal(SIGINT, signal_handler);
 	if (sig_quit == MODE_SHELL)
-		signal(SIGQUIT, siganal_handler);
+		signal(SIGQUIT, SIG_IGN);
 	if (sig_int == MODE_DEFAULT)
 		signal(SIGINT, SIG_DFL);
 	if (sig_quit == MODE_DEFAULT)
@@ -41,5 +43,9 @@ void	set_signal(int sig_int, int sig_quit)
 	if (sig_int == MODE_IGNORE)
 		signal(SIGINT, SIG_IGN);
 	if (sig_quit == MODE_IGNORE)
+		signal(SIGQUIT, SIG_IGN);
+	if (sig_int == MODE_HEREDOC)
+		signal(SIGINT, signal_heredoc_handler);
+	if (sig_quit == MODE_HEREDOC)
 		signal(SIGQUIT, SIG_IGN);
 }
