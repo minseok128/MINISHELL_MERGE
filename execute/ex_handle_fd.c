@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:07:48 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/10 17:11:12 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/12 15:52:13 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	ex_open_input_fd(t_cmds *cmdsp)
 
 	if (access(cmdsp->in_file, F_OK) != 0)
 	{
-		printf("bash: %s: No such file or directory\n", cmdsp->in_file);
+		printf("minishell: %s: No such file or directory\n", cmdsp->in_file);
 		btin_out(1, 1, NULL);
 	}
 	in_fd = open(cmdsp->in_file, O_RDONLY);
 	if (in_fd == -1)
 	{
-		printf("bash: %s: Permission denied\n", cmdsp->in_file);
+		printf("minishell: %s: Permission denied\n", cmdsp->in_file);
 		btin_out(1, 1, NULL);
 	}
 	ex_dup_to(in_fd, 0);
@@ -46,7 +46,7 @@ void	ex_open_output_fd(t_cmds *cmdsp)
 		out_fd = open(cmdsp->out_file, O_WRONLY);
 	if (out_fd == -1)
 	{
-		printf("bash: %s: Permission denied\n", cmdsp->out_file);
+		printf("minishell: %s: Permission denied\n", cmdsp->out_file);
 		btin_out(1, 1, NULL);
 	}
 	ex_dup_to(out_fd, 1);
