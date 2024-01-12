@@ -53,12 +53,11 @@ void	btin_traverse_list_to_add(t_envs *envsp, char **key_and_value)
 
 	target = btin_find_node(envsp, key_and_value[0]);
 	if (target == NULL)
-	{
 		btin_add_new_node(envsp->next, key_and_value);
-	}
-	else
+	else if (key_and_value[1] != NULL)
 	{
-		free(target->value);
+		if (target->value != NULL)
+			free(target->value);
 		target->value = key_and_value[1];
 		free(key_and_value[0]);
 		free(key_and_value);
