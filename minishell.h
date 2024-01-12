@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michang <michang@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2023/09/09 14:46:52 by michang          ###   ########.fr       */
+/*   Updated: 2024/01/12 15:55:37 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ char			**btin_divide_key_and_value(char *env);
 // ex
 t_cmds			*ex_cmdsp_init(void);
 t_cmds			*ex_cmdsp_add_back(t_cmds *cmdsp);
-void			ex_process_command(t_cmds *cmdsp_head, t_envs *envsp);
+void			ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp);
 void			ex_open_output_fd(t_cmds *cmdsp);
 void			ex_open_input_fd(t_cmds *cmdsp);
 void			ex_dup_to(int from, int to);
