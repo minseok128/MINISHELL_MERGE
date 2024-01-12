@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/12 15:55:37 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/12 16:28:29 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define MODE_SHELL 0
 # define MODE_DEFAULT 1
 # define MODE_IGNORE 2
+# define MODE_HEREDOC 3
 # define APPEND 999
 
 typedef enum e_token_type {
