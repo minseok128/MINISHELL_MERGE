@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:19 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/04 18:53:33 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/12 15:45:17 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void	btin_print_declare_env(t_envs *envsp)
 	node = envsp->next;
 	while (node != NULL)
 	{
-		if ((node->key)[0] == '?')
-			continue ;
 		if (node->value != NULL)
 			printf("declare -x %s=\"%s\"\n", node->key, node->value);
 		else
