@@ -41,13 +41,13 @@ void	btin_cd_error(int flag, char *dest, char *pwd, int fork_flag)
 	if (flag == 0)
 		return ;
 	if (flag == 1)
-		printf("bash: cd: %s: No such file or directory\n", dest);
+		printf("minishell: cd: %s: No such file or directory\n", dest);
 	else if (flag == 2)
-		printf("bash: cd: %s: Not a directory\n", dest);
+		printf("minishell: cd: %s: Not a directory\n", dest);
 	else if (flag == 3)
-		printf("bash: cd: %s: Permission denied\n", dest);
+		printf("minishell: cd: %s: Permission denied\n", dest);
 	else if (flag == 4)
-		printf("bash: cd: HOME not set\n");
+		printf("minishell: cd: HOME not set\n");
 	if (dest != NULL)
 		free(dest);
 	if (pwd != NULL)
