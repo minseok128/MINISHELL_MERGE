@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/12 15:53:27 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/12 15:55:37 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
 	return (pid);
 }
 
-void	ex_process_command(t_cmds *cmdsp_head, t_envs *envsp)
+void	ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp)
 {
 	t_cmds	*cmdsp;
 	char	**envp;
@@ -112,7 +112,6 @@ void	ex_process_command(t_cmds *cmdsp_head, t_envs *envsp)
 
 	cmdsp = cmdsp_head->next;
 	cmdsp->prev_out = -1;
-	//단일 builtin 명령어 처리
 	if (cmdsp->next == NULL && ex_is_builtin(cmdsp, envsp, 0) == 1)
 		;
 	else
