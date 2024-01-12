@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:19 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/12 15:45:17 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/12 15:51:14 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag)
 			btin_remove_envsp_node(envsp, str);
 		else
 		{
-			printf("bash: unset: '%s': not a valid identifier\n", str);
+			printf("minishell: unset: '%s': not a valid identifier\n", str);
 			error_flag = 1;
 		}
 	}
