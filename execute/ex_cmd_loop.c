@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/10 18:18:15 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/12 15:53:27 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,7 @@ char	**ex_change_to_envp(t_envs *envsp)
 	node = envsp->next;
 	i = 0;
 	while (i < size)
-	{
-		if ((node->key)[0] != '?')
-			envp[i] = ex_strjoin_c(node->key, node->value, '=');
-		i++;
-	}
+		envp[i++] = ex_strjoin_c(node->key, node->value, '=');
 	envp[i] = NULL;
 	return (envp);
 }
