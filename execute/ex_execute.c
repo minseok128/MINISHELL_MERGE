@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:12:59 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/10 17:14:37 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/12 15:52:34 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*ex_search_path(char *cmd, t_envs *envsp, int i)
 		free(path);
 	}
 	ex_free_string_array(envp_path);
-	printf("bash: %s: command not found\n", cmd);
+	printf("minishell: %s: command not found\n", cmd);
 	btin_out(1, 127, NULL);
 	return (cmd);
 }
