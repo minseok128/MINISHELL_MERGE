@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:12:59 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/12 15:52:34 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/12 19:16:48 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,26 @@ char	*ex_search_path(char *cmd, t_envs *envsp, int i)
 	return (cmd);
 }
 
+int	ex_is_path(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i] != '\0')
+	{
+		if (cmd[i] == '/')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	ex_execute(char **cmd, t_envs *envsp, char **envp)
 {
 	t_envs	*envsp_cp;
 
 	envsp_cp = envsp->next;
-	if (access(cmd[0], F_OK) == -1)
+	if (access(cmd[0], F_OK) == -1 && ex_is_path(cmd[0]) == 0)
 		cmd[0] = ex_search_path(cmd[0], envsp_cp, 0);
 	execve(cmd[0], cmd, envp);
 	btin_out(1, errno, strerror(errno));
