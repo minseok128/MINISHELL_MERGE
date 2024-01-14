@@ -127,9 +127,3 @@ void	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
 	trtv_expansion_travel(node->left, envsp);
 	trtv_expansion_travel(node->right, envsp);
 }
-
-void	trtv_start(t_tr_node *root, t_envs *envsp)
-{
-	trtv_expansion_travel(root, envsp);
-	trtv_list_travel(root, envsp);
-}
