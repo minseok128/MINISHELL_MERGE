@@ -6,7 +6,7 @@
 #    By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/01 21:01:14 by michang           #+#    #+#              #
-#    Updated: 2024/01/15 17:01:46 by seonjo           ###   ########.fr        #
+#    Updated: 2024/01/15 17:19:13 by seonjo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ BASE		= main signal_utils \
 			  btin/btin_echo btin/btin_env btin/btin_export \
 			  btin/btin_pwd btin/btin_unset \
 			  execute/ex_cmdsp execute/ex_cmd_loop execute/ex_execute execute/ex_handle_fd \
-			  libft_s/libft_s_1 libft_s/libft_s_2 libft_s/ft_vector \
+			  libft_s/libft_s_1 libft_s/ft_vector \
 			  testdir/tree_print testdir/cmds_print
 SRC			= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
 OBJ			= $(addprefix $(DIR), $(addsuffix .o, $(BASE)))
