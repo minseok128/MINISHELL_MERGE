@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:37:45 by michang           #+#    #+#             */
-/*   Updated: 2024/01/12 15:55:37 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/15 20:58:01 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd)
 {
 	int	i;
+	int	fd;
 
 	if (node->tk->type == T_WORD)
 	{
@@ -28,19 +29,37 @@ int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd)
 	}
 	if (node->tk->type == T_REDIR_S_L)
 	{
-
+		// 1. 만약 heredoc이 열려있으면 파일 삭제
+		// 2. 구조체에 in_file과 type 초기화
+		// 3. 파일 오픈
+		// 4. 파일 오픈 실패시 구조체 만들기 stop
+		// 5. 파일 오픈 성공시 바로 닫기
 	}
 	else if (node->tk->type == T_REDIR_S_R)
 	{
-
+		// 1. 구조체에 out_file과 type 초기화
+		// 2. 파일 오픈
+		// 3. 파일 오픈 실패시 구조체 만들기 stop
+		// 4. 파일 오픈 성공시 바로 닫기
+		
 	}
 	else if (node->tk->type == T_REDIR_D_L)
 	{
-
+		// 1. 만약 heredoc이 열려있으면 파일 삭제
+		// 2. 구조체에 in_file과 type 초기화
+		// 3. fork 하여 heredoc 실행 (시그널 처리)
+		// 4. 임시파일 이름을 확인하며 만들기
+		// 5. 파일 오픈 실패시 구조체 만들기 stop
+		//	5a. ctrl c 입력으로 heredoc 종료시 뒤에 명령어 전부 실행 x
+		//    echo 123 && << limit echo 456 이거 왜 echo 123 안나옴?
+		// 6. 파일 오픈 성공시 바로 닫기
 	}
 	else if (node->tk->type == T_REDIR_D_R)
 	{
-
+		// 1. 구조체에 out_file과 type 초기화
+		// 2. 파일 오픈
+		// 3. 파일 오픈 실패시 구조체 만들기 stop
+		// 4. 파일 오픈 성공시 바로 닫기
 	}
 	return (0);
 }
@@ -69,14 +88,14 @@ int	trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, t_envs *envsp)
 	if (node->left && node->left->bnf_type == TR_COMMAND)
 	{
 		cmd = ex_cmdsp_add_back(cmds_h);
-		vec_init(&(cmd->argv) ,1);
+		vec_init(&(cmd->argv), 1);
 		trtv_comd_travel(node->left, cmd);
 		vec_push_back(&(cmd->argv), 0);
 	}
 	if (node->right && node->right->bnf_type == TR_COMMAND)
 	{
 		cmd = ex_cmdsp_add_back(cmds_h);
-		vec_init(&(cmd->argv) ,1);
+		vec_init(&(cmd->argv), 1);
 		trtv_comd_travel(node->right, cmd);
 		vec_push_back(&(cmd->argv), 0);
 	}
