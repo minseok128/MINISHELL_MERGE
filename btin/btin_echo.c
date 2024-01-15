@@ -46,7 +46,9 @@ void	btin_echo(t_cmds *cmds, int fork_flag)
 	int		i;
 	int		n_flag;
 	int		print_flag;
+	char	*ret;
 
+	ret = ft_calloc_s(sizeof(char), 1);
 	n_flag = 0;
 	print_flag = 0;
 	i = 0;
@@ -54,18 +56,15 @@ void	btin_echo(t_cmds *cmds, int fork_flag)
 	{
 		if (print_flag == 0 && btin_is_option_n(cmds->argv.items[i], 0, 0) == 1)
 			n_flag = 1;
-		else if (cmds->argv.items[i + 1] == NULL)
-		{
-			if (n_flag == 1)
-				printf("%s", (char *)(cmds->argv.items[i]));
-			else
-				printf("%s\n", (char *)(cmds->argv.items[i]));
-		}
 		else
 		{
-			printf("%s ", (char *)(cmds->argv.items[i]));
+			ret = ft_strjoin_s(ret, cmds->argv.items[i]);
 			print_flag = 1;
 		}
 	}
+	if (n_flag == 0)
+		ret = ft_strjoin_s(ret, "\n");
+	printf("%s", ret);
+	free(ret);
 	btin_out(fork_flag, 0, NULL);
 }
