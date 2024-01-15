@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_s.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michang <michang@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 22:07:03 by michang           #+#    #+#             */
-/*   Updated: 2023/03/18 22:07:09 by michang          ###   ########.fr       */
+/*   Updated: 2024/01/15 16:58:59 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*ft_substr_s(char const *s, unsigned int start, size_t len);
 char	*ft_itoa_s(int n);
 char	*ft_strdup_s(const char *s1);
 void	*ft_calloc_s(size_t count, size_t size);
+char	*ft_strjoin_s(const char *s1, const char *s2);
 void	vec_init(t_vector *v, int capacity);
 void	vec_push_back(t_vector *v, void *item);
 void	vec_free(t_vector *v);
