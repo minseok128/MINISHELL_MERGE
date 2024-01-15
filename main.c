@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:05:34 by michang           #+#    #+#             */
-/*   Updated: 2024/01/12 16:18:53 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/15 17:19:56 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ int	main(int argc, char **argv, char **envp)
 	t_envs			*envsp;
 	t_parser_info	p_info;
 
+	argc = argv - argv;
 	terminal_print_off();
+	set_signal(MODE_SHELL, MODE_SHELL);
 	envsp = btin_make_envsp(envp);
 	while (1)
 	{
