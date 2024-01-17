@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:37:45 by michang           #+#    #+#             */
-/*   Updated: 2024/01/17 16:05:34 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 18:31:58 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	trtv_redir_s_l(t_cmds *cmd, char *file)
 	// 1. 만약 heredoc이 열려있으면 파일 삭제
 	if ((cmd->type & RD_HEREDOC) != 0)
 		if (unlink(cmd->in_file) == -1)
-			exit(1);
+			btin_out(1, errno, btin_make_errmsg("minishell: ", \
+				"unlink: ", strerror(errno)));
 	// 2. 구조체에 in_file과 type 초기화
 	if (cmd->in_file != NULL)
 		free(cmd->in_file);
@@ -70,7 +71,8 @@ pid_t	trtv_redir_d_l_fork(int fd, char *limiter)
 	set_signal(MODE_IGNORE, MODE_IGNORE);
 	pid = fork();
 	if (pid < 0)
-		exit(1);
+		btin_out(1, errno, btin_make_errmsg("minishell: ", \
+			"fork: ", strerror(errno)));
 	else if (pid == 0)
 	{
 		set_signal(MODE_HEREDOC, MODE_IGNORE);
@@ -128,7 +130,8 @@ int	trtv_redir_d_l(t_cmds *cmd, char *limiter)
 	// 1. 만약 heredoc이 열려있으면 파일 삭제
 	if ((cmd->type & RD_HEREDOC) != 0)
 		if (unlink(cmd->in_file) == -1)
-			exit(1);
+			btin_out(1, errno, btin_make_errmsg("minishell: ", \
+				"unlink: ", strerror(errno)));
 	// 2. 구조체에 in_file과 type 초기화
 	// 		2a. 임시파일 이름을 확인하며 만들기
 	if (cmd->in_file != NULL)
