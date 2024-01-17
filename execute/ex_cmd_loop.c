@@ -6,30 +6,32 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/12 16:47:04 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 15:33:57 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void	ex_all_close(t_cmds *cmdsp)
-// {
-// 	t_cmds	*tmp;
+void	ex_all_close(t_cmds *cmdsp)
+{
+	t_cmds	*tmp;
 
-// 	while (cmdsp != NULL)
-// 	{
-// 		// ex_free_string_array(cmdsp->argv);
-// 		free(cmdsp->argv);
-// 		//	
-// 		// if (cmdsp->in_file != NULL)
-// 		// 	free(cmdsp->in_file);
-// 		// if (cmdsp->out_file != NULL)
-// 		// 	free(cmdsp->out_file);
-// 		tmp = cmdsp;
-// 		cmdsp = cmdsp->next;
-// 		free(tmp);
-// 	}
-// }
+	while (cmdsp != NULL)
+	{
+		if ((cmdsp->type & RD_APPEND) != 0)
+			if (unlink(cmdsp->in_file) == -1)
+				return (1);
+		// ex_free_string_array(cmdsp->argv);
+		// free(cmdsp->argv);
+		// if (cmdsp->in_file != NULL)
+		// 	free(cmdsp->in_file);
+		// if (cmdsp->out_file != NULL)
+		// 	free(cmdsp->out_file);
+		// tmp = cmdsp;
+		cmdsp = cmdsp->next;
+		// free(tmp);
+	}
+}
 
 char	**ex_change_to_envp(t_envs *envsp)
 {
@@ -131,5 +133,5 @@ void	ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp)
 			g_errno = WTERMSIG(status) + 128;
 		printf("g_errno : %d\n", g_errno);
 	}
-	// ex_all_close(cmdsp_head->next);
+	ex_all_close(cmdsp_head->next);
 }
