@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 10:55:22 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/17 16:50:31 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 18:46:41 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	btin_out(int fork_flag, int error_code, char *errmsg)
 	if (errmsg != NULL)
 	{
 		ft_putstr_fd(errmsg, 2);
-		ft_putchar_fd('\n', 2);
 		free(errmsg);
 	}
 	if (fork_flag == 1)
