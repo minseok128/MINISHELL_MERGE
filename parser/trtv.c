@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:37:45 by michang           #+#    #+#             */
-/*   Updated: 2024/01/17 15:39:54 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 16:01:23 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ pid_t	trtv_redir_d_l_fork(int fd, char *limiter)
 	return (pid);
 }
 
-int	trtv_redir_d_l_make_tmp_file(t_cmds *cmd)
+int	trtv_redir_d_l_open_tmp_file(t_cmds *cmd)
 {
 	int		fd;
 	int		num;
@@ -103,14 +103,14 @@ int	trtv_redir_d_l_make_tmp_file(t_cmds *cmd)
 	while (num < 2147483647)
 	{
 		num_str = ft_itoa_s(num);
-		file_name = ft_strjoin_s("/tmp", num_str);
+		file_name = ft_strjoin_s("tmp", num_str);
 		free(num_str);
 		if (access(file_name, F_OK) == 0)
 			num++;
 		else
 		{
 			cmd->in_file = ft_strdup_s(file_name);
-			fd = open(file_name, O_RDONLY);
+			fd = open(file_name, O_CREAT | O_WRONLY, 0777);
 			return (fd);
 		}
 		free(file_name);
@@ -132,7 +132,7 @@ int	trtv_redir_d_l(t_cmds *cmd, char *limiter)
 	// 		2a. 임시파일 이름을 확인하며 만들기
 	if (cmd->in_file != NULL)
 		free(cmd->in_file);
-	fd = trtv_redir_d_l_make_tmp_file(cmd);
+	fd = trtv_redir_d_l_open_tmp_file(cmd);
 	if (fd == -1)
 		return (-1);
 	cmd->type |= RD_HEREDOC;
@@ -161,7 +161,7 @@ int	trtv_redir_d_r(t_cmds *cmd, char *file)
 	cmd->out_file = ft_strdup_s(file);
 	cmd->type |= RD_APPEND;
 	// 2. 파일 오픈
-	fd = open(cmd->out_file, O_APPEND | O_WRONLY);
+	fd = open(cmd->out_file, O_CREAT | O_APPEND | O_WRONLY, 0777);
 	// 3. 파일 오픈 실패시 구조체 만들기 stop
 	if (fd == -1)
 	{
