@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:37:45 by michang           #+#    #+#             */
-/*   Updated: 2024/01/17 14:59:00 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 15:39:54 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	trtv_redir_d_l_make_tmp_file(t_cmds *cmd)
 	while (num < 2147483647)
 	{
 		num_str = ft_itoa_s(num);
-		file_name = ft_strjoin_s("tmp", num_str);
+		file_name = ft_strjoin_s("/tmp", num_str);
 		free(num_str);
 		if (access(file_name, F_OK) == 0)
 			num++;
