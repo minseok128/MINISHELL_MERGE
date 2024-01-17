@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/17 16:07:08 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 18:26:23 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ex_all_close(t_cmds *cmdsp)
 	{
 		if ((cmdsp->type & RD_HEREDOC) != 0)
 			if (unlink(cmdsp->in_file) == -1)
-				exit(1);
+				btin_make_errmsg("minishell: ", "unlink: ", strerror(errno));
 		// ex_free_string_array(cmdsp->argv);
 		// free(cmdsp->argv);
 		// if (cmdsp->in_file != NULL)
@@ -47,7 +47,7 @@ char	**ex_change_to_envp(t_envs *envsp)
 		node = node->next;
 		size++;
 	}
-	envp = malloc(sizeof(char *) * (size));
+	envp = ft_calloc_s(sizeof(char *), size);
 	node = envsp->next;
 	i = 0;
 	while (i < size)
@@ -62,7 +62,8 @@ pid_t	ex_fork(t_cmds *cmdsp, t_envs *envsp, char **envp, int pipe_fd[2])
 
 	pid = fork();
 	if (pid < 0)
-		btin_out(1, errno, strerror(errno));
+		btin_out(1, errno, btin_make_errmsg("minishell: ", \
+			"fork :", strerror(errno)));
 	else if (pid == 0)
 	{
 		if (pipe_fd[0] != -1)
