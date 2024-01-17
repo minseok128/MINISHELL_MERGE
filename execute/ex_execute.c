@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:12:59 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/12 19:16:48 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 13:31:22 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void	ex_execute(char **cmd, t_envs *envsp, char **envp)
 {
 	t_envs	*envsp_cp;
 
+	// directory 체크 한번 해야 함!!
 	envsp_cp = envsp->next;
 	if (access(cmd[0], F_OK) == -1 && ex_is_path(cmd[0]) == 0)
 		cmd[0] = ex_search_path(cmd[0], envsp_cp, 0);
