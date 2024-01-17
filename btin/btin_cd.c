@@ -46,16 +46,16 @@ void	btin_cd_error(int flag, char *dest, char *pwd, int fork_flag)
 		return ;
 	if (flag == 1)
 		errmsg = btin_make_errmsg("minishell: cd: ", dest, \
-			": No such file or directory\n");
+			": No such file or directory");
 	else if (flag == 2)
 		errmsg = btin_make_errmsg("minishell: cd: ", dest, \
-			": Not a directory\n");
+			": Not a directory");
 	else if (flag == 3)
 		errmsg = btin_make_errmsg("minishell: cd: ", dest, \
-			": Permission denied\n");
+			": Permission denied");
 	else if (flag == 4)
 		errmsg = btin_make_errmsg("minishell: cd: ", "HOME", \
-			" not set\n");
+			" not set");
 	if (dest != NULL)
 		free(dest);
 	if (pwd != NULL)
