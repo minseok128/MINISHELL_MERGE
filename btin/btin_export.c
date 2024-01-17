@@ -68,7 +68,7 @@ void	btin_export(t_cmds *cmds, t_envs *envsp, int error_code, int fork_flag)
 {
 	int		i;
 	char	*str;
-	char	**key_and_value;
+	char	**key_value;
 
 	i = 1;
 	if (cmds->argv.items[i] == NULL)
@@ -76,16 +76,16 @@ void	btin_export(t_cmds *cmds, t_envs *envsp, int error_code, int fork_flag)
 	while (cmds->argv.items[i] != NULL)
 	{
 		str = cmds->argv.items[i++];
-		key_and_value = btin_divide_key_and_value(str);
-		if (key_and_value != NULL)
+		key_value = btin_divide_key_and_value(str);
+		if (key_value != NULL)
 		{
-			if (btin_is_valid_identifier(key_and_value[0]) == 1)
-				btin_traverse_list_to_add(envsp, key_and_value);
+			if (btin_is_valid_identifier(key_value[0]) == 1)
+				btin_traverse_list_to_add(envsp, key_value);
 			else
 			{
-				btin_free_key_and_value(key_and_value, key_and_value[0], \
-									key_and_value[1]);
-				printf("minishell: export: '%s': not a valid identifier\n", str);
+				btin_free_key_and_value(key_value, key_value[0], key_value[1]);
+				btin_out(0, 0, btin_make_errmsg("minishell: export: '", \
+					str, "': not a valid identifier\n"));
 				error_code = 1;
 			}
 		}
