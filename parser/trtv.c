@@ -6,11 +6,95 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:37:45 by michang           #+#    #+#             */
-/*   Updated: 2024/01/15 20:58:01 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 14:31:33 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+pid_t	trtv_herecod_fork(t_cmds *cmd, int fd, char *limiter)
+{
+	char	*line;
+	pid_t	pid;
+
+	set_signal(MODE_IGNORE, MODE_IGNORE);
+	pid = fork();
+	if (pid < 0)
+		exit(1);
+	else if (pid == 0)
+	{
+		set_signal(MODE_HEREDOC, MODE_IGNORE);
+		while (1)
+		{
+			line = readline("> ");
+			if (line == NULL)
+			{
+				printf("\033[1A"); // 1줄 위로가는 ANSI 이스케이프 시퀀스
+				printf("> ");
+				exit(0);
+			}
+			else if (ft_strncmp(limiter, line, ft_strlen(line) + 1) == 0)
+				exit(0);
+			ft_putstr_fd(line, fd);
+			free(line);
+		}
+	}
+	return (pid);
+}
+
+int	trtv_heredoc_make_tmp_file(t_cmds *cmd)
+{
+	int		fd;
+	int		num;
+	char	*num_str;
+	char	*file_name;
+
+	num = 0;
+	while (num < 2147483647)
+	{
+		num_str = ft_itoa_s(num);
+		file_name = ft_strjoin("tmp", num_str);
+		free(num_str);
+		if (access(file_name, F_OK) == 0)
+			num++;
+		else
+		{
+			cmd->in_file = ft_strdup_s(file_name);
+			fd = open(file_name, O_RDONLY);
+			return (fd);
+		}
+		free(file_name);
+	}
+	cmd->in_file = ft_strdup_s("heredoc"); // 파일 만들기 실패시 heredoc 파일이 없다는 메시지
+	return (-1);// heredoc파일을 못만들었을때 처리 방법 생각하기
+}
+
+int	trtv_heredoc(t_cmds *cmd, char *limiter)
+{
+	int		fd;
+	int		status;
+	
+	// 1. 만약 heredoc이 열려있으면 파일 삭제
+	if (cmd->type & RD_HEREDOC != 0)
+		if (unlink(cmd->in_file) == -1)
+			exit(1);
+	// 2. 구조체에 in_file과 type 초기화
+	// 		2a. 임시파일 이름을 확인하며 만들기
+	if (cmd->in_file != NULL)
+		free(cmd->in_file);
+	fd = trtv_heredoc_make_tmp_file(cmd);
+	cmd->type |= RD_HEREDOC;
+	waitpid(trtv_herecod_fork(cmd, fd, limiter), &status, 0);
+	set_signal(MODE_SHELL, MODE_SHELL);
+	if (WIFEXITED(status) != 0 && WEXITSTATUS(status) == 1)
+	{
+		// 구조체 만들기 종료
+	}
+	if (WIFSIGNALED(status) != 0)
+	{
+		// 입력받은 트리 순회 종료
+	}
+}
 
 int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd)
 {
@@ -30,36 +114,62 @@ int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd)
 	if (node->tk->type == T_REDIR_S_L)
 	{
 		// 1. 만약 heredoc이 열려있으면 파일 삭제
+		if (cmd->type & RD_HEREDOC != 0)
+			if (unlink(cmd->in_file) == -1)
+				exit(1);
 		// 2. 구조체에 in_file과 type 초기화
+		if (cmd->in_file != NULL)
+			free(cmd->in_file);
+		cmd->in_file = ft_strdup_s(node->tk->str);
+		cmd->type &= ~RD_HEREDOC;
 		// 3. 파일 오픈
+		fd = open(cmd->in_file, O_RDONLY);
 		// 4. 파일 오픈 실패시 구조체 만들기 stop
+		if (fd == -1)
+		{
+			// 구조체 만들기 stop
+		}
 		// 5. 파일 오픈 성공시 바로 닫기
+		else
+			close(fd);
 	}
 	else if (node->tk->type == T_REDIR_S_R)
 	{
 		// 1. 구조체에 out_file과 type 초기화
+		if (cmd->out_file != NULL)
+			free(cmd->out_file);
+		cmd->out_file = ft_strdup_s(node->tk->str);
+		cmd->type &= ~RD_APPEND;
 		// 2. 파일 오픈
+		fd = open(cmd->out_file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
 		// 3. 파일 오픈 실패시 구조체 만들기 stop
+		if (fd == -1)
+		{
+			// 구조체 만들기 stop
+		}
 		// 4. 파일 오픈 성공시 바로 닫기
-		
+		else
+			close(fd);
 	}
 	else if (node->tk->type == T_REDIR_D_L)
-	{
-		// 1. 만약 heredoc이 열려있으면 파일 삭제
-		// 2. 구조체에 in_file과 type 초기화
-		// 3. fork 하여 heredoc 실행 (시그널 처리)
-		// 4. 임시파일 이름을 확인하며 만들기
-		// 5. 파일 오픈 실패시 구조체 만들기 stop
-		//	5a. ctrl c 입력으로 heredoc 종료시 뒤에 명령어 전부 실행 x
-		//    echo 123 && << limit echo 456 이거 왜 echo 123 안나옴?
-		// 6. 파일 오픈 성공시 바로 닫기
-	}
+		trtv_heredoc(cmd, node->tk->str);
 	else if (node->tk->type == T_REDIR_D_R)
 	{
 		// 1. 구조체에 out_file과 type 초기화
+		if (cmd->out_file != NULL)
+			free(cmd->out_file);
+		cmd->out_file = ft_strdup_s(node->tk->str);
+		cmd->type |= RD_APPEND;
 		// 2. 파일 오픈
+		fd = open(cmd->out_file, O_APPEND | O_WRONLY);
 		// 3. 파일 오픈 실패시 구조체 만들기 stop
+		if (fd == -1)
+		{
+			// 구조체 만들기 stop
+		}
 		// 4. 파일 오픈 성공시 바로 닫기
+		else
+			close(fd);
 	}
 	return (0);
 }
