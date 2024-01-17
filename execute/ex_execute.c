@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:12:59 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/17 13:31:22 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 15:12:06 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,30 @@ int	ex_is_path(char *cmd)
 	return (0);
 }
 
+int	ex_is_directory(char *cmd)
+{
+	struct stat	buf;
+
+	if (stat(cmd, &buf) == -1)
+		exit(1);
+	if (S_ISDIR(buf.st_mode) == 0)
+		return (0);
+	else
+		return (1);
+}
+
 void	ex_execute(char **cmd, t_envs *envsp, char **envp)
 {
 	t_envs	*envsp_cp;
 
-	// directory 체크 한번 해야 함!!
 	envsp_cp = envsp->next;
 	if (access(cmd[0], F_OK) == -1 && ex_is_path(cmd[0]) == 0)
 		cmd[0] = ex_search_path(cmd[0], envsp_cp, 0);
+	else if (ex_is_directory(cmd[0]) == 1)
+	{
+		printf("minishell: %s: is a directory\n", cmd[0]);
+		btin_out(1, 126, NULL);
+	}
 	execve(cmd[0], cmd, envp);
 	btin_out(1, errno, strerror(errno));
 }
