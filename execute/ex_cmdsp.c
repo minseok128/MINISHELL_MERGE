@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:05:31 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/10 17:34:14 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 15:36:57 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_cmds	*ex_cmdsp_add_back(t_cmds *cmdsp)
 	if (new == NULL)
 		exit(0);
 	node = cmdsp;
-	while(node->next != NULL)
+	while (node->next != NULL)
 		node = node->next;
 	node->next = new;
 	return (new);
