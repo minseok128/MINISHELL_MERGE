@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:37:45 by michang           #+#    #+#             */
-/*   Updated: 2024/01/17 14:51:54 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 14:59:00 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	trtv_redir_s_l(t_cmds *cmd, char *file)
 	int	fd;
 	
 	// 1. 만약 heredoc이 열려있으면 파일 삭제
-	if (cmd->type & RD_HEREDOC != 0)
+	if ((cmd->type & RD_HEREDOC) != 0)
 		if (unlink(cmd->in_file) == -1)
 			exit(1);
 	// 2. 구조체에 in_file과 type 초기화
@@ -30,11 +30,13 @@ int	trtv_redir_s_l(t_cmds *cmd, char *file)
 	// 4. 파일 오픈 실패시 구조체 만들기 stop
 	if (fd == -1)
 	{
+		return (-1);
 		// 구조체 만들기 stop
 	}
 	// 5. 파일 오픈 성공시 바로 닫기
 	else
 		close(fd);
+	return (0);
 }
 
 int	trtv_redir_s_r(t_cmds *cmd, char *file)
@@ -51,14 +53,16 @@ int	trtv_redir_s_r(t_cmds *cmd, char *file)
 	// 3. 파일 오픈 실패시 구조체 만들기 stop
 	if (fd == -1)
 	{
+		return (-1);
 		// 구조체 만들기 stop
 	}
 	// 4. 파일 오픈 성공시 바로 닫기
 	else
 		close(fd);
+	return (0);
 }
 
-pid_t	trtv_redir_d_l_fork(t_cmds *cmd, int fd, char *limiter)
+pid_t	trtv_redir_d_l_fork(int fd, char *limiter)
 {
 	char	*line;
 	pid_t	pid;
@@ -121,7 +125,7 @@ int	trtv_redir_d_l(t_cmds *cmd, char *limiter)
 	int		status;
 	
 	// 1. 만약 heredoc이 열려있으면 파일 삭제
-	if (cmd->type & RD_HEREDOC != 0)
+	if ((cmd->type & RD_HEREDOC) != 0)
 		if (unlink(cmd->in_file) == -1)
 			exit(1);
 	// 2. 구조체에 in_file과 type 초기화
@@ -129,17 +133,22 @@ int	trtv_redir_d_l(t_cmds *cmd, char *limiter)
 	if (cmd->in_file != NULL)
 		free(cmd->in_file);
 	fd = trtv_redir_d_l_make_tmp_file(cmd);
+	if (fd == -1)
+		return (-1);
 	cmd->type |= RD_HEREDOC;
-	waitpid(trtv_redir_d_l_fork(cmd, fd, limiter), &status, 0);
+	waitpid(trtv_redir_d_l_fork(fd, limiter), &status, 0);
 	set_signal(MODE_SHELL, MODE_SHELL);
 	if (WIFEXITED(status) != 0 && WEXITSTATUS(status) == 1)
 	{
+		return (-1);
 		// 구조체 만들기 종료
 	}
 	if (WIFSIGNALED(status) != 0)
 	{
+		return (-2);
 		// 입력받은 트리 순회 종료
 	}
+	return (0);
 }
 
 int	trtv_redir_d_r(t_cmds *cmd, char *file)
@@ -156,11 +165,13 @@ int	trtv_redir_d_r(t_cmds *cmd, char *file)
 	// 3. 파일 오픈 실패시 구조체 만들기 stop
 	if (fd == -1)
 	{
+		return (-1);
 		// 구조체 만들기 stop
 	}
 	// 4. 파일 오픈 성공시 바로 닫기
 	else
 		close(fd);
+	return (0);
 }
 
 int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd)
