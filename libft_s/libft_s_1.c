@@ -6,11 +6,11 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 22:07:03 by michang           #+#    #+#             */
-/*   Updated: 2024/01/17 18:28:45 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 18:44:12 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_s.h"
+#include "../minishell.h"
 
 int	ft_isspace(char c)
 {

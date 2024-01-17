@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/17 16:18:22 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 18:44:04 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include "libft/libft.h"
-# include "libft_s/libft_s.h"
 
 # define MODE_SHELL 0
 # define MODE_DEFAULT 1
@@ -32,6 +31,12 @@
 # define MODE_HEREDOC 3
 # define RD_HEREDOC 256
 # define RD_APPEND 512
+
+typedef struct s_vector {
+	void	**items;
+	int		capacity;
+	int		size;
+}	t_vector;
 
 typedef enum e_token_type {
 	T_AND = 101,
@@ -153,11 +158,24 @@ int				ex_is_builtin(t_cmds *cmds, t_envs *envsp, int fork_flag);
 char			*ex_strjoin_c(char const *s1, char const *s2, char c);
 void			*ex_free_string_array(char **string_array);
 
+// libft_s
+int		ft_isspace(char c);
+char	*ft_substr_s(char const *s, unsigned int start, size_t len);
+char	*ft_itoa_s(int n);
+char	*ft_strdup_s(const char *s1);
+void	*ft_calloc_s(size_t count, size_t size);
+char	*ft_strjoin_s(const char *s1, const char *s2);
+void	vec_init(t_vector *v, int capacity);
+void	vec_push_back(t_vector *v, void *item);
+void	vec_free(t_vector *v);
+void	vec_print(t_vector *v);
+
 // !test codes!
 int				tk_print(t_token *tk);
 int				test_tr_print_tree(t_tr_node *root, char *str);
 void			test_print_node(t_tr_node *node);
 void			test_print_command_part(t_tr_node *node);
 void			test_cmds_print(t_cmds *cmds);
+
 
 #endif
