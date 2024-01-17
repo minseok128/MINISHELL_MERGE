@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/17 18:26:23 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 19:24:27 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,14 @@ char	**ex_change_to_envp(t_envs *envsp)
 		node = node->next;
 		size++;
 	}
-	envp = ft_calloc_s(sizeof(char *), size);
+	envp = ft_calloc_s(sizeof(char *), size + 1);
 	node = envsp->next;
 	i = 0;
 	while (i < size)
+	{
 		envp[i++] = ex_strjoin_c(node->key, node->value, '=');
+		node = node->next;
+	}
 	envp[i] = NULL;
 	return (envp);
 }
