@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/15 20:26:58 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 16:18:22 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_cmds
 	int				type;
 	struct s_cmds	*next;
 }	t_cmds;
+
 int				g_errno;
 
 void			set_signal(int sig_int, int sig_quit);
@@ -138,6 +139,7 @@ t_envs			*btin_make_envsp_node(char **key_and_value);
 t_envs			*btin_make_envsp(char **envp);
 t_envs			*btin_find_node(t_envs *envsp, char *key);
 char			**btin_divide_key_and_value(char *env);
+char			*btin_make_errmsg(char *s1, char *s2, char *s3);
 
 // ex
 t_cmds			*ex_cmdsp_init(void);
