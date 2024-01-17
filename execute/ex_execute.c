@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:12:59 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/17 15:12:06 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 17:19:58 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,17 @@ char	*ex_search_path(char *cmd, t_envs *envsp, int i)
 	while (envp_path[i] != NULL)
 	{
 		path = ex_strjoin_c(envp_path[i++], cmd, '/');
-		if (path == NULL)
-			btin_out(1, errno, strerror(errno));
 		if (access(path, F_OK) == 0)
 		{
-			// free(cmd);
+			free(cmd);
 			ex_free_string_array(envp_path);
 			return (path);
 		}
 		free(path);
 	}
 	ex_free_string_array(envp_path);
-	printf("minishell: %s: command not found\n", cmd);
-	btin_out(1, 127, NULL);
+	btin_out(1, 127, btin_make_errmsg("minishell: ", cmd, \
+		": command not found\n"));
 	return (cmd);
 }
 
@@ -128,10 +126,9 @@ void	ex_execute(char **cmd, t_envs *envsp, char **envp)
 	if (access(cmd[0], F_OK) == -1 && ex_is_path(cmd[0]) == 0)
 		cmd[0] = ex_search_path(cmd[0], envsp_cp, 0);
 	else if (ex_is_directory(cmd[0]) == 1)
-	{
-		printf("minishell: %s: is a directory\n", cmd[0]);
-		btin_out(1, 126, NULL);
-	}
+		btin_out(1, 126, btin_make_errmsg("minishell: ", cmd[0], \
+			": is a directory\n"));
 	execve(cmd[0], cmd, envp);
-	btin_out(1, errno, strerror(errno));
+	btin_out(1, errno, btin_make_errmsg("minishell: ", \
+		"execve: ", strerror(errno)));
 }
