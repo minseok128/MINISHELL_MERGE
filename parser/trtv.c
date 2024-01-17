@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:37:45 by michang           #+#    #+#             */
-/*   Updated: 2024/01/17 16:01:23 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 16:05:34 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ pid_t	trtv_redir_d_l_fork(int fd, char *limiter)
 			else if (ft_strncmp(limiter, line, ft_strlen(line) + 1) == 0)
 				exit(0);
 			ft_putstr_fd(line, fd);
+			ft_putstr_fd("\n", fd);
 			free(line);
 		}
 	}
