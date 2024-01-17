@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:19 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/17 17:14:16 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 18:52:35 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag)
 		else
 		{
 			btin_out(0, 0, btin_make_errmsg("minishell: unset: '", str, \
-				"': not a valid identifier\n"));
+				"': not a valid identifier"));
 			error_flag = 1;
 		}
 	}
