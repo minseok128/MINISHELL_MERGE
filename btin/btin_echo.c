@@ -56,14 +56,14 @@ void	btin_echo(t_cmds *cmds, int fork_flag)
 			n_flag = 1;
 		else if (cmds->argv.items[i + 1] == NULL)
 		{
-			if (n_flag == 1)
-				printf("%s", (char *)(cmds->argv.items[i]));
-			else
-				printf("%s\n", (char *)(cmds->argv.items[i]));
+			ft_putstr_fd((char *)(cmds->argv.items[i]), 1);
+			if (n_flag == 0)
+				ft_putchar_fd('\n', 1);
 		}
 		else
 		{
-			printf("%s ", (char *)(cmds->argv.items[i]));
+			ft_putstr_fd((char *)(cmds->argv.items[i]), 1);
+			ft_putchar_fd(' ', 1);
 			print_flag = 1;
 		}
 	}
