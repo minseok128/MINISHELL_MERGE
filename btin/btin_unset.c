@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:19 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/12 15:51:14 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 17:14:16 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,15 @@ void	btin_print_declare_env(t_envs *envsp)
 	node = envsp->next;
 	while (node != NULL)
 	{
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(node->key, 1);
 		if (node->value != NULL)
-			printf("declare -x %s=\"%s\"\n", node->key, node->value);
-		else
-			printf("declare -x %s\n", node->key);
+		{
+			ft_putstr_fd("=\"", 1);
+			ft_putstr_fd(node->value, 1);
+			ft_putchar_fd('\"', 1);
+		}
+		ft_putchar_fd('\n', 1);
 		node = node->next;
 	}
 }
@@ -89,12 +94,10 @@ void	btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag)
 			btin_remove_envsp_node(envsp, str);
 		else
 		{
-			printf("minishell: unset: '%s': not a valid identifier\n", str);
+			btin_out(0, 0, btin_make_errmsg("minishell: unset: '", str, \
+				"': not a valid identifier\n"));
 			error_flag = 1;
 		}
 	}
-	if (fork_flag == 1)
-		exit(error_flag);
-	else
-		g_errno = error_flag;
+	btin_out(fork_flag, error_flag, NULL);
 }
