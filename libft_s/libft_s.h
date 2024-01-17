@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 22:07:03 by michang           #+#    #+#             */
-/*   Updated: 2024/01/17 14:50:44 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 18:25:02 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define LIBFT_S_H
 # include <stdio.h>
 # include "../libft/libft.h"
+# include <string.h>
+# include <errno.h>
 
 typedef struct s_vector {
 	void	**items;
