@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/17 16:02:27 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 16:07:08 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ex_all_close(t_cmds *cmdsp)
 
 	while (cmdsp != NULL)
 	{
-		if ((cmdsp->type & RD_APPEND) != 0)
+		if ((cmdsp->type & RD_HEREDOC) != 0)
 			if (unlink(cmdsp->in_file) == -1)
 				exit(1);
 		// ex_free_string_array(cmdsp->argv);
