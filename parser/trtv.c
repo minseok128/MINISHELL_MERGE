@@ -6,13 +6,59 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:37:45 by michang           #+#    #+#             */
-/*   Updated: 2024/01/17 14:31:33 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 14:48:36 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-pid_t	trtv_herecod_fork(t_cmds *cmd, int fd, char *limiter)
+int	trtv_redir_s_l(t_cmds *cmd, char *file)
+{
+	int	fd;
+	
+	// 1. 만약 heredoc이 열려있으면 파일 삭제
+	if (cmd->type & RD_HEREDOC != 0)
+		if (unlink(cmd->in_file) == -1)
+			exit(1);
+	// 2. 구조체에 in_file과 type 초기화
+	if (cmd->in_file != NULL)
+		free(cmd->in_file);
+	cmd->in_file = ft_strdup_s(file);
+	cmd->type &= ~RD_HEREDOC;
+	// 3. 파일 오픈
+	fd = open(cmd->in_file, O_RDONLY);
+	// 4. 파일 오픈 실패시 구조체 만들기 stop
+	if (fd == -1)
+	{
+		// 구조체 만들기 stop
+	}
+	// 5. 파일 오픈 성공시 바로 닫기
+	else
+		close(fd);
+}
+
+int	trtv_redir_s_r(t_cmds *cmd, char *file)
+{
+	int	fd;
+	
+	// 1. 구조체에 out_file과 type 초기화
+	if (cmd->out_file != NULL)
+		free(cmd->out_file);
+	cmd->out_file = ft_strdup_s(file);
+	cmd->type &= ~RD_APPEND;
+	// 2. 파일 오픈
+	fd = open(cmd->out_file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
+	// 3. 파일 오픈 실패시 구조체 만들기 stop
+	if (fd == -1)
+	{
+		// 구조체 만들기 stop
+	}
+	// 4. 파일 오픈 성공시 바로 닫기
+	else
+		close(fd);
+}
+
+pid_t	trtv_redir_d_l_fork(t_cmds *cmd, int fd, char *limiter)
 {
 	char	*line;
 	pid_t	pid;
@@ -42,7 +88,7 @@ pid_t	trtv_herecod_fork(t_cmds *cmd, int fd, char *limiter)
 	return (pid);
 }
 
-int	trtv_heredoc_make_tmp_file(t_cmds *cmd)
+int	trtv_redir_d_l_make_tmp_file(t_cmds *cmd)
 {
 	int		fd;
 	int		num;
@@ -69,7 +115,7 @@ int	trtv_heredoc_make_tmp_file(t_cmds *cmd)
 	return (-1);// heredoc파일을 못만들었을때 처리 방법 생각하기
 }
 
-int	trtv_heredoc(t_cmds *cmd, char *limiter)
+int	trtv_redir_d_l(t_cmds *cmd, char *limiter)
 {
 	int		fd;
 	int		status;
@@ -82,9 +128,9 @@ int	trtv_heredoc(t_cmds *cmd, char *limiter)
 	// 		2a. 임시파일 이름을 확인하며 만들기
 	if (cmd->in_file != NULL)
 		free(cmd->in_file);
-	fd = trtv_heredoc_make_tmp_file(cmd);
+	fd = trtv_redir_d_l_make_tmp_file(cmd);
 	cmd->type |= RD_HEREDOC;
-	waitpid(trtv_herecod_fork(cmd, fd, limiter), &status, 0);
+	waitpid(trtv_redir_d_l_fork(cmd, fd, limiter), &status, 0);
 	set_signal(MODE_SHELL, MODE_SHELL);
 	if (WIFEXITED(status) != 0 && WEXITSTATUS(status) == 1)
 	{
@@ -96,10 +142,30 @@ int	trtv_heredoc(t_cmds *cmd, char *limiter)
 	}
 }
 
+int	trtv_redir_d_r(t_cmds *cmd, char *file)
+{
+	int	fd;
+	
+	// 1. 구조체에 out_file과 type 초기화
+	if (cmd->out_file != NULL)
+		free(cmd->out_file);
+	cmd->out_file = ft_strdup_s(file);
+	cmd->type |= RD_APPEND;
+	// 2. 파일 오픈
+	fd = open(cmd->out_file, O_APPEND | O_WRONLY);
+	// 3. 파일 오픈 실패시 구조체 만들기 stop
+	if (fd == -1)
+	{
+		// 구조체 만들기 stop
+	}
+	// 4. 파일 오픈 성공시 바로 닫기
+	else
+		close(fd);
+}
+
 int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd)
 {
 	int	i;
-	int	fd;
 
 	if (node->tk->type == T_WORD)
 	{
@@ -112,65 +178,13 @@ int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd)
 		}
 	}
 	if (node->tk->type == T_REDIR_S_L)
-	{
-		// 1. 만약 heredoc이 열려있으면 파일 삭제
-		if (cmd->type & RD_HEREDOC != 0)
-			if (unlink(cmd->in_file) == -1)
-				exit(1);
-		// 2. 구조체에 in_file과 type 초기화
-		if (cmd->in_file != NULL)
-			free(cmd->in_file);
-		cmd->in_file = ft_strdup_s(node->tk->str);
-		cmd->type &= ~RD_HEREDOC;
-		// 3. 파일 오픈
-		fd = open(cmd->in_file, O_RDONLY);
-		// 4. 파일 오픈 실패시 구조체 만들기 stop
-		if (fd == -1)
-		{
-			// 구조체 만들기 stop
-		}
-		// 5. 파일 오픈 성공시 바로 닫기
-		else
-			close(fd);
-	}
+		trtv_redir_s_l(cmd, node->tk->str);
 	else if (node->tk->type == T_REDIR_S_R)
-	{
-		// 1. 구조체에 out_file과 type 초기화
-		if (cmd->out_file != NULL)
-			free(cmd->out_file);
-		cmd->out_file = ft_strdup_s(node->tk->str);
-		cmd->type &= ~RD_APPEND;
-		// 2. 파일 오픈
-		fd = open(cmd->out_file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
-		// 3. 파일 오픈 실패시 구조체 만들기 stop
-		if (fd == -1)
-		{
-			// 구조체 만들기 stop
-		}
-		// 4. 파일 오픈 성공시 바로 닫기
-		else
-			close(fd);
-	}
+		trtv_redir_s_r(cmd, node->tk->str);
 	else if (node->tk->type == T_REDIR_D_L)
-		trtv_heredoc(cmd, node->tk->str);
+		trtv_redir_d_l(cmd, node->tk->str);
 	else if (node->tk->type == T_REDIR_D_R)
-	{
-		// 1. 구조체에 out_file과 type 초기화
-		if (cmd->out_file != NULL)
-			free(cmd->out_file);
-		cmd->out_file = ft_strdup_s(node->tk->str);
-		cmd->type |= RD_APPEND;
-		// 2. 파일 오픈
-		fd = open(cmd->out_file, O_APPEND | O_WRONLY);
-		// 3. 파일 오픈 실패시 구조체 만들기 stop
-		if (fd == -1)
-		{
-			// 구조체 만들기 stop
-		}
-		// 4. 파일 오픈 성공시 바로 닫기
-		else
-			close(fd);
-	}
+		trtv_redir_d_r(cmd, node->tk->str);
 	return (0);
 }
 
