@@ -38,21 +38,28 @@ void	btin_modify_pwd(t_envs *envsp, char *old_pwd, int fork_flag)
 
 void	btin_cd_error(int flag, char *dest, char *pwd, int fork_flag)
 {
+	char	*errmsg;
+
+	errmsg = NULL;
 	if (flag == 0)
 		return ;
 	if (flag == 1)
-		printf("minishell: cd: %s: No such file or directory\n", dest);
+		errmsg = btin_make_errmsg("minishell: cd: ", dest, \
+			": No such file or directory\n");
 	else if (flag == 2)
-		printf("minishell: cd: %s: Not a directory\n", dest);
+		errmsg = btin_make_errmsg("minishell: cd: ", dest, \
+			": Not a directory\n");
 	else if (flag == 3)
-		printf("minishell: cd: %s: Permission denied\n", dest);
+		errmsg = btin_make_errmsg("minishell: cd: ", dest, \
+			": Permission denied\n");
 	else if (flag == 4)
-		printf("minishell: cd: HOME not set\n");
+		errmsg = btin_make_errmsg("minishell: cd: ", "HOME", \
+			" not set\n");
 	if (dest != NULL)
 		free(dest);
 	if (pwd != NULL)
 		free(pwd);
-	btin_out(fork_flag, 1, NULL);
+	btin_out(fork_flag, 1, errmsg);
 }
 
 void	btin_move_to_dest(t_envs *envsp, char *dest, int fork_flag)
