@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:07:48 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/12 15:52:13 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 15:17:50 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ex_open_output_fd(t_cmds *cmdsp)
 {
 	int	out_fd;
 
-	if (cmdsp->type == APPEND)
+	if ((cmdsp->type & RD_APPEND) != 0)
 		out_fd = open(cmdsp->out_file, O_WRONLY | O_APPEND);
 	else
 		out_fd = open(cmdsp->out_file, O_WRONLY);
