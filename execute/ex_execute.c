@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:12:59 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/18 14:18:29 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/18 15:08:08 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,13 +127,19 @@ void	ex_execute(char **cmd, t_envs *envsp, char **envp)
 		btin_out(1, 2, btin_make_errmsg("minishell: ", cmd[0], \
 			"filename argument required\n.: usage: . filename [arguments]"));
 	else if (ft_strncmp(cmd[0], "..", 3) == 0)
-		btin_out(1, 127, btin_make_errmsg("minishell: ", cmd[0],\
+		btin_out(1, 127, btin_make_errmsg("minishell: ", cmd[0], \
 			"command not found"));
 	if (ex_is_directory(cmd[0]) == 1 && ex_is_path(cmd[0]) == 1)
 		btin_out(1, 126, btin_make_errmsg("minishell: ", cmd[0], \
 			"is a directory"));
-	else if (access(cmd[0], F_OK) == -1 && ex_is_path(cmd[0]) == 0)
+	else if (access(cmd[0], F_OK) == -1)
+	{
+		if (ex_is_path(cmd[0]) == 1)
+			btin_out(1, 127, btin_make_errmsg("minisehll: ", cmd[0], \
+				"No such file or directory"));
+		else
 			cmd[0] = ex_search_path(cmd[0], envsp_cp, 0);
+	}
 	execve(cmd[0], cmd, envp);
 	btin_out(1, errno, btin_make_errmsg("minishell: ", cmd[0], \
 			strerror(errno)));
