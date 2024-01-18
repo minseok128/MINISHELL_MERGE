@@ -46,7 +46,7 @@ int	main(int argc, char **argv, char **envp)
 	t_envs			*envsp;
 	t_parser_info	p_info;
 
-	argc = argv - argv;
+	argc = argv - argv + argc;
 	terminal_print_off();
 	set_signal(MODE_SHELL, MODE_SHELL);
 	envsp = btin_make_envsp(envp);
