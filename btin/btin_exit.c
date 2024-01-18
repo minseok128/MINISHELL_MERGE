@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 10:55:22 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/18 13:16:38 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/18 14:13:20 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ void	btin_exit(t_cmds *cmds, int fork_flag)
 		if (n == -1)
 		{
 			btin_out(1, 255, btin_make_errmsg("minishell: exit: ", \
-				(char *)cmds->argv.items[1], ": numeric argument required"));
+				(char *)cmds->argv.items[1], "numeric argument required"));
 		}
 		else if (cmds->argv.items[2] != NULL)
 			btin_out(fork_flag, 1, btin_make_errmsg("minishell: ", \
-				"exit: ", "too many arguments"));
+				"exit", "too many arguments"));
 		else
 			btin_out(1, (char)n, NULL);
 	}
