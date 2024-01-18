@@ -19,7 +19,7 @@ void	btin_pwd(int fork_flag)
 	pwd = getcwd(NULL, 1024);
 	if (pwd == NULL)
 		btin_out(1, errno, btin_make_errmsg("minishell: ", \
-			"getcwd: ", strerror(errno)));
+			"getcwd", strerror(errno)));
 	ft_putstr_fd(pwd, 1);
 	ft_putchar_fd('\n', 1);
 	free(pwd);
