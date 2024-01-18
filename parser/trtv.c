@@ -107,7 +107,7 @@ int	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
 	char	*e_w;
 
 	if (!node)
-		return ;
+		return (0);
 	if (node->bnf_type == TR_COMMAND_PART)
 	{
 		e_w = ft_calloc_s(1, sizeof(char));
