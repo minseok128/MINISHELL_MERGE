@@ -191,5 +191,4 @@ void			test_print_node(t_tr_node *node);
 void			test_print_command_part(t_tr_node *node);
 void			test_cmds_print(t_cmds *cmds);
 
-
 #endif
