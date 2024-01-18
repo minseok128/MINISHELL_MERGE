@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/18 17:50:15 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/18 17:56:33 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void			trtv_list_travel(t_tr_node *node, t_envs *envsp);
 int				trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, t_envs *envsp);
 
 // btin
-void			btin_pwd(int fork_flag);
+void			btin_pwd(t_cmds *cmds, int fork_flag);
 void			btin_export(t_cmds *cmds, t_envs *envsp, int error_code, int fork_flag);
 void			btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag);
 void			btin_cd(t_cmds *cmds, t_envs *envsp, int fork_flag);
