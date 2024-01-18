@@ -6,7 +6,7 @@
 #    By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/01 21:01:14 by michang           #+#    #+#              #
-#    Updated: 2024/01/17 18:41:36 by seonjo           ###   ########.fr        #
+#    Updated: 2024/01/18 17:16:09 by seonjo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,8 @@ READLINE	= -L/usr/local/lib  -lreadline
 
 DIR			= ./
 BASE		= main signal_utils \
-			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils \
-			  parser/trtv parser/trtv_env_expand parser/trtv_word_split \
+			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils parser/mktr_heredoc\
+			  parser/trtv parser/trtv_env_expand parser/trtv_word_split parser/trtv_redirection\
 			  btin/btin_exit btin/btin_make_envsp btin/btin_cd \
 			  btin/btin_echo btin/btin_env btin/btin_export \
 			  btin/btin_pwd btin/btin_unset btin/btin_make_errmsg \
