@@ -97,3 +97,24 @@ void	trtv_env_cmdp(char *word, char **e_w, t_envs *envsp)
 		prev = now;
 	}
 }
+
+int	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
+{
+	char	*e_w;
+
+	if (!node)
+		return (0);
+	if (node->bnf_type == TR_COMMAND_PART)
+	{
+		e_w = ft_calloc_s(1, sizeof(char));
+		trtv_env_cmdp(node->tk->str, &e_w, envsp);
+		free(node->tk->str);
+		node->tk->str = e_w;
+		vec_init(&(node->word_split), 1);
+		trtv_word_split(node->tk->str, node);
+		trtv_quotes_removal(&(node->word_split));
+	}
+	trtv_expansion_travel(node->left, envsp);
+	trtv_expansion_travel(node->right, envsp);
+	return (0);
+}
