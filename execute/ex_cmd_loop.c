@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/18 14:17:34 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/18 17:29:59 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ void	ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp)
 			g_errno = WEXITSTATUS(status);
 		if (WIFSIGNALED(status) != 0)
 			g_errno = WTERMSIG(status) + 128;
-		printf("g_errno : %d\n", g_errno);
 	}
 	ex_all_close(cmdsp_head->next);
 }
