@@ -67,6 +67,11 @@ typedef struct s_tr_node {
 	t_vector			word_split;
 }	t_tr_node;
 
+typedef struct s_mktr_info {
+	char	*heredoc_name;
+	int		heredoc_signal_flag;
+}	t_mktr_info;
+
 typedef struct s_envsp
 {
 	char			*key;
