@@ -54,7 +54,7 @@ int	mktr_heredoc_open_file(char **file_name)
 	while (num < 2147483647)
 	{
 		num_str = ft_itoa_s(num);
-		*file_name = ft_strjoin_s(".tmp", num_str);
+		*file_name = ft_strjoin_s("./parser/.tmp", num_str);
 		free(num_str);
 		if (access(*file_name, F_OK) == 0)
 			num++;
