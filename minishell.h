@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/18 17:41:33 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/18 17:50:15 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void			btin_env(t_cmds *cmds, t_envs *envsp, int fork_flag);
 void			btin_exit(t_cmds *cmds, int fork_flag);
 void			btin_out(int fork_flag, int error_code, char *errmsg);
 int				btin_is_valid_identifier(char *str);
-void			btin_print_declare_env(t_envs *envsp);
+void			btin_print_declare_env(t_cmds *cmds, t_envs *envsp, int fork_flag);
 void			btin_free_key_and_value(char **key_and_value, char *key, char *value);
 t_envs			*btin_make_envsp_node(char **key_and_value);
 t_envs			*btin_make_envsp(char **envp);
