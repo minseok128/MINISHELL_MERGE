@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 10:55:22 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/17 18:52:12 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/18 13:16:38 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char	*btin_sign_check(char *str, long long *minus)
 
 long long	btin_is_overflow(long long num, int n, long long minus)
 {
-
 	if (minus == -1)
 		n = n - 1;
 	if (922337203685477580LL < num)
