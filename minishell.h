@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/18 14:54:09 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/18 17:41:33 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void			btin_export(t_cmds *cmds, t_envs *envsp, int error_code, int fork_flag);
 void			btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag);
 void			btin_cd(t_cmds *cmds, t_envs *envsp, int fork_flag);
 void			btin_echo(t_cmds *cmds, int fork_flag, int n_flag, int print_flag);
-void			btin_env(t_envs *envsp, int fork_flag);
+void			btin_env(t_cmds *cmds, t_envs *envsp, int fork_flag);
 void			btin_exit(t_cmds *cmds, int fork_flag);
 void			btin_out(int fork_flag, int error_code, char *errmsg);
 int				btin_is_valid_identifier(char *str);
@@ -146,6 +146,7 @@ t_envs			*btin_make_envsp(char **envp);
 t_envs			*btin_find_node(t_envs *envsp, char *key);
 char			**btin_divide_key_and_value(char *env);
 char			*btin_make_errmsg(char *s1, char *s2, char *s3);
+int				btin_out_fd(t_cmds *cmds, int fork_flag);
 
 // ex
 t_cmds			*ex_cmdsp_init(void);
