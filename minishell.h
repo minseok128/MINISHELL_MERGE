@@ -67,11 +67,6 @@ typedef struct s_tr_node {
 	t_vector			word_split;
 }	t_tr_node;
 
-typedef struct s_mktr_info {
-	char	*heredoc_name;
-	int		heredoc_signal_flag;
-}	t_mktr_info;
-
 typedef struct s_envsp
 {
 	char			*key;
@@ -111,10 +106,10 @@ t_token_type	tk_is_meta_char(char *str);
 int				mktr_print_unexpected(char *str);
 int				mktr_free_node(t_tr_node *node);
 t_tr_node		*mktr_alloc_s(t_tr_type bnf_type, t_token *tk);
-int				mktr_list(t_tr_node **head, t_token **tk_now);
-int				mktr_pipeline(t_tr_node **head, t_token **tk_now);
-int				mktr_command(t_tr_node **head, t_token **tk_now);
-int				mktr_command_part(t_tr_node **head, t_token **tk_now);
+int				mktr_list(t_tr_node **head, t_token **tk_now, t_mktr_info *info);
+int				mktr_pipeline(t_tr_node **head, t_token **tk_now, t_mktr_info *info);
+int				mktr_command(t_tr_node **head, t_token **tk_now, t_mktr_info *info);
+int				mktr_command_part(t_tr_node **head, t_token **tk_now, t_mktr_info *info);
 
 // trtv
 void			trtv_expansion_travel(t_tr_node *node, t_envs *envsp);
