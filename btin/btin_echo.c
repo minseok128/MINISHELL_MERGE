@@ -45,7 +45,7 @@ int	btin_out_fd(t_cmds *cmds, int fork_flag)
 {
 	int	fd;
 
-	if (cmds->out_file != NULL)
+	if (cmds->out_file == NULL || fork_flag == 1)
 		return (1);
 	if ((cmds->type & RD_APPEND) != 0)
 		fd = open(cmds->out_file, O_WRONLY | O_APPEND);
