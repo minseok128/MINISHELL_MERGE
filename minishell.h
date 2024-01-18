@@ -77,7 +77,7 @@ typedef struct s_tr_node {
 typedef struct s_mktr_info {
 	int			is_hdoc_signal;
 	t_vector	hdocs;
-}
+}	t_mktr_info;
 
 typedef struct s_envsp
 {
