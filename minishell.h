@@ -74,6 +74,11 @@ typedef struct s_tr_node {
 	t_vector			word_split;
 }	t_tr_node;
 
+typedef struct s_mktr_info {
+	int			is_hdoc_signal;
+	t_vector	hdocs;
+}	t_mktr_info;
+
 typedef struct s_envsp
 {
 	char			*key;
@@ -114,10 +119,10 @@ t_token_type	tk_is_meta_char(char *str);
 int				mktr_print_unexpected(char *str);
 int				mktr_free_node(t_tr_node *node);
 t_tr_node		*mktr_alloc_s(t_tr_type bnf_type, t_token *tk);
-int				mktr_list(t_tr_node **head, t_token **tk_now, int *heredoc_signal);
-int				mktr_pipeline(t_tr_node **head, t_token **tk_now, int *heredoc_signal);
-int				mktr_command(t_tr_node **head, t_token **tk_now, int *heredoc_signal);
-int				mktr_command_part(t_tr_node **head, t_token **tk_now, int *heredoc_signal);
+int				mktr_list(t_tr_node **head, t_token **tk_now, t_mktr_info *info);
+int				mktr_pipeline(t_tr_node **head, t_token **tk_now, t_mktr_info *info);
+int				mktr_command(t_tr_node **head, t_token **tk_now, t_mktr_info *info);
+int				mktr_command_part(t_tr_node **head, t_token **tk_now, t_mktr_info *info);
 int				mktr_heredoc(char **file_name);
 int				mktr_heredoc_open_file(char **file_name);
 pid_t			mktr_heredoc_fork(int fd, char *limiter);
