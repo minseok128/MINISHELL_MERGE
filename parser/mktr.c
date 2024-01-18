@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mktr.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michang <michang@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 20:14:26 by michang           #+#    #+#             */
-/*   Updated: 2024/01/01 20:14:27 by michang          ###   ########.fr       */
+/*   Updated: 2024/01/18 17:26:54 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int	mktr_command_part(t_tr_node **head, t_token **tk_now, int *heredoc_signal)
 	{
 		if ((*tk_now)->next->type != T_WORD)
 			return (1);
-		if ((*tk_now)->type == T_REDIR_S_L)
+		if ((*tk_now)->type == T_REDIR_D_L)
 		{
-			// *heredoc_signal = seonjo_new_func(char **lmiter)
+			*heredoc_signal = mktr_heredoc(&((*tk_now)->next->str));
 			if (*heredoc_signal == 1)
 				return (1);
 		}
