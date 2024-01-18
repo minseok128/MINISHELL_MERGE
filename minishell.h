@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/18 14:54:09 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/18 17:14:02 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,9 @@ int				mktr_list(t_tr_node **head, t_token **tk_now, int *heredoc_signal);
 int				mktr_pipeline(t_tr_node **head, t_token **tk_now, int *heredoc_signal);
 int				mktr_command(t_tr_node **head, t_token **tk_now, int *heredoc_signal);
 int				mktr_command_part(t_tr_node **head, t_token **tk_now, int *heredoc_signal);
+int				mktr_heredoc(char **file_name);
+int				mktr_heredoc_open_file(char **file_name);
+pid_t			mktr_heredoc_fork(int fd, char *limiter);
 
 // trtv
 void			trtv_expansion_travel(t_tr_node *node, t_envs *envsp);
@@ -128,6 +131,10 @@ int				trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd);
 void			trtv_comd_travel(t_tr_node *node, t_cmds *cmd);
 void			trtv_list_travel(t_tr_node *node, t_envs *envsp);
 int				trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, t_envs *envsp);
+int				trtv_redir_s_l(t_cmds *cmd, char *file);
+int				trtv_redir_s_r(t_cmds *cmd, char *file);
+int				trtv_redir_d_l(t_cmds *cmd, char *file);
+int				trtv_redir_d_r(t_cmds *cmd, char *file);
 
 // btin
 void			btin_pwd(int fork_flag);
