@@ -45,7 +45,7 @@ static int	trtv_dollar_sign(char *word, int now, char **e_w, t_envs *envsp)
 	}
 	else if (word[now + len] == '?')
 	{
-		*e_w = trtv_join_s(*e_w, ft_itoa_s(0));
+		*e_w = trtv_join_s(*e_w, ft_itoa_s(g_errno));
 		return (1);
 	}
 	else
