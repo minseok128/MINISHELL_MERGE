@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   btin_pwd.c                                      :+:      :+:    :+:   */
+/*   btin_make_errmsg.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/16 16:25:44 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/04 18:57:05 by seonjo           ###   ########.fr       */
+/*   Created: 2024/01/17 16:14:57 by seonjo            #+#    #+#             */
+/*   Updated: 2024/01/18 14:38:18 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	btin_pwd(int fork_flag)
+char	*btin_make_errmsg(char *s1, char *s2, char *s3)
 {
-	char	*pwd;
+	char	*merge1;
+	char	*merge2;
+	char	*merge3;
 
-	pwd = getcwd(NULL, 1024);
-	if (pwd == NULL)
-		btin_out(1, errno, btin_make_errmsg("minishell: ", \
-			"getcwd", strerror(errno)));
-	ft_putstr_fd(pwd, 1);
-	ft_putchar_fd('\n', 1);
-	free(pwd);
-	btin_out(fork_flag, 0, NULL);
+	merge1 = ft_strjoin_s(s1, s2);
+	merge2 = ft_strjoin_s(merge1, ": ");
+	merge3 = ft_strjoin_s(merge2, s3);
+	free(merge1);
+	free(merge2);
+	return (merge3);
 }

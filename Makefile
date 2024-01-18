@@ -3,18 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: michang <michang@student.42seoul.k>        +#+  +:+       +#+         #
+#    By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/01 21:01:14 by michang           #+#    #+#              #
-#    Updated: 2023/09/01 21:01:15 by michang          ###   ########.fr        #
+#    Updated: 2024/01/17 18:41:36 by seonjo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= cc
 WFLAG		= -Wall -Wextra -Werror
 LIBFT		= -Llibft -lft
-# READLINE	= -L/usr/local/lib  -lreadline
-READLINE	= -L/opt/homebrew/Cellar/readline/8.2.7/lib -lreadline
+READLINE	= -L/usr/local/lib  -lreadline
+# READLINE	= -L/opt/homebrew/Cellar/readline/8.2.7/lib -lreadline
 
 DIR			= ./
 BASE		= main signal_utils \
@@ -22,9 +22,9 @@ BASE		= main signal_utils \
 			  parser/trtv parser/trtv_env_expand parser/trtv_word_split \
 			  btin/btin_exit btin/btin_make_envsp btin/btin_cd \
 			  btin/btin_echo btin/btin_env btin/btin_export \
-			  btin/btin_pwd btin/btin_unset \
+			  btin/btin_pwd btin/btin_unset btin/btin_make_errmsg \
 			  execute/ex_cmdsp execute/ex_cmd_loop execute/ex_execute execute/ex_handle_fd \
-			  libft_s/libft_s_1 libft_s/ft_vector \
+			  libft_s/libft_s_1 libft_s/libft_s_2 libft_s/ft_vector \
 			  testdir/tree_print testdir/cmds_print
 SRC			= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
 OBJ			= $(addprefix $(DIR), $(addsuffix .o, $(BASE)))

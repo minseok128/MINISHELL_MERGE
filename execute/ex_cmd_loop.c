@@ -6,30 +6,32 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/12 15:55:37 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/18 14:17:34 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void	ex_all_close(t_cmds *cmdsp)
-// {
-// 	t_cmds	*tmp;
+void	ex_all_close(t_cmds *cmdsp)
+{
+	// t_cmds	*tmp;
 
-// 	while (cmdsp != NULL)
-// 	{
-// 		// ex_free_string_array(cmdsp->argv);
-// 		free(cmdsp->argv);
-// 		//	
-// 		// if (cmdsp->in_file != NULL)
-// 		// 	free(cmdsp->in_file);
-// 		// if (cmdsp->out_file != NULL)
-// 		// 	free(cmdsp->out_file);
-// 		tmp = cmdsp;
-// 		cmdsp = cmdsp->next;
-// 		free(tmp);
-// 	}
-// }
+	while (cmdsp != NULL)
+	{
+		if ((cmdsp->type & RD_HEREDOC) != 0)
+			if (unlink(cmdsp->in_file) == -1)
+				btin_make_errmsg("minishell: ", "unlink", strerror(errno));
+		// ex_free_string_array(cmdsp->argv);
+		// free(cmdsp->argv);
+		// if (cmdsp->in_file != NULL)
+		// 	free(cmdsp->in_file);
+		// if (cmdsp->out_file != NULL)
+		// 	free(cmdsp->out_file);
+		// tmp = cmdsp;
+		cmdsp = cmdsp->next;
+		// free(tmp);
+	}
+}
 
 char	**ex_change_to_envp(t_envs *envsp)
 {
@@ -45,11 +47,14 @@ char	**ex_change_to_envp(t_envs *envsp)
 		node = node->next;
 		size++;
 	}
-	envp = malloc(sizeof(char *) * (size));
+	envp = ft_calloc_s(sizeof(char *), size + 1);
 	node = envsp->next;
 	i = 0;
 	while (i < size)
+	{
 		envp[i++] = ex_strjoin_c(node->key, node->value, '=');
+		node = node->next;
+	}
 	envp[i] = NULL;
 	return (envp);
 }
@@ -60,7 +65,8 @@ pid_t	ex_fork(t_cmds *cmdsp, t_envs *envsp, char **envp, int pipe_fd[2])
 
 	pid = fork();
 	if (pid < 0)
-		btin_out(1, errno, strerror(errno));
+		btin_out(1, errno, btin_make_errmsg("minishell: ", \
+			"fork", strerror(errno)));
 	else if (pid == 0)
 	{
 		if (pipe_fd[0] != -1)
@@ -129,6 +135,7 @@ void	ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp)
 			g_errno = WEXITSTATUS(status);
 		if (WIFSIGNALED(status) != 0)
 			g_errno = WTERMSIG(status) + 128;
+		printf("g_errno : %d\n", g_errno);
 	}
-	// ex_all_close(cmdsp_head->next);
+	ex_all_close(cmdsp_head->next);
 }
