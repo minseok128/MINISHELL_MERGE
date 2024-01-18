@@ -41,14 +41,10 @@ int	btin_is_option_n(char *str, int is_n_appear, int is_hyphen_appear)
 		return (0);
 }
 
-void	btin_echo(t_cmds *cmds, int fork_flag)
+void	btin_echo(t_cmds *cmds, int fork_flag, int n_flag, int print_flag)
 {
 	int	i;
-	int	n_flag;
-	int	print_flag;
 
-	n_flag = 0;
-	print_flag = 0;
 	i = 0;
 	while (cmds->argv.items[++i] != NULL)
 	{
