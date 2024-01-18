@@ -53,7 +53,7 @@ int	btin_out_fd(t_cmds *cmds, int fork_flag)
 		fd = open(cmds->out_file, O_WRONLY);
 	if (fd == -1)
 		btin_out(fork_flag, 1, btin_make_errmsg("minishell: ", cmds->out_file, \
-			": Permission denied"));
+				strerror(errno)));
 	return (fd);
 }
 
