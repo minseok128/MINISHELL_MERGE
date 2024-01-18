@@ -29,7 +29,8 @@ void	btin_modify_pwd(t_envs *envsp, char *old_pwd, int fork_flag)
 	{
 		pwd = getcwd(NULL, 1024);
 		if (pwd == NULL)
-			btin_out(1, errno, strerror(errno));
+			btin_out(1, errno, btin_make_errmsg("minishell: ", \
+				"getcwd: ", strerror(errno)));
 		free(env_pwd->value);
 		env_pwd->value = pwd;
 	}
@@ -38,21 +39,28 @@ void	btin_modify_pwd(t_envs *envsp, char *old_pwd, int fork_flag)
 
 void	btin_cd_error(int flag, char *dest, char *pwd, int fork_flag)
 {
+	char	*errmsg;
+
+	errmsg = NULL;
 	if (flag == 0)
 		return ;
 	if (flag == 1)
-		printf("minishell: cd: %s: No such file or directory\n", dest);
+		errmsg = btin_make_errmsg("minishell: cd: ", dest, \
+			": No such file or directory");
 	else if (flag == 2)
-		printf("minishell: cd: %s: Not a directory\n", dest);
+		errmsg = btin_make_errmsg("minishell: cd: ", dest, \
+			": Not a directory");
 	else if (flag == 3)
-		printf("minishell: cd: %s: Permission denied\n", dest);
+		errmsg = btin_make_errmsg("minishell: cd: ", dest, \
+			": Permission denied");
 	else if (flag == 4)
-		printf("minishell: cd: HOME not set\n");
+		errmsg = btin_make_errmsg("minishell: cd: ", "HOME", \
+			" not set");
 	if (dest != NULL)
 		free(dest);
 	if (pwd != NULL)
 		free(pwd);
-	btin_out(fork_flag, 1, NULL);
+	btin_out(fork_flag, 1, errmsg);
 }
 
 void	btin_move_to_dest(t_envs *envsp, char *dest, int fork_flag)
@@ -62,15 +70,18 @@ void	btin_move_to_dest(t_envs *envsp, char *dest, int fork_flag)
 
 	pwd = getcwd(NULL, 1024);
 	if (pwd == NULL)
-		btin_out(1, errno, strerror(errno));
+		btin_out(1, errno, btin_make_errmsg("minishell: ", \
+			"getcwd: ", strerror(errno)));
 	if (stat(dest, &dir_stat) == -1)
-		btin_out(1, errno, strerror(errno));
+		btin_out(1, errno, btin_make_errmsg("minishell: ", \
+		"stat: ", strerror(errno)));
 	else if (S_ISDIR(dir_stat.st_mode) != 1)
 		btin_cd_error(2, dest, pwd, fork_flag);
 	else if (access(dest, X_OK) != 0)
 		btin_cd_error(3, dest, pwd, fork_flag);
 	else if (chdir(dest) == -1)
-		btin_out(1, errno, strerror(errno));
+		btin_out(1, errno, btin_make_errmsg("minishell: ", \
+		"chdir: ", strerror(errno)));
 	else
 	{
 		free(dest);

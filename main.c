@@ -3,26 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michang <michang@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:05:34 by michang           #+#    #+#             */
-/*   Updated: 2023/09/08 15:05:35 by michang          ###   ########.fr       */
+/*   Updated: 2024/01/15 17:19:56 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	trem_init(int argc, char **argv)
+void	terminal_print_off(void)
 {
-	struct termios term;
+	struct termios	term;
 
-	if (argc != 1)
-		exit(1);
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-	set_signal(MODE_SHELL, MODE_SHELL);
-	(void) argv;
+}
+
+void	terminal_print_on(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
 int	jump_white_space(char *str)
@@ -39,11 +44,11 @@ int	jump_white_space(char *str)
 int	main(int argc, char **argv, char **envp)
 {
 	t_envs			*envsp;
-	struct termios	term;
 	t_parser_info	p_info;
 
-	tcgetattr(STDIN_FILENO, &term);
-	trem_init(argc, argv);
+	argc = argv - argv;
+	terminal_print_off();
+	set_signal(MODE_SHELL, MODE_SHELL);
 	envsp = btin_make_envsp(envp);
 	while (1)
 	{
@@ -65,5 +70,5 @@ int	main(int argc, char **argv, char **envp)
 		}
 		free(p_info.line);
 	}
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+	terminal_print_on();
 }

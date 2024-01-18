@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft_s_2.c                                        :+:      :+:    :+:   */
+/*   btin_make_errmsg.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/18 22:07:03 by michang           #+#    #+#             */
-/*   Updated: 2024/01/17 18:44:25 by seonjo           ###   ########.fr       */
+/*   Created: 2024/01/17 16:14:57 by seonjo            #+#    #+#             */
+/*   Updated: 2024/01/17 16:50:05 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strjoin_s(const char *s1, const char *s2)
+char	*btin_make_errmsg(char *s1, char *s2, char *s3)
 {
-	char	*new;
+	char	*merge1;
+	char	*merge2;
 
-	new = ft_strjoin(s1, s2);
-	if (!new)
-		btin_out(1, errno, btin_make_errmsg("minishell: ", \
-			"malloc: ", strerror(errno)));
-	return (new);
+	merge1 = ft_strjoin_s(s1, s2);
+	merge2 = ft_strjoin_s(merge1, s3);
+	free(merge1);
+	return (merge2);
 }

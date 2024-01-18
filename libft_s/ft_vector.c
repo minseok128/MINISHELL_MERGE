@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_vector.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michang <michang@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 18:28:16 by michang           #+#    #+#             */
-/*   Updated: 2024/01/07 18:28:17 by michang          ###   ########.fr       */
+/*   Updated: 2024/01/17 18:44:36 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_s.h"
+#include "../minishell.h"
 
 void	vec_init(t_vector *v, int capacity)
 {

@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:25:24 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/12 15:46:39 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/17 18:35:10 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,15 @@ char	**btin_divide_key_and_value(char *env)
 	int		equal_index;
 	char	**key_and_value;
 
-	key_and_value = malloc(sizeof(char *) * 2);
-	if (key_and_value == NULL)
-		btin_out(1, errno, strerror(errno));
+	key_and_value = ft_calloc_s(sizeof(char *), 2);
 	equal_index = btin_find_equal_index(env);
 	if (equal_index == -1)
 	{
 		key_and_value[0] = ft_strdup_s(env);
+		key_and_value[1] = NULL;
 		return (key_and_value);
 	}
-	key_and_value[0] = malloc(sizeof(char) * (equal_index + 1));
-	if (key_and_value[0] == NULL)
-		btin_out(1, errno, strerror(errno));
+	key_and_value[0] = ft_calloc_s(sizeof(char), (equal_index + 1));
 	ft_strlcpy(key_and_value[0], env, equal_index + 1);
 	key_and_value[1] = ft_strdup_s(env + (equal_index + 1));
 	return (key_and_value);
@@ -60,9 +57,7 @@ t_envs	*btin_make_envsp_node(char **key_and_value)
 {
 	t_envs	*node;
 
-	node = malloc(sizeof(t_envs));
-	if (node == NULL)
-		btin_out(1, errno, strerror(errno));
+	node = ft_calloc_s(sizeof(t_envs), 1);
 	if (key_and_value != NULL)
 	{
 		node->key = key_and_value[0];

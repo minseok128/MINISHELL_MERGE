@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:05:34 by michang           #+#    #+#             */
-/*   Updated: 2024/01/04 17:53:52 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/12 16:12:31 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	set_signal(int sig_int, int sig_quit)
 		signal(SIGQUIT, SIG_IGN);
 	if (sig_int == MODE_HEREDOC)
 		signal(SIGINT, signal_heredoc_handler);
+	if (sig_quit == MODE_HEREDOC)
+		signal(SIGQUIT, SIG_IGN);
 }
 
 void	terminal_print_off(void)
