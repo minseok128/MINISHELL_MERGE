@@ -102,7 +102,7 @@ void	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 	}
 }
 
-void	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
+int	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
 {
 	char	*e_w;
 
@@ -120,4 +120,5 @@ void	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
 	}
 	trtv_expansion_travel(node->left, envsp);
 	trtv_expansion_travel(node->right, envsp);
+	return (0);
 }
