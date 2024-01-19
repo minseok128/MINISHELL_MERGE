@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 10:55:22 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/19 16:06:19 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/19 16:14:53 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ void	btin_exit(t_cmds *cmds, int fork_flag)
 {
 	int	n;
 
-	ft_putstr_fd("exit\n", 2);
+	if (fork_flag == 0)
+		ft_putstr_fd("exit\n", 2);
 	if (cmds->argv.items[1] == NULL)
 		btin_out(1, 0, NULL);
 	else
