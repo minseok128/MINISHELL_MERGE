@@ -87,6 +87,8 @@ void	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 		if (!trtv_pipe_travel(node->left, cmds_h, envsp))
 		{
 			ex_cmd_loop(cmds_h, envsp);
+			// if (node->tk->type == T_AND) 
+			// if (node->tk->type == T_OR) 
 			// if (g_)
 		}
 	}
@@ -95,6 +97,8 @@ void	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 		if (!trtv_pipe_travel(node->right, cmds_h, envsp))
 		{
 			ex_cmd_loop(cmds_h, envsp);
+			// if (node->tk->type == T_AND) 
+			// if (node->tk->type == T_OR) 
 			// if (g_)
 		}
 	}
