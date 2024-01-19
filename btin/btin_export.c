@@ -72,7 +72,7 @@ void	btin_export(t_cmds *cmds, t_envs *envsp, int error_code, int fork_flag)
 
 	i = 1;
 	if (cmds->argv.items[i] == NULL)
-		btin_print_declare_env(cmds, envsp, fork_flag);
+		btin_export_print(envsp);
 	while (cmds->argv.items[i] != NULL)
 	{
 		str = cmds->argv.items[i++];

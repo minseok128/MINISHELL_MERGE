@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/18 18:06:16 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/19 15:43:09 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,23 +142,22 @@ int				trtv_redir_d_l(t_cmds *cmd, char *file);
 int				trtv_redir_d_r(t_cmds *cmd, char *file);
 
 // btin
-void			btin_pwd(t_cmds *cmds, int fork_flag);
+void			btin_pwd(int fork_flag);
 void			btin_export(t_cmds *cmds, t_envs *envsp, int error_code, int fork_flag);
 void			btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag);
 void			btin_cd(t_cmds *cmds, t_envs *envsp, int fork_flag);
-void			btin_echo(t_cmds *cmds, int fork_flag, int n_flag, int print_flag);
-void			btin_env(t_cmds *cmds, t_envs *envsp, int fork_flag);
+void			btin_echo(t_cmds *cmds, int fork_flag);
+void			btin_env(t_envs *envsp, int fork_flag);
 void			btin_exit(t_cmds *cmds, int fork_flag);
 void			btin_out(int fork_flag, int error_code, char *errmsg);
 int				btin_is_valid_identifier(char *str);
-void			btin_print_declare_env(t_cmds *cmds, t_envs *envsp, int fork_flag);
+void			btin_export_print(t_envs *envsp);
 void			btin_free_key_and_value(char **key_and_value, char *key, char *value);
 t_envs			*btin_make_envsp_node(char **key_and_value);
 t_envs			*btin_make_envsp(char **envp);
 t_envs			*btin_find_node(t_envs *envsp, char *key);
 char			**btin_divide_key_and_value(char *env);
 char			*btin_make_errmsg(char *s1, char *s2, char *s3);
-int				btin_out_fd(t_cmds *cmds, int fork_flag);
 
 // ex
 t_cmds			*ex_cmdsp_init(void);
@@ -171,6 +170,9 @@ void			ex_execute(char **cmd, t_envs *envsp, char **envp);
 int				ex_is_builtin(t_cmds *cmds, t_envs *envsp, int fork_flag);
 char			*ex_strjoin_c(char const *s1, char const *s2, char c);
 void			*ex_free_string_array(char **string_array);
+int				ex_open_btin_input_fd(t_cmds *cmds);
+int				ex_open_btin_output_fd(t_cmds *cmds);
+
 
 // libft_s
 int				ft_isspace(char c);
