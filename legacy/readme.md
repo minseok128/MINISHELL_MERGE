@@ -1,7 +1,7 @@
 ### To Do List - Seonjo
 
 - [X] heredoc 구현
-- [ ] builtin redirection 구현
+- [X] builtin redirection 구현
 - [ ] signal 처리
 - [ ] exit code 에러 메시지
 - [ ] leaks 잡기
