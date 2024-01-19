@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/19 15:06:16 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/19 15:43:09 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void			btin_env(t_envs *envsp, int fork_flag);
 void			btin_exit(t_cmds *cmds, int fork_flag);
 void			btin_out(int fork_flag, int error_code, char *errmsg);
 int				btin_is_valid_identifier(char *str);
-void			btin_export_print(t_envs *envsp, int fork_flag);
+void			btin_export_print(t_envs *envsp);
 void			btin_free_key_and_value(char **key_and_value, char *key, char *value);
 t_envs			*btin_make_envsp_node(char **key_and_value);
 t_envs			*btin_make_envsp(char **envp);
@@ -170,6 +170,9 @@ void			ex_execute(char **cmd, t_envs *envsp, char **envp);
 int				ex_is_builtin(t_cmds *cmds, t_envs *envsp, int fork_flag);
 char			*ex_strjoin_c(char const *s1, char const *s2, char c);
 void			*ex_free_string_array(char **string_array);
+int				ex_open_btin_input_fd(t_cmds *cmds);
+int				ex_open_btin_output_fd(t_cmds *cmds);
+
 
 // libft_s
 int				ft_isspace(char c);
