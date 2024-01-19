@@ -22,7 +22,7 @@ int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd)
 		while (i < node->word_split.size)
 		{
 			if (node->word_split.items[i])
-				vec_push_back(&(cmd->argv), node->word_split.items[i]); 
+				vec_push_back(&(cmd->argv), node->word_split.items[i]);
 			i++;
 		}
 	}
@@ -75,27 +75,28 @@ int	trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, t_envs *envsp)
 	return (0);
 }
 
-void	trtv_list_travel(t_tr_node *node, t_envs *envsp)
+int	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 {
 	t_cmds	*cmds_h;
 
 	if (node->left && node->left->bnf_type == TR_LIST)
-		trtv_list_travel(node->left, envsp);
-	cmds_h = ex_cmdsp_init();
-	if (node->left && node->left->bnf_type == TR_PIPELINE)
 	{
-		if (!trtv_pipe_travel(node->left, cmds_h, envsp))
+		if (!trtv_list_travel(node->left, envsp))
 		{
-			ex_cmd_loop(cmds_h, envsp);
-			// if (g_)
+			cmds_h = ex_cmdsp_init();
+			if (node->right && node->right->bnf_type == TR_PIPELINE)
+				if (!trtv_pipe_travel(node->right, cmds_h, envsp))
+					ex_cmd_loop(cmds_h, envsp);
 		}
 	}
-	if (node->right && node->right->bnf_type == TR_PIPELINE)
+	else
 	{
-		if (!trtv_pipe_travel(node->right, cmds_h, envsp))
-		{
-			ex_cmd_loop(cmds_h, envsp);
-			// if (g_)
-		}
+		cmds_h = ex_cmdsp_init();
+		if (node->left && node->left->bnf_type == TR_PIPELINE)
+			if (!trtv_pipe_travel(node->left, cmds_h, envsp))
+				ex_cmd_loop(cmds_h, envsp);
 	}
+	return (node->tk
+		&& ((!g_errno && node->tk->type != T_AND)
+			|| (g_errno && node->tk->type == T_AND)));
 }

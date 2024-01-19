@@ -134,7 +134,7 @@ void			trtv_word_split(char *word, t_tr_node *node);
 void			trtv_quotes_removal(t_vector *word_split);
 int				trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd);
 void			trtv_comd_travel(t_tr_node *node, t_cmds *cmd);
-void			trtv_list_travel(t_tr_node *node, t_envs *envsp);
+int				trtv_list_travel(t_tr_node *node, t_envs *envsp);
 int				trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, t_envs *envsp);
 int				trtv_redir_s_l(t_cmds *cmd, char *file);
 int				trtv_redir_s_r(t_cmds *cmd, char *file);
