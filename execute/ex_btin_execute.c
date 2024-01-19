@@ -24,7 +24,9 @@ void	ex_btin_redir_on(t_cmds *cmds, int *fd)
 
 int	ex_exec_btin(t_cmds *cmds, t_envs *envsp, int fork_flag)
 {	
-	if (ft_strncmp(cmds->argv.items[0], "cd", 3) == 0)
+	if (!cmds->argv.items[0])
+		return (0);
+	else if (ft_strncmp(cmds->argv.items[0], "cd", 3) == 0)
 		btin_cd(cmds, envsp, fork_flag);
 	else if (ft_strncmp(cmds->argv.items[0], "pwd", 4) == 0)
 		btin_pwd(fork_flag);
