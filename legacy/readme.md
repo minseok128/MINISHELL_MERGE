@@ -9,7 +9,7 @@
 
 ### To Do List - Michang
 - [X] heredoc signal 종료 시 임시 파일 삭제 구현
-- [ ] &&, || 기능 구현
+- [X] &&, || 기능 구현
 - [ ] 파싱에 사용된 것들 모두 free
 - [ ] leaks 잡기
 - [ ] norm 맞추기
