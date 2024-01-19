@@ -6,13 +6,13 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:19 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/19 15:04:21 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/19 15:42:55 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	btin_export_print(t_envs *envsp, int fork_flag)
+void	btin_export_print(t_envs *envsp)
 {
 	t_envs	*node;
 
