@@ -99,6 +99,7 @@ int	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 			if (node->right && node->right->bnf_type == TR_PIPELINE)
 				if (!trtv_pipe_travel(node->right, cmds_h, envsp))
 				{
+					printf("here\n");
 					test_cmds_print(cmds_h);
 					ex_cmd_loop(cmds_h, envsp);
 				}
