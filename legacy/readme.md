@@ -15,4 +15,4 @@
 - [ ] norm 맞추기
 
 ### Issue List (찾으면 일단 적기!)
-- [ ] execve에 빈 word 배열 넘길 때 segfault 나는 것 고치기
+- [X] execve에 빈 word 배열 넘길 때 segfault 나는 것 고치기
