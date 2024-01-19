@@ -80,16 +80,28 @@ int	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 	t_cmds	*cmds_h;
 
 	if (node->left && node->left->bnf_type == TR_LIST)
-		if (trtv_list_travel(node->left, envsp))
-			return (1);
-	cmds_h = ex_cmdsp_init();
-	if (node->left && node->left->bnf_type == TR_PIPELINE)
-		if (!trtv_pipe_travel(node->left, cmds_h, envsp))
-			ex_cmd_loop(cmds_h, envsp);
-	if (node->right && node->right->bnf_type == TR_PIPELINE)
-		if (!trtv_pipe_travel(node->right, cmds_h, envsp))
-			ex_cmd_loop(cmds_h, envsp);
-	return (node->tk
-		&& ((g_errno && node->tk->type == T_AND)
-			|| (!g_errno && node->tk->type == T_AND)));
+	{
+		if (!trtv_list_travel(node->left, envsp))
+		{
+			cmds_h = ex_cmdsp_init();
+			if (node->right && node->right->bnf_type == TR_PIPELINE)
+				if (!trtv_pipe_travel(node->right, cmds_h, envsp))
+					ex_cmd_loop(cmds_h, envsp);
+		}
+	}
+	else
+	{
+		cmds_h = ex_cmdsp_init();
+		if (node->left && node->left->bnf_type == TR_PIPELINE)
+			if (!trtv_pipe_travel(node->left, cmds_h, envsp))
+				ex_cmd_loop(cmds_h, envsp);
+	}
+	if (node->tk)
+	{
+		if (node->tk->type == T_AND)
+			return (g_errno);
+		if (node->tk->type == T_OR)
+			return (!g_errno);
+	}
+	return (0);
 }
