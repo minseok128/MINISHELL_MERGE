@@ -97,6 +97,6 @@ int	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 				ex_cmd_loop(cmds_h, envsp);
 	}
 	return (node->tk
-		&& ((g_errno && node->tk->type == T_OR)
-			|| (!g_errno && node->tk->type == T_OR)));
+		&& ((!g_errno && node->tk->type != T_AND)
+			|| (g_errno && node->tk->type == T_AND)));
 }
