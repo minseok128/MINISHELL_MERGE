@@ -31,7 +31,7 @@ int	trtv_redir_s_l(t_cmds *cmd, char *file)
 	// 4. 파일 오픈 실패시 구조체 만들기 stop
 	if (fd == -1)
 	{
-		return (-1);
+		return (1);
 		// 구조체 만들기 stop
 	}
 	// 5. 파일 오픈 성공시 바로 닫기
@@ -54,7 +54,7 @@ int	trtv_redir_s_r(t_cmds *cmd, char *file)
 	// 3. 파일 오픈 실패시 구조체 만들기 stop
 	if (fd == -1)
 	{
-		return (-1);
+		return (1);
 		// 구조체 만들기 stop
 	}
 	// 4. 파일 오픈 성공시 바로 닫기
@@ -82,7 +82,7 @@ int	trtv_redir_d_l(t_cmds *cmd, char *file)
 	// 4. 파일 오픈 실패시 구조체 만들기 stop
 	if (fd == -1)
 	{
-		return (-1);
+		return (1);
 		// 구조체 만들기 stop
 	}
 	// 5. 파일 오픈 성공시 바로 닫기
@@ -105,7 +105,7 @@ int	trtv_redir_d_r(t_cmds *cmd, char *file)
 	// 3. 파일 오픈 실패시 구조체 만들기 stop
 	if (fd == -1)
 	{
-		return (-1);
+		return (1);
 		// 구조체 만들기 stop
 	}
 	// 4. 파일 오픈 성공시 바로 닫기
