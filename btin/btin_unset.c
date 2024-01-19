@@ -6,38 +6,30 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:19 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/18 17:51:59 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/19 15:04:21 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	btin_print_declare_env(t_cmds *cmds, t_envs *envsp, int fork_flag)
+void	btin_export_print(t_envs *envsp, int fork_flag)
 {
-	int		out_fd;
 	t_envs	*node;
 
-	if (envsp == NULL)
-		return ;
-	out_fd = btin_out_fd(cmds, fork_flag);
-	if (out_fd == -1)
-		return ;
 	node = envsp->next;
 	while (node != NULL)
 	{
-		ft_putstr_fd("declare -x ", out_fd);
-		ft_putstr_fd(node->key, out_fd);
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(node->key, 1);
 		if (node->value != NULL)
 		{
-			ft_putstr_fd("=\"", out_fd);
-			ft_putstr_fd(node->value, out_fd);
-			ft_putchar_fd('\"', out_fd);
+			ft_putstr_fd("=\"", 1);
+			ft_putstr_fd(node->value, 1);
+			ft_putchar_fd('\"', 1);
 		}
-		ft_putchar_fd('\n', out_fd);
+		ft_putchar_fd('\n', 1);
 		node = node->next;
 	}
-	if (out_fd != 1)
-		close(out_fd);
 }
 
 int	btin_is_valid_identifier(char *str)
