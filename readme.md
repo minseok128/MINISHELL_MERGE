@@ -1,21 +1,82 @@
-# MiniShell
----
-### To Do List - Seonjo
+# Conventions
 
-- [X] heredoc 구현
-- [ ] builtin redirection 구현
-- [ ] signal 처리
-- [ ] exit code 에러 메시지
-- [ ] leaks 잡기
-- [ ] norm 맞추기
----
-### To Do List - Michang
-- [X] heredoc signal 종료 시 임시 파일 삭제 구현
-- [ ] &&, || 기능 구현
-- [ ] 파싱에 사용된 것들 모두 free
-- [ ] leaks 잡기
-- [ ] norm 맞추기
----
-### Issue List (찾으면 일단 적기!)
-- [ ] execve에 빈 word 배열 넘길 때 segfault 나는 것 고치기
+- 모든 작업내용은 Issue로 작성한 뒤, Fork된 Repository에서 Branch를 분리하여 작업하고, PR을 통해 상호간 Code-Review 이후 마지막에 Approve한 Reviewer가 Master Branch에 Merge 합니다.
 
+---
+
+### Commit Rule
+```
+__Action__ __FileName__ : __Description__
+```
+- Action 은 다음과 같이 두가지 종류로 구분됩니다.
+    - Added : 새로운 파일을 추가한 경우
+    - Update : 특정 파일을 수정한 경우
+    - Remove : 특정 파일을 삭제한 경우
+- FileName 은 추가 혹은 수정한 파일의 이름을 의미합니다.
+    - Gradle, Gitignore, Makefile과 같이 프로젝트 전역의 설정 파일을 수정하거나 패키지 혹은 라이브러리를 추가한 경우에는 ```Update Project```와 같이 작성합니다.
+- Description 은 Commit에서 변경된 내용을 한 문장으로 요약합니다.
+
+#### Commit Example
+```
+Added README.md
+```
+```
+Update MainActivity : Added Login Button on Base Component
+```
+```
+Update Project : Set Gradle Version to 7.3.1
+```
+
+---
+
+### Issue / PR Rule
+
+#### Title
+```
+[TYPE] TITLE
+```
+- TYPE 은 다음 중 하나를 선택합니다.
+    - DEV : 일반적인 개발 사항
+    - FIX : 기존에 개발된 내용을 수정하는 사항
+    - DOC : README 등 문서에 관련된 사항
+
+####  Content
+```markdown
+## Summary
+Summary of Issue or PR
+
+## Description
+Detail Description of Issue or PR
+```
+- Description 항목이 불필요한 경우에는 생략할 수 있습니다. 단, PR의 경우에는 생략 없이 최대한 상세히 적어주시기 바랍니다.
+- FIX Issue 혹은 UI에 관련된 PR의 경우는, Description에 스크린샷을 첨부해주시기 바랍니다.
+- Issue 작성 시, Assignee와 Label을 지정하고, 생성한 Branch를 Development 항목에 지정해줍니다.
+- PR 작성 시, Assignee와 Label을 지정하고, Reviewer을 상호로 지정하고, 해당하는 Issue를 Development 항목에 지정해줍니다.
+
+[Issue Example 1](https://github.com/yymin1022/Wa_API/issues/59) /
+[Issue Example 2](https://github.com/yymin1022/TaxiMeter/issues/1)
+
+[PR Example 1](https://github.com/DefCon-Apps/Military_License/pull/21) /
+[PR Example 2](https://github.com/DefCon-Apps/Military_License/pull/22) /
+[PR Example 3](https://github.com/DefCon-Apps/Military_License/pull/24)
+
+---
+
+### Branch Rule
+```
+TYPE/BRANCH_NAME
+```
+- 기본적으로 Branch의 이름은 Issue의 이름을 따릅니다.
+- TYPE은 다음 중 하나를 해당하는 Issue의 Type과 동일하게 선택합니다.
+  - dev : 일반적인 개발 사항
+  - fix : 기존에 개발된 내용을 수정하는 사항
+  - doc : README 등 문서에 관련된 사항
+- BRANCH_NAME은 해당하는 Issue의 Title을 적절히 변형합니다.
+
+#### Branch Example
+```
+dev/base-activity
+```
+```
+docs/readme-base
+```
