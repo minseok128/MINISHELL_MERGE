@@ -15,7 +15,9 @@
 int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd)
 {
 	int	i;
+	int	fail_flag;
 
+	fail_flag = 0;
 	if (node->tk->type == T_WORD)
 	{
 		i = 0;
@@ -27,24 +29,34 @@ int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd)
 		}
 	}
 	if (node->tk->type == T_REDIR_S_L)
-		trtv_redir_s_l(cmd, node->tk->str);
+		fail_flag = trtv_redir_s_l(cmd, node->tk->str);
 	else if (node->tk->type == T_REDIR_S_R)
-		trtv_redir_s_r(cmd, node->tk->str);
+		fail_flag = trtv_redir_s_r(cmd, node->tk->str);
 	else if (node->tk->type == T_REDIR_D_L)
-		trtv_redir_d_l(cmd, node->tk->str);
+		fail_flag = trtv_redir_d_l(cmd, node->tk->str);
 	else if (node->tk->type == T_REDIR_D_R)
-		trtv_redir_d_r(cmd, node->tk->str);
-	return (0);
+		fail_flag = trtv_redir_d_r(cmd, node->tk->str);
+	return (fail_flag);
 }
 
-void	trtv_comd_travel(t_tr_node *node, t_cmds *cmd)
+int	trtv_comd_travel(t_tr_node *node, t_cmds *cmd)
 {
 	if (node->left && node->left->bnf_type == TR_COMMAND)
-		trtv_comd_travel(node->left, cmd);
+	{
+		if (trtv_comd_travel(node->left, cmd))
+			return (1);
+	}
 	else if (node->left && node->left->bnf_type == TR_COMMAND_PART)
-		trtv_comd_part_travel(node->left, cmd);
+	{
+		if (trtv_comd_part_travel(node->left, cmd))
+				return (1);
+	}
 	if (node->right && node->right->bnf_type == TR_COMMAND_PART)
-		trtv_comd_part_travel(node->right, cmd);
+	{
+		if (trtv_comd_part_travel(node->right, cmd))
+			return (1);
+	}
+	return (0);
 }
 
 int	trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, t_envs *envsp)
@@ -86,7 +98,10 @@ int	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 			cmds_h = ex_cmdsp_init();
 			if (node->right && node->right->bnf_type == TR_PIPELINE)
 				if (!trtv_pipe_travel(node->right, cmds_h, envsp))
+				{
+					test_cmds_print(cmds_h);
 					ex_cmd_loop(cmds_h, envsp);
+				}
 		}
 	}
 	else
