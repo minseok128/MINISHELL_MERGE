@@ -49,7 +49,7 @@ int	trtv_comd_travel(t_tr_node *node, t_cmds *cmd)
 	else if (node->left && node->left->bnf_type == TR_COMMAND_PART)
 	{
 		if (trtv_comd_part_travel(node->left, cmd))
-				return (1);
+			return (1);
 	}
 	if (node->right && node->right->bnf_type == TR_COMMAND_PART)
 	{
@@ -98,11 +98,7 @@ int	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 			cmds_h = ex_cmdsp_init();
 			if (node->right && node->right->bnf_type == TR_PIPELINE)
 				if (!trtv_pipe_travel(node->right, cmds_h, envsp))
-				{
-					printf("here\n");
-					test_cmds_print(cmds_h);
 					ex_cmd_loop(cmds_h, envsp);
-				}
 		}
 	}
 	else
