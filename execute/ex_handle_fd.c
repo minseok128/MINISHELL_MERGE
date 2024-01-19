@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:07:48 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/18 14:19:20 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/19 15:38:52 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,49 @@ void	ex_open_output_fd(t_cmds *cmdsp)
 		btin_out(1, 1, btin_make_errmsg("minishell: ", cmdsp->out_file, \
 			strerror(errno)));
 	ex_dup_to(out_fd, 1);
+}
+
+int	ex_open_btin_output_fd(t_cmds *cmds)
+{
+	int	std_out;
+	int	out_fd;
+
+	if ((cmds->type & RD_APPEND) != 0)
+		out_fd = open(cmds->out_file, O_WRONLY | O_APPEND);
+	else
+		out_fd = open(cmds->out_file, O_WRONLY);
+	if (out_fd == -1)
+	{
+		btin_out(1, 1, btin_make_errmsg("minishell: ", cmds->out_file, \
+			strerror(errno)));
+		return (-1);
+	}
+	std_out = dup(1);
+	ex_dup_to(out_fd, 1);
+	close(out_fd);
+	return (std_out);
+}
+
+int	ex_open_btin_input_fd(t_cmds *cmds)
+{
+	int	std_in;
+	int	in_fd;
+
+	if (access(cmds->in_file, F_OK) != 0)
+	{
+		btin_out(0, 1, btin_make_errmsg("minishell: ", cmds->in_file, \
+			"No such file or directory"));
+		return (-1);
+	}
+	in_fd = open(cmds->in_file, O_RDONLY);
+	if (in_fd == -1)
+	{
+		btin_out(0, 1, btin_make_errmsg("minishell: ", cmds->in_file, \
+			strerror(errno)));
+		return (-1);
+	}
+	std_in = dup(0);
+	ex_dup_to(in_fd, 0);
+	close(in_fd);
+	return (std_in);
 }
