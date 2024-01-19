@@ -12,6 +12,8 @@
 
 #include "../minishell.h"
 
+// 여기에 추가하면 될 듯!
+
 t_cmds	*ex_cmdsp_init(void)
 {
 	t_cmds	*cmdsp_head;
