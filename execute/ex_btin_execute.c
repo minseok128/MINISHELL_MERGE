@@ -6,14 +6,24 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:08:04 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/19 15:08:24 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/19 15:46:50 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ex_is_builtin(t_cmds *cmds, t_envs *envsp, int fork_flag)
+void	ex_btin_redir_on(t_cmds *cmds, int *fd)
 {
+	if (cmds->in_file != NULL)
+		fd[0] = ex_open_btin_input_fd(cmds);
+	if (fd[0] == -1)
+		return ;
+	if (cmds->out_file != NULL)
+		fd[1] = ex_open_btin_output_fd(cmds);
+}
+
+int	ex_exec_btin(t_cmds *cmds, t_envs *envsp, int fork_flag)
+{	
 	if (ft_strncmp(cmds->argv.items[0], "cd", 3) == 0)
 		btin_cd(cmds, envsp, fork_flag);
 	else if (ft_strncmp(cmds->argv.items[0], "pwd", 4) == 0)
@@ -30,5 +40,49 @@ int	ex_is_builtin(t_cmds *cmds, t_envs *envsp, int fork_flag)
 		btin_exit(cmds, fork_flag);
 	else
 		return (0);
+	return (1);
+}
+
+void	ex_btin_redir_off(int *fd)
+{
+	if (fd[0] != -1 && fd[0] != 0)
+	{
+		close(0);
+		ex_dup_to(fd[0], 0);
+		close(fd[0]);
+	}
+	if (fd[1] != -1 && fd[1] != 1)
+	{
+		close(1);
+		ex_dup_to(fd[1], 1);
+		close(fd[1]);
+	}
+	free(fd);
+}
+
+int	ex_is_builtin(t_cmds *cmds, t_envs *envsp, int fork_flag)
+{
+	int	*fd;
+
+	fd = ft_calloc_s(sizeof(int), 2);
+	fd[0] = 0;
+	fd[1] = 1;
+	if (fork_flag == 0)
+		ex_btin_redir_on(cmds, fd);
+	if (fd[0] == -1 || fd[1] == -1)
+	{
+		ex_btin_redir_off(fd);
+		return (1);
+	}
+	if (ex_exec_btin(cmds, envsp, fork_flag) == 0)
+	{
+		if (fork_flag == 1)
+			return (0);
+		else
+			ex_btin_redir_off(fd);
+		return (0);
+	}
+	if (fork_flag == 0)
+		ex_btin_redir_off(fd);
 	return (1);
 }
