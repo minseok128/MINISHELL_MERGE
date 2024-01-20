@@ -82,7 +82,7 @@ void	parser_info_free(t_parser_info *p_info)
 		p_info->tk_head = p_info->tk_head->next;
 		free(t_node);
 	}
-
+	trtv_free(p_info->root);
 }
 
 int	main(int argc, char **argv, char **envp)
