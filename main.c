@@ -50,11 +50,10 @@ void	trtv_free(t_tr_node *node)
 {
 	int	i;
 
-
-	if (node->left)
-		trtv_free(node->left);
-	if (node->right)
-		trtv_free(node->right);
+	if (!node)
+		return ;
+	trtv_free(node->left);
+	trtv_free(node->right);
 	if (node->word_split.items)
 	{
 		i = 0;
@@ -97,6 +96,7 @@ int	main(int argc, char **argv, char **envp)
 	envsp = btin_make_envsp(envp);
 	while (1)
 	{
+		ft_bzero(&p_info, sizeof(t_parser_info));
 		p_info.line = readline("minishell $ ");
 		if (!(p_info.line))
 			break ;
