@@ -41,6 +41,11 @@ int	jump_white_space(char *str)
 	return (1);
 }
 
+void	parser_info_free(t_parser_info *p_info)
+{
+	
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_envs			*envsp;
