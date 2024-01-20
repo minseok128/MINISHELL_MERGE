@@ -41,9 +41,47 @@ int	jump_white_space(char *str)
 	return (1);
 }
 
+void	leaks_test()
+{
+	system("leaks --list minishell");
+}
+
+void	trtv_free(t_tr_node *node)
+{
+	int	i;
+
+	if (!node)
+		return ;
+	trtv_free(node->left);
+	trtv_free(node->right);
+	if (node->word_split.items)
+	{
+		i = 0;
+		while (i < node->word_split.size)
+		{
+			if (node->word_split.items[i])
+				free(node->word_split.items[i]);
+			i++;	
+		}	
+		vec_free(&(node->word_split));
+	}
+	free (node);
+}
+
 void	parser_info_free(t_parser_info *p_info)
 {
-	
+	t_token	*t_node;
+
+	free(p_info->line);
+	t_node = p_info->tk_head;
+	while (p_info->tk_head)
+	{
+		t_node = p_info->tk_head;
+		free(t_node->str);
+		p_info->tk_head = p_info->tk_head->next;
+		free(t_node);
+	}
+	trtv_free(p_info->root);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -51,12 +89,14 @@ int	main(int argc, char **argv, char **envp)
 	t_envs			*envsp;
 	t_parser_info	p_info;
 
+	atexit(leaks_test);
 	argc = argv - argv + argc;
 	terminal_print_off();
 	set_signal(MODE_SHELL, MODE_SHELL);
 	envsp = btin_make_envsp(envp);
 	while (1)
 	{
+		ft_bzero(&p_info, sizeof(t_parser_info));
 		p_info.line = readline("minishell $ ");
 		if (!(p_info.line))
 			break ;
@@ -67,7 +107,8 @@ int	main(int argc, char **argv, char **envp)
 				if (!mktr_make_tree(p_info.tk_head, &(p_info.root)))
 					if (!trtv_expansion_travel(p_info.root, envsp))
 						trtv_list_travel(p_info.root, envsp);
-		free(p_info.line);
+		parser_info_free(&p_info);
 	}
+	btin_free_envsp(envsp);
 	terminal_print_on();
 }

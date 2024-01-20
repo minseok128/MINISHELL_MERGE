@@ -11,10 +11,10 @@
 # **************************************************************************** #
 
 CC			= cc
-WFLAG		= -Wall -Wextra -Werror
+# WFLAG		= -Wall -Wextra -Werror
 LIBFT		= -Llibft -lft
-READLINE	= -L/usr/local/lib  -lreadline
-# READLINE	= -L/opt/homebrew/Cellar/readline/8.2.7/lib -lreadline
+# READLINE	= -L/usr/local/lib  -lreadline
+READLINE	= -L/opt/homebrew/Cellar/readline/8.2.7/lib -lreadline
 
 DIR			= ./
 BASE		= main signal_utils \

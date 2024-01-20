@@ -12,6 +12,21 @@
 
 #include "../minishell.h"
 
+void	btin_free_envsp(t_envs *envsp)
+{
+	t_envs	*node;
+
+	while (envsp)
+	{
+		node = envsp;
+		free(node->key);
+		if (node->value)
+			free(node->value);
+		envsp = envsp->next;
+		free(node);
+	}
+}
+
 void	btin_env(t_envs *envsp, int fork_flag)
 {
 	t_envs	*node;
