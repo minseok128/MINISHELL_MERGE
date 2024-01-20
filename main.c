@@ -46,6 +46,29 @@ void	leaks_test()
 	system("leaks --list minishell");
 }
 
+void	trtv_free(t_tr_node *node)
+{
+	int	i;
+
+
+	if (node->left)
+		trtv_free(node->left);
+	if (node->right)
+		trtv_free(node->right);
+	if (node->word_split.items)
+	{
+		i = 0;
+		while (i < node->word_split.size)
+		{
+			if (node->word_split.items[i])
+				free(node->word_split.items[i]);
+			i++;	
+		}	
+		vec_free(&(node->word_split));
+	}
+	free (node);
+}
+
 void	parser_info_free(t_parser_info *p_info)
 {
 	t_token	*t_node;
@@ -59,6 +82,7 @@ void	parser_info_free(t_parser_info *p_info)
 		p_info->tk_head = p_info->tk_head->next;
 		free(t_node);
 	}
+
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -80,8 +104,8 @@ int	main(int argc, char **argv, char **envp)
 			add_history(p_info.line);
 		if (*(p_info.line) != 0 && !jump_white_space(p_info.line))
 			if (!tk_tokenize(p_info.line, &(p_info.tk_head)))
-				if (!mktr_make_tree(p_info.tk_head, &(p_info.root)))
-					if (!trtv_expansion_travel(p_info.root, envsp));
+				if (!mktr_make_tree(p_info.tk_head, &(p_info.root)));
+					// if (!trtv_expansion_travel(p_info.root, envsp))
 				// 		trtv_list_travel(p_info.root, envsp);
 		parser_info_free(&p_info);
 	}
