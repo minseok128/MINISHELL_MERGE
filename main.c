@@ -104,9 +104,9 @@ int	main(int argc, char **argv, char **envp)
 			add_history(p_info.line);
 		if (*(p_info.line) != 0 && !jump_white_space(p_info.line))
 			if (!tk_tokenize(p_info.line, &(p_info.tk_head)))
-				if (!mktr_make_tree(p_info.tk_head, &(p_info.root)))
-					if (!trtv_expansion_travel(p_info.root, envsp))
-						trtv_list_travel(p_info.root, envsp);
+				if (!mktr_make_tree(p_info.tk_head, &(p_info.root)));
+					// if (!trtv_expansion_travel(p_info.root, envsp))
+						// trtv_list_travel(p_info.root, envsp);
 		parser_info_free(&p_info);
 	}
 	btin_free_envsp(envsp);
