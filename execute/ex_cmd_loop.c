@@ -14,21 +14,20 @@
 
 void	ex_all_close(t_cmds *cmdsp)
 {
-	// t_cmds	*tmp;
+	t_cmds	*tmp;
 
+	tmp = cmdsp;
+	cmdsp = cmdsp->next;
+	free(tmp);
 	while (cmdsp != NULL)
 	{
 		if ((cmdsp->type & RD_HEREDOC) != 0)
 			if (unlink(cmdsp->in_file) == -1)
 				btin_make_errmsg("minishell: ", "unlink", strerror(errno));
-		// vec_free(&(cmdsp->argv));
-		// if (cmdsp->in_file != NULL)
-		// 	free(cmdsp->in_file);
-		// if (cmdsp->out_file != NULL)
-		// 	free(cmdsp->out_file);
-		// tmp = cmdsp;
+		vec_free(&(cmdsp->argv));
+		tmp = cmdsp;
 		cmdsp = cmdsp->next;
-		// free(tmp);
+		free(tmp);
 	}
 }
 
@@ -139,5 +138,5 @@ void	ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp)
 			free(envp[i]);
 		free(envp);
 	}
-	ex_all_close(cmdsp_head->next);
+	ex_all_close(cmdsp_head);
 }
