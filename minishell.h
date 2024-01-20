@@ -174,7 +174,6 @@ void			*ex_free_string_array(char **string_array);
 int				ex_open_btin_input_fd(t_cmds *cmds);
 int				ex_open_btin_output_fd(t_cmds *cmds);
 
-
 // libft_s
 int				ft_isspace(char c);
 char			*ft_substr_s(char const *s, unsigned int start, size_t len);
