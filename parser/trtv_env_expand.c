@@ -57,6 +57,7 @@ static int	trtv_dollar_sign(char *word, int now, char **e_w, t_envs *envsp)
 	if (!btin_find_node(envsp, key))
 		return (len);
 	value = ft_strdup_s(btin_find_node(envsp, key)->value);
+	free(key);
 	i = 0;
 	while (value[i])
 	{

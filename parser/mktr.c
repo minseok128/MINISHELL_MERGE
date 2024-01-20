@@ -46,7 +46,9 @@ int	mktr_command_part(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
 				return (1);
 		}
 		*tk_now = (*tk_now)->next;
+		free((*head)->tk->str);
 		(*head)->tk->str = (*tk_now)->str;
+		(*tk_now)->str = 0;
 	}
 	*tk_now = (*tk_now)->next;
 	return (0);
@@ -140,11 +142,16 @@ int	mktr_make_tree(t_token *tk_head, t_tr_node **root)
 			i = 0;
 			while (i < info.hdocs.size)
 				unlink(info.hdocs.items[i++]);
+			vec_free(&(info.hdocs));
 			return (1);
 		}
 		if (tk_now->type != T_NEWLINE)
+		{
+			vec_free(&(info.hdocs));
 			return (mktr_print_unexpected(tk_now->str));
+		}
 	}
+	vec_free(&(info.hdocs));
 	return (0);
 	// return (test_tr_print_tree(*root, "INIT TREE"));
 }

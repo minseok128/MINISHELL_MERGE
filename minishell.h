@@ -155,6 +155,7 @@ void			btin_export_print(t_envs *envsp);
 void			btin_free_key_and_value(char **key_and_value, char *key, char *value);
 t_envs			*btin_make_envsp_node(char **key_and_value);
 t_envs			*btin_make_envsp(char **envp);
+void			btin_free_envsp(t_envs *envsp);
 t_envs			*btin_find_node(t_envs *envsp, char *key);
 char			**btin_divide_key_and_value(char *env);
 char			*btin_make_errmsg(char *s1, char *s2, char *s3);

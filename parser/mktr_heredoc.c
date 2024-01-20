@@ -29,7 +29,7 @@ pid_t	mktr_heredoc_fork(int fd, char *limiter)
 			line = readline("> ");
 			if (line == NULL)
 			{
-				printf("\033[1A"); // 1줄 위로가는 ANSI 이스케이프 시퀀스
+				printf("\033[1A");
 				printf("> ");
 				exit(0);
 			}
