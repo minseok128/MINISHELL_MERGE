@@ -48,7 +48,17 @@ void	leaks_test()
 
 void	parser_info_free(t_parser_info *p_info)
 {
+	t_token	*t_node;
+
 	free(p_info->line);
+	t_node = p_info->tk_head;
+	while (p_info->tk_head)
+	{
+		t_node = p_info->tk_head;
+		free(t_node->str);
+		p_info->tk_head = p_info->tk_head->next;
+		free(t_node);
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -69,11 +79,12 @@ int	main(int argc, char **argv, char **envp)
 		if (*(p_info.line) != 0)
 			add_history(p_info.line);
 		if (*(p_info.line) != 0 && !jump_white_space(p_info.line))
-			if (!tk_tokenize(p_info.line, &(p_info.tk_head)))
-				if (!mktr_make_tree(p_info.tk_head, &(p_info.root)))
-					if (!trtv_expansion_travel(p_info.root, envsp))
-						trtv_list_travel(p_info.root, envsp);
+			if (!tk_tokenize(p_info.line, &(p_info.tk_head)));
+				// if (!mktr_make_tree(p_info.tk_head, &(p_info.root)))
+				// 	if (!trtv_expansion_travel(p_info.root, envsp))
+				// 		trtv_list_travel(p_info.root, envsp);
 		parser_info_free(&p_info);
 	}
+	btin_free_envsp(envsp);
 	terminal_print_on();
 }
