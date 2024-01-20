@@ -22,9 +22,7 @@ int	trtv_redir_s_l(t_cmds *cmd, char *file)
 			btin_out(1, errno, btin_make_errmsg("minishell: ", \
 				"unlink", strerror(errno)));
 	// 2. 구조체에 in_file과 type 초기화
-	if (cmd->in_file != NULL)
-		free(cmd->in_file);
-	cmd->in_file = ft_strdup_s(file);
+	cmd->in_file = file;
 	cmd->type &= ~RD_HEREDOC;
 	// 3. 파일 오픈
 	fd = open(cmd->in_file, O_RDONLY);
@@ -45,9 +43,7 @@ int	trtv_redir_s_r(t_cmds *cmd, char *file)
 	int	fd;
 	
 	// 1. 구조체에 out_file과 type 초기화
-	if (cmd->out_file != NULL)
-		free(cmd->out_file);
-	cmd->out_file = ft_strdup_s(file);
+	cmd->out_file = file;
 	cmd->type &= ~RD_APPEND;
 	// 2. 파일 오픈
 	fd = open(cmd->out_file, O_CREAT | O_TRUNC | O_WRONLY, 0777);
@@ -73,9 +69,7 @@ int	trtv_redir_d_l(t_cmds *cmd, char *file)
 			btin_out(1, errno, btin_make_errmsg("minishell: ", \
 				"unlink", strerror(errno)));
 	// 2. 구조체에 in_file과 type 초기화
-	if (cmd->in_file != NULL)
-		free(cmd->in_file);
-	cmd->in_file = ft_strdup_s(file);
+	cmd->in_file = file;
 	cmd->type |= RD_HEREDOC;
 	// 3. 파일 오픈
 	fd = open(cmd->in_file, O_RDONLY);
@@ -96,9 +90,7 @@ int	trtv_redir_d_r(t_cmds *cmd, char *file)
 	int	fd;
 	
 	// 1. 구조체에 out_file과 type 초기화
-	if (cmd->out_file != NULL)
-		free(cmd->out_file);
-	cmd->out_file = ft_strdup_s(file);
+	cmd->out_file = file;
 	cmd->type |= RD_APPEND;
 	// 2. 파일 오픈
 	fd = open(cmd->out_file, O_CREAT | O_APPEND | O_WRONLY, 0777);
