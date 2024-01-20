@@ -21,8 +21,7 @@ void	ex_all_close(t_cmds *cmdsp)
 		if ((cmdsp->type & RD_HEREDOC) != 0)
 			if (unlink(cmdsp->in_file) == -1)
 				btin_make_errmsg("minishell: ", "unlink", strerror(errno));
-		// ex_free_string_array(cmdsp->argv);
-		// free(cmdsp->argv);
+		// vec_free(&(cmdsp->argv));
 		// if (cmdsp->in_file != NULL)
 		// 	free(cmdsp->in_file);
 		// if (cmdsp->out_file != NULL)
@@ -135,6 +134,10 @@ void	ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp)
 			g_errno = WEXITSTATUS(status);
 		if (WIFSIGNALED(status) != 0)
 			g_errno = WTERMSIG(status) + 128;
+		// 이 부분을 제대로 완성할 것
+		for (int i = 0; envp[i]; i++)
+			free(envp[i]);
+		free(envp);
 	}
 	ex_all_close(cmdsp_head->next);
 }
