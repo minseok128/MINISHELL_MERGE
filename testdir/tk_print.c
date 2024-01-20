@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	tk_print(t_token *tk)
+int	test_tk_print(t_token *tk)
 {
 	printf("\n[TOKEN] DONE!\n");
 	while (tk)

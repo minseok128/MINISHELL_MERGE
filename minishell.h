@@ -188,7 +188,7 @@ void			vec_free(t_vector *v);
 void			vec_print(t_vector *v);
 
 // !test codes!
-int				tk_print(t_token *tk);
+int				test_tk_print(t_token *tk);
 int				test_tr_print_tree(t_tr_node *root, char *str);
 void			test_print_node(t_tr_node *node);
 void			test_print_command_part(t_tr_node *node);
