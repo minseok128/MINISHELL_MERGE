@@ -13,8 +13,9 @@
 #include <string.h>
 #include <stdio.h>
 #include <dirent.h>
+#include "../minishell.h"
 
-int	trtv_is_wild_matching(const char *pattern, const char *name)
+int	trtv_wcard_recursive(const char *pattern, const char *name)
 {
 	int	len_p;
 	int	len_n;
@@ -26,14 +27,14 @@ int	trtv_is_wild_matching(const char *pattern, const char *name)
 	now = 0;
 	while (now < len_p && now < len_n && pattern[now] == name[now])
 		now++;
-	if (now == len_n)
-		return (now == len_p);
+	if (now == len_p)
+		return (now == len_n);
 	if (pattern[now] == '*')
 	{
 		skip = 0;
 		while (skip + now <= len_n)
 		{
-			if (trtv_is_wild_matching(pattern + now + 1, name + skip + now))
+			if (trtv_wcard_recursive(pattern + now + 1, name + skip + now))
 				return (1);
 			skip++;
 		}
@@ -56,7 +57,7 @@ int	main(void)
 		dir = readdir(d);
 		while (dir)
 		{
-			printf("%s | is_matching:%d\n", dir->d_name, trtv_is_wild_matching(p, dir->d_name));
+			printf("%s | is_matching:%d\n", dir->d_name, trtv_wcard_recursive(p, dir->d_name));
 			dir = readdir(d);
 		}
 		closedir(d);
