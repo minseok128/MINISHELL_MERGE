@@ -32,12 +32,14 @@ int	mktr_command_part(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
 	if (!((*tk_now)->type >= T_REDIR_S_L && (*tk_now)->type <= T_REDIR_D_R)
 		&& (*tk_now)->type != T_WORD)
 		return (1);
-	*head = mktr_alloc_s(TR_COMMAND_PART, 0);
-	(*head)->tk = *tk_now;
+	*head = mktr_alloc_s(TR_COMMAND_PART, *tk_now);
 	if ((*tk_now)->type >= T_REDIR_S_L && (*tk_now)->type <= T_REDIR_D_R)
 	{
 		if ((*tk_now)->next->type != T_WORD)
+		{
+			*tk_now = (*tk_now)->next;
 			return (1);
+		}
 		if ((*tk_now)->type == T_REDIR_D_L)
 		{
 			info->is_hdoc_signal = mktr_heredoc(&((*tk_now)->next->str));
@@ -145,13 +147,12 @@ int	mktr_make_tree(t_token *tk_head, t_tr_node **root)
 			vec_free(&(info.hdocs));
 			return (1);
 		}
-		if (tk_now->type != T_NEWLINE)
-		{
-			vec_free(&(info.hdocs));
-			return (mktr_print_unexpected(tk_now->str));
-		}
+		vec_free(&(info.hdocs));
+		return (mktr_print_unexpected(tk_now->str));
 	}
 	vec_free(&(info.hdocs));
+	if (tk_now->type != T_NEWLINE)
+		return (mktr_print_unexpected(tk_now->str));
 	return (0);
 	// return (test_tr_print_tree(*root, "INIT TREE"));
 }
