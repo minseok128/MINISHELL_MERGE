@@ -54,8 +54,8 @@ int trtv_is_wild_matching(const char *pattern, const char *name)
 	now = 0;
 	while (now < len_p && now < len_n && pattern[now] == name[now])
 		now++;
-	if (len_p == now)
-		return (len_n == now);
+	if (len_p == len_n)
+		return (1);
 	if (pattern[now] == '*')
 	{
 		skip = 0;
@@ -76,5 +76,6 @@ int main(void)
 	printf("%d, %d\n", wildcard_exhaustive("*.c", "sdafdfasfasd.c"), trtv_is_wild_matching("*.c", "sdafdfasfasd.c"));
 	printf("%d, %d\n", wildcard_exhaustive("abc", "ab"), trtv_is_wild_matching("abc", "ab"));
 	printf("%d, %d\n", wildcard_exhaustive("a*b*c*", "asdsdaasasbasdasdsdaasdcaaaaaa"), trtv_is_wild_matching("a*b*c*", "asdsdaasasbasdasdsdaasdcaaaaaa"));
+	printf("%d, %d\n", wildcard_exhaustive("a *", "a a"), trtv_is_wild_matching("a *", "a a"));
 	return (1);
 }
