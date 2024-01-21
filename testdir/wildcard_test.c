@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wildcard_test.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: michang <michang@student.42seoul.k>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/21 15:49:26 by michang           #+#    #+#             */
+/*   Updated: 2024/01/21 15:49:27 by michang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <string.h>
 #include <stdio.h>
 
@@ -30,14 +42,39 @@ int wildcard_exhaustive(const char *pattern, const char *word)
 	return (0);
 }
 
-int	wcard_is_matching
+int trtv_is_wild_matching(const char *pattern, const char *name)
+{
+	int	len_p;
+	int	len_n;
+	int	now;
+	int	skip;
+	
+	len_p = strlen(pattern);
+	len_n = strlen(name);
+	now = 0;
+	while (now < len_p && now < len_n && pattern[now] == name[now])
+		now++;
+	if (len_p == now)
+		return (len_n == now);
+	if (pattern[now] == '*')
+	{
+		skip = 0;
+		while (skip + now <= len_n)
+		{
+			if (trtv_is_wild_matching(pattern + now + 1, name + skip + now))
+				return (1);
+			skip++;
+		}
+	}
+	return (0);
+}
 
 int main(void)
 {
-	printf("%d\n", wildcard_exhaustive("abc", "abcd"));
-	printf("%d\n", wildcard_exhaustive("a*a", "abbbbcvdsacda"));
-	printf("%d\n", wildcard_exhaustive("*.c", "sdafdfasfasd.c"));
-	printf("%d\n", wildcard_exhaustive("abc", "ab"));
-	printf("%d\n", wildcard_exhaustive("a*b*c*", "asdsdaasasbasdasdsdaasdcaaaaaa"));
+	printf("%d, %d\n", wildcard_exhaustive("abc", "abcd"), trtv_is_wild_matching("abc", "abcd"));
+	printf("%d, %d\n", wildcard_exhaustive("a*a", "abbbbcvdsacda"), trtv_is_wild_matching("a*a", "abbbbcvdsacda"));
+	printf("%d, %d\n", wildcard_exhaustive("*.c", "sdafdfasfasd.c"), trtv_is_wild_matching("*.c", "sdafdfasfasd.c"));
+	printf("%d, %d\n", wildcard_exhaustive("abc", "ab"), trtv_is_wild_matching("abc", "ab"));
+	printf("%d, %d\n", wildcard_exhaustive("a*b*c*", "asdsdaasasbasdasdsdaasdcaaaaaa"), trtv_is_wild_matching("a*b*c*", "asdsdaasasbasdasdsdaasdcaaaaaa"));
 	return (1);
 }
