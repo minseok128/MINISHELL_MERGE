@@ -61,7 +61,7 @@ static int	trtv_dollar_sign(char *word, int now, char **e_w, t_envs *envsp)
 	i = 0;
 	while (value[i])
 	{
-		if (value[i] == '\'' || value[i] == '\"' || value[i] == '*')
+		if (value[i] == '\'' || value[i] == '\"')
 			value[i] *= -1;
 		i++;
 	}
