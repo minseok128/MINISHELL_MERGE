@@ -32,7 +32,11 @@ static char	*trtv_make_new_word_without_quotes(char *word)
 		else if (word[now] == '\'' && !in_dquote)
 			in_squote = !in_squote;
 		else
+		{
+			if (!(in_dquote || in_squote) && word[now] == '*')
+				word[now] = 6;
 			new_word[new_now++] = word[now];
+		}
 		now++;
 	}
 	return (new_word);
