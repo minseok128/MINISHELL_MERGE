@@ -144,6 +144,7 @@ int				trtv_redir_s_l(t_cmds *cmd, char *file);
 int				trtv_redir_s_r(t_cmds *cmd, char *file);
 int				trtv_redir_d_l(t_cmds *cmd, char *file);
 int				trtv_redir_d_r(t_cmds *cmd, char *file);
+void			trtv_wcard_expand(t_vector *word_split);
 
 // btin
 void			btin_pwd(int fork_flag);
