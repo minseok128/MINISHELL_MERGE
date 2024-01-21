@@ -52,7 +52,7 @@ void	trtv_wcard_expand(t_vector *word_split)
 	while (i < word_split->size)
 	{
 		d = opendir("./");
-		if (d)
+		if (d && ft_strchr(word_split->items[i], 6))
 		{
 			dir = readdir(d);
 			while (dir)
@@ -62,6 +62,10 @@ void	trtv_wcard_expand(t_vector *word_split)
 				dir = readdir(d);
 			}
 			closedir(d);
+		}
+		else
+		{
+			
 		}
 		i++;
 	}
