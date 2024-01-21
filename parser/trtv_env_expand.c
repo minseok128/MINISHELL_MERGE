@@ -117,6 +117,7 @@ int	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
 		vec_init(&(node->word_split), 1);
 		trtv_word_split(node->tk->str, node);
 		trtv_quotes_removal(&(node->word_split));
+		trtv_wcard_expand(&(node->word_split));
 	}
 	trtv_expansion_travel(node->left, envsp);
 	trtv_expansion_travel(node->right, envsp);
