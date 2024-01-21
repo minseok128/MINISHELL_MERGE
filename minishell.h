@@ -23,6 +23,7 @@
 # include <string.h>
 # include <fcntl.h>
 # include <sys/stat.h>
+# include <dirent.h>
 # include "libft/libft.h"
 
 # define MODE_SHELL 0
