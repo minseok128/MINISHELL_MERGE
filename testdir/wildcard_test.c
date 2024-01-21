@@ -54,8 +54,8 @@ int trtv_is_wild_matching(const char *pattern, const char *name)
 	now = 0;
 	while (now < len_p && now < len_n && pattern[now] == name[now])
 		now++;
-	if (len_p == len_n)
-		return (1);
+	if (now == len_n)
+		return (now = len_p);
 	if (pattern[now] == '*')
 	{
 		skip = 0;
