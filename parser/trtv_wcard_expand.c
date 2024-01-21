@@ -25,8 +25,8 @@ int	trtv_wcard_recursive(const char *pattern, const char *name)
 	while (now < len_p && now < len_n && pattern[now] == name[now])
 		now++;
 	if (now == len_p)
-		return (now == len_p);
-	if (pattern[now] == '*')
+		return (now == len_n);
+	if (pattern[now] == 6)
 	{
 		skip = 0;
 		while (skip + now <= len_n)
@@ -39,7 +39,7 @@ int	trtv_wcard_recursive(const char *pattern, const char *name)
 	return (0);
 }
 
-void	trtv_wcard_expand(t_vector **word_split)
+void	trtv_wcard_expand(t_vector *word_split)
 {
 	DIR				*d;
 	struct dirent	*dir;
@@ -49,7 +49,7 @@ void	trtv_wcard_expand(t_vector **word_split)
 	new_split = ft_calloc(sizeof(t_vector), 1);
 	vec_init(new_split, 1);
 	i = 0;
-	while (i < (*word_split)->size)
+	while (i < word_split->size)
 	{
 		d = opendir("./");
 		if (d)
@@ -57,13 +57,12 @@ void	trtv_wcard_expand(t_vector **word_split)
 			dir = readdir(d);
 			while (dir)
 			{
-				printf("%s | is_matching:%d\n", dir->d_name, trtv_wcard_recursive(p, dir->d_name));
+				if (trtv_wcard_recursive(word_split->items[i], dir->d_name))
+					printf("p:%s, d:%s\n", word_split->items[i], dir->d_name);
 				dir = readdir(d);
 			}
 			closedir(d);
 		}
-		else
-
 		i++;
 	}
 }
