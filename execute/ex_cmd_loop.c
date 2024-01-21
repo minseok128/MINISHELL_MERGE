@@ -6,16 +6,24 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/18 17:29:59 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/21 19:16:16 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ex_all_close(t_cmds *cmdsp)
+void	ex_all_close(t_cmds *cmdsp, char **envp)
 {
 	t_cmds	*tmp;
+	int		i;
 
+	i = 0;
+	if (envp != NULL)
+	{
+		while (envp[i] != NULL)
+			free(envp[i++]);
+		free(envp);
+	}
 	tmp = cmdsp;
 	cmdsp = cmdsp->next;
 	free(tmp);
@@ -67,6 +75,7 @@ pid_t	ex_fork(t_cmds *cmdsp, t_envs *envsp, char **envp, int pipe_fd[2])
 			"fork", strerror(errno)));
 	else if (pid == 0)
 	{
+		set_signal(MODE_DEFAULT, MODE_DEFAULT);
 		if (pipe_fd[0] != -1)
 			close(pipe_fd[0]);
 		if (cmdsp->in_file != NULL)
@@ -107,15 +116,44 @@ pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
 	return (pid);
 }
 
+void	ex_waitpid(pid_t pid)
+{
+	int	status;
+	int	signal_flag;
+
+	signal_flag = 0;
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status) != 0)
+		g_errno = WEXITSTATUS(status);
+	if (WIFSIGNALED(status) != 0)
+	{
+		if (WTERMSIG(status) == SIGINT)
+			signal_flag = 1;
+		g_errno = WTERMSIG(status) + 128;
+		if (WTERMSIG(status) == SIGQUIT)
+			ft_putstr_fd("Quit: 3\n", 2);
+	}
+	while (waitpid(-1, &status, 0) != -1)
+	{
+		if (WTERMSIG(status) == SIGINT)
+			signal_flag = 1;
+	}
+	if (signal_flag == 1)
+		ft_putstr_fd("\n", 2);
+}
+
+
 void	ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp)
 {
 	t_cmds	*cmdsp;
 	char	**envp;
-	int		status;
 	pid_t	pid;
 
+	set_signal(MODE_IGNORE, MODE_IGNORE);
+	terminal_print_on();
 	cmdsp = cmdsp_head->next;
 	cmdsp->prev_out = -1;
+	envp = NULL;
 	if (cmdsp->next == NULL && ex_is_builtin(cmdsp, envsp, 0) == 1)
 		;
 	else
@@ -126,17 +164,9 @@ void	ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp)
 			pid = ex_do_pipe(cmdsp, envsp, envp);
 			cmdsp = cmdsp->next;
 		}
-		waitpid(pid, &status, 0);
-		while (waitpid(-1, NULL, 0) != -1)
-			;
-		if (WIFEXITED(status) != 0)
-			g_errno = WEXITSTATUS(status);
-		if (WIFSIGNALED(status) != 0)
-			g_errno = WTERMSIG(status) + 128;
-		// 이 부분을 제대로 완성할 것
-		for (int i = 0; envp[i]; i++)
-			free(envp[i]);
-		free(envp);
+		ex_waitpid(pid);
 	}
-	ex_all_close(cmdsp_head);
+	ex_all_close(cmdsp_head, envp);
+	terminal_print_off();
+	set_signal(MODE_SHELL, MODE_SHELL);
 }
