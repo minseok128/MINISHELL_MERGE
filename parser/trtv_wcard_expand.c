@@ -58,7 +58,12 @@ void	trtv_wcard_expand(t_vector *word_split)
 			while (dir)
 			{
 				if (trtv_wcard_recursive(word_split->items[i], dir->d_name))
-					vec_push_back(new_split, ft_strdup_s(dir->d_name));
+				{
+					if (*((char *)(word_split->items[i])) == '.' && dir->d_name[0] == '.')
+						vec_push_back(new_split, ft_strdup_s(dir->d_name));
+					else if (dir->d_name[0] != '.')
+						vec_push_back(new_split, ft_strdup_s(dir->d_name));
+				}
 				dir = readdir(d);
 			}
 			closedir(d);
