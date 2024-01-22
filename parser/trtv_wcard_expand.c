@@ -58,15 +58,14 @@ void	trtv_wcard_expand(t_vector *word_split)
 			while (dir)
 			{
 				if (trtv_wcard_recursive(word_split->items[i], dir->d_name))
-					printf("p:%s, d:%s\n", word_split->items[i], dir->d_name);
+					vec_push_back(new_split, ft_strdup_s(dir->d_name));
 				dir = readdir(d);
 			}
 			closedir(d);
 		}
-		else
-		{
-			
-		}
+		if (!d || new_split->size == 0)
+			vec_push_back(new_split, ft_strdup_s(word_split->items[i]));
 		i++;
 	}
+	*word_split = *new_split;
 }
