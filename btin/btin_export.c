@@ -55,11 +55,10 @@ void	btin_traverse_list_to_add(t_envs *envsp, char **key_and_value)
 		if (target->value != NULL)
 			free(target->value);
 		target->value = key_and_value[1];
-		free(key_and_value[0]);
+		btin_free_key_and_value(key_and_value, key_and_value[0], NULL);
 	}
 	else
-		free(key_and_value[0]);
-	free(key_and_value);
+		btin_free_key_and_value(key_and_value, key_and_value[0], NULL);
 }
 
 void	btin_export(t_cmds *cmds, t_envs *envsp, int error_code, int fork_flag)
