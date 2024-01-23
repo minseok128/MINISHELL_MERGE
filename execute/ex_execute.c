@@ -53,7 +53,7 @@ char	*ex_search_path(char *cmd, t_envs *envsp, int i)
 		envsp = envsp->next;
 	if (envsp == NULL)
 		return (cmd);
-	envp_path = ft_split(envsp->value + 5, ':');
+	envp_path = ft_split(envsp->value, ':');
 	while (envp_path[i] != NULL)
 	{
 		path = ex_strjoin_c(envp_path[i++], cmd, '/');
