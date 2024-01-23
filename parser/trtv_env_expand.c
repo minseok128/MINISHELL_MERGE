@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static char	*trtv_join_s(char *s1, char *s2)
+char	*trtv_join_s(char *s1, char *s2)
 {
 	size_t	s1_len;
 	size_t	s2_len;
@@ -55,7 +55,10 @@ static int	trtv_dollar_sign(char *word, int now, char **e_w, t_envs *envsp)
 	}
 	key = ft_substr_s(word, now, len);
 	if (!btin_find_node(envsp, key))
-		return (len);
+	{
+		free(key);
+		return (len); 
+	}
 	value = ft_strdup_s(btin_find_node(envsp, key)->value);
 	free(key);
 	i = 0;
@@ -111,9 +114,11 @@ int	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
 		trtv_env_cmdp(node->tk->str, &e_w, envsp);
 		free(node->tk->str);
 		node->tk->str = e_w;
-		vec_init(&(node->word_split), 1);
+		node->word_split = ft_calloc_s(sizeof(t_vector), 1);
+		vec_init(node->word_split, 1);
 		trtv_word_split(node->tk->str, node);
-		trtv_quotes_removal(&(node->word_split));
+		trtv_quotes_removal(node->word_split);
+		trtv_wcard_expand(&(node->word_split));
 	}
 	trtv_expansion_travel(node->left, envsp);
 	trtv_expansion_travel(node->right, envsp);

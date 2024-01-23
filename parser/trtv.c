@@ -21,10 +21,10 @@ int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd)
 	if (node->tk->type == T_WORD)
 	{
 		i = 0;
-		while (i < node->word_split.size)
+		while (i < node->word_split->size)
 		{
-			if (node->word_split.items[i])
-				vec_push_back(&(cmd->argv), node->word_split.items[i]);
+			if (node->word_split->items[i])
+				vec_push_back(&(cmd->argv), node->word_split->items[i]);
 			i++;
 		}
 	}
@@ -97,16 +97,24 @@ int	trtv_list_travel(t_tr_node *node, t_envs *envsp)
 		{
 			cmds_h = ex_cmdsp_init();
 			if (node->right && node->right->bnf_type == TR_PIPELINE)
+			{
 				if (!trtv_pipe_travel(node->right, cmds_h, envsp))
 					ex_cmd_loop(cmds_h, envsp);
+				else
+					free(cmds_h);
+			}
 		}
 	}
 	else
 	{
 		cmds_h = ex_cmdsp_init();
 		if (node->left && node->left->bnf_type == TR_PIPELINE)
+		{
 			if (!trtv_pipe_travel(node->left, cmds_h, envsp))
 				ex_cmd_loop(cmds_h, envsp);
+			else
+				free(cmds_h);
+		}
 	}
 	return (node->tk
 		&& ((!g_errno && node->tk->type != T_AND)

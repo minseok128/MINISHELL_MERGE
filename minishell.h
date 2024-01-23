@@ -23,6 +23,7 @@
 # include <string.h>
 # include <fcntl.h>
 # include <sys/stat.h>
+# include <dirent.h>
 # include "libft/libft.h"
 
 # define MODE_SHELL 0
@@ -71,7 +72,7 @@ typedef struct s_tr_node {
 	t_token				*tk;
 	struct s_tr_node	*left;
 	struct s_tr_node	*right;
-	t_vector			word_split;
+	t_vector			*word_split;
 }	t_tr_node;
 
 typedef struct s_mktr_info {
@@ -131,6 +132,7 @@ int				mktr_heredoc_open_file(char **file_name);
 pid_t			mktr_heredoc_fork(int fd, char *limiter);
 
 // trtv
+char			*trtv_join_s(char *s1, char *s2);
 int				trtv_expansion_travel(t_tr_node *node, t_envs *envsp);
 void			trtv_env_cmdp(char *word, char **e_w, t_envs *envsp);
 void			trtv_word_split(char *word, t_tr_node *node);
@@ -143,6 +145,7 @@ int				trtv_redir_s_l(t_cmds *cmd, char *file);
 int				trtv_redir_s_r(t_cmds *cmd, char *file);
 int				trtv_redir_d_l(t_cmds *cmd, char *file);
 int				trtv_redir_d_r(t_cmds *cmd, char *file);
+void			trtv_wcard_expand(t_vector **word_split);
 
 // btin
 void			btin_pwd(int fork_flag);
