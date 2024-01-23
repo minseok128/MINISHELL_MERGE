@@ -54,7 +54,7 @@ void	trtv_node_free(t_tr_node *node)
 		return ;
 	trtv_node_free(node->left);
 	trtv_node_free(node->right);
-	if (node->word_split->items)
+	if (node->word_split)
 	{
 		i = 0;
 		while (i < node->word_split->size)
