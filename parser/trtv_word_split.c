@@ -80,7 +80,7 @@ void	trtv_word_split(char *word, t_tr_node *node)
 	{
 		if (ft_isspace(word[now + len]) || !word[now + len])
 		{
-			vec_push_back(&(node->word_split), ft_substr_s(word, now, len));
+			vec_push_back(node->word_split, ft_substr_s(word, now, len));
 			now += len;
 			while (ft_isspace(word[now]))
 				now++;
