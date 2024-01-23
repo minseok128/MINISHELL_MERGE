@@ -39,7 +39,7 @@ int	trtv_wcard_recursive(const char *pattern, const char *name)
 	return (0);
 }
 
-void	trtv_wcard_expand(t_vector *word_split)
+void	trtv_wcard_expand(t_vector **word_split)
 {
 	DIR				*d;
 	struct dirent	*dir;
@@ -50,17 +50,17 @@ void	trtv_wcard_expand(t_vector *word_split)
 	new_split = ft_calloc(sizeof(t_vector), 1);
 	vec_init(new_split, 1);
 	i = 0;
-	while (i < word_split->size)
+	while (i < (*word_split)->size)
 	{
 		d = opendir("./");
-		if (d && ft_strchr(word_split->items[i], 6))
+		if (d && ft_strchr((*word_split)->items[i], 6))
 		{
 			dir = readdir(d);
 			while (dir)
 			{
-				if (trtv_wcard_recursive(word_split->items[i], dir->d_name))
+				if (trtv_wcard_recursive((*word_split)->items[i], dir->d_name))
 				{
-					if (*((char *)(word_split->items[i])) == '.' && dir->d_name[0] == '.')
+					if (*((char *)((*word_split)->items[i])) == '.' && dir->d_name[0] == '.')
 						vec_push_back(new_split, ft_strdup_s(dir->d_name));
 					else if (dir->d_name[0] != '.')
 						vec_push_back(new_split, ft_strdup_s(dir->d_name));
@@ -71,21 +71,21 @@ void	trtv_wcard_expand(t_vector *word_split)
 		}
 		if (!d || new_split->size == 0)
 		{
-			if (ft_strchr(word_split->items[i], 6))
+			if (ft_strchr((*word_split)->items[i], 6))
 			{
 				j = 0;
-				while (j < ft_strlen(word_split->items[i]))
+				while (j < ft_strlen((*word_split)->items[i]))
 				{
-					if (((char *)(word_split->items[i]))[j] == 6)
-						((char *)(word_split->items[i]))[j] = '*';
+					if (((char *)((*word_split)->items[i]))[j] == 6)
+						((char *)((*word_split)->items[i]))[j] = '*';
 					j++;
 				}
 			}
-			vec_push_back(new_split, ft_strdup_s(word_split->items[i]));
+			vec_push_back(new_split, ft_strdup_s((*word_split)->items[i]));
 		}
-		free(word_split->items[i]);
+		free((*word_split)->items[i]);
 		i++;
 	}
-	vec_free(word_split);
-	*word_split = *new_split;
+	vec_free(*word_split);
+	*word_split = new_split;
 }
