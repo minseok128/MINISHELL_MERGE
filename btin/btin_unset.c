@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:19 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/19 15:42:55 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/23 16:52:56 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	btin_remove_envsp_node(t_envs *envsp, char *key)
 		while (next != target)
 		{
 			now = next;
-			next = next->next;
+			next = now->next;
 		}
 		now->next = next->next;
 		free(next->key);
@@ -92,8 +92,10 @@ void	btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag)
 			btin_remove_envsp_node(envsp, str);
 		else
 		{
+			str = ft_strjoin_s(str, "'");
 			btin_out(0, 0, btin_make_errmsg("minishell: unset: '", \
-				ft_strjoin_s(str, "'"), "not a valid identifier"));
+				str, "not a valid identifier"));
+			free(str);
 			error_flag = 1;
 		}
 	}
