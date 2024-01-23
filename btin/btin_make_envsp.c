@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:25:24 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/17 18:35:10 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/23 16:21:36 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	btin_find_equal_index(char *str)
 
 char	**btin_divide_key_and_value(char *env)
 {
+	int		i;
 	int		equal_index;
 	char	**key_and_value;
 
@@ -48,7 +49,9 @@ char	**btin_divide_key_and_value(char *env)
 		return (key_and_value);
 	}
 	key_and_value[0] = ft_calloc_s(sizeof(char), (equal_index + 1));
-	ft_strlcpy(key_and_value[0], env, equal_index + 1);
+	i = 0;
+	while (env[i] != '=')
+		key_and_value[0][i++] = env[i];
 	key_and_value[1] = ft_strdup_s(env + (equal_index + 1));
 	return (key_and_value);
 }
