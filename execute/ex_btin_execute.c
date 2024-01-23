@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:08:04 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/19 15:46:50 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/23 17:02:25 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,12 @@ void	ex_btin_redir_off(int *fd)
 		ex_dup_to(fd[1], 1);
 		close(fd[1]);
 	}
-	free(fd);
 }
 
 int	ex_is_builtin(t_cmds *cmds, t_envs *envsp, int fork_flag)
 {
-	int	*fd;
+	int	fd[2];
 
-	fd = ft_calloc_s(sizeof(int), 2);
 	fd[0] = 0;
 	fd[1] = 1;
 	if (fork_flag == 0)
