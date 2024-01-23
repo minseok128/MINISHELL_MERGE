@@ -20,7 +20,7 @@ DIR			= ./
 BASE		= main signal_utils \
 			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils parser/mktr_heredoc\
 			  parser/trtv parser/trtv_env_expand parser/trtv_word_split parser/trtv_redirection\
-			  parser/trtv_wcard_expand\
+			  parser/trtv_wcard\
 			  btin/btin_exit btin/btin_make_envsp btin/btin_cd \
 			  btin/btin_echo btin/btin_env btin/btin_export \
 			  btin/btin_pwd btin/btin_unset btin/btin_make_errmsg \
