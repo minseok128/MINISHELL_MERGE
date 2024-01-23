@@ -28,23 +28,19 @@ t_envs	*btin_find_node(t_envs *envsp, char *key)
 	return (NULL);
 }
 
-void	btin_add_new_node(t_envs *now, char **key_and_value)
+void	btin_add_new_node(t_envs *envsp, char **key_and_value)
 {
+	t_envs	*now;
 	t_envs	*next;
 
-	if (now == NULL)
-		now->next = btin_make_envsp_node(key_and_value);
-	else
+	now = envsp;
+	next = now->next;
+	while (next != NULL)
 	{
+		now = next;
 		next = now->next;
-		while (next->next != NULL)
-		{
-			now = next;
-			next = next->next;
-		}
-		now->next = btin_make_envsp_node(key_and_value);
-		now->next->next = next;
 	}
+	now->next = btin_make_envsp_node(key_and_value);
 }
 
 void	btin_traverse_list_to_add(t_envs *envsp, char **key_and_value)
@@ -53,15 +49,17 @@ void	btin_traverse_list_to_add(t_envs *envsp, char **key_and_value)
 
 	target = btin_find_node(envsp, key_and_value[0]);
 	if (target == NULL)
-		btin_add_new_node(envsp->next, key_and_value);
+		btin_add_new_node(envsp, key_and_value);
 	else if (key_and_value[1] != NULL)
 	{
 		if (target->value != NULL)
 			free(target->value);
 		target->value = key_and_value[1];
 		free(key_and_value[0]);
-		free(key_and_value);
 	}
+	else
+		free(key_and_value[0]);
+	free(key_and_value);
 }
 
 void	btin_export(t_cmds *cmds, t_envs *envsp, int error_code, int fork_flag)
