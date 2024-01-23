@@ -83,12 +83,28 @@ void	trtv_wcard_get(DIR *d, t_vector *new_split, char *pattern)
 	free(new_pattern);
 }
 
+void	trtv_wcard_not_found(t_vector *new_split, char *word)
+{
+	unsigned int	j;
+
+	if (ft_strchr(word, 6))
+	{
+		j = 0;
+		while (j < ft_strlen(word))
+		{
+			if (word[j] == 6)
+				word[j] = '*';
+			j++;
+		}
+	}
+	vec_push_back(new_split, ft_strdup_s(word));
+}
+
 void	trtv_wcard_expand(t_vector **word_split)
 {
 	DIR				*d;
 	t_vector		*new_split;
 	int				i;
-	unsigned int	j;
 
 	new_split = ft_calloc(sizeof(t_vector), 1);
 	vec_init(new_split, 1);
@@ -99,19 +115,7 @@ void	trtv_wcard_expand(t_vector **word_split)
 		if (d && ft_strchr((*word_split)->items[i], 6))
 			trtv_wcard_get(d, new_split, (*word_split)->items[i]);
 		if (!d || new_split->size == 0)
-		{
-			if (ft_strchr((*word_split)->items[i], 6))
-			{
-				j = 0;
-				while (j < ft_strlen((*word_split)->items[i]))
-				{
-					if (((char *)((*word_split)->items[i]))[j] == 6)
-						((char *)((*word_split)->items[i]))[j] = '*';
-					j++;
-				}
-			}
-			vec_push_back(new_split, ft_strdup_s((*word_split)->items[i]));
-		}
+			trtv_wcard_not_found(new_split, (*word_split)->items[i]);
 		closedir(d);
 		free((*word_split)->items[i]);
 		i++;
