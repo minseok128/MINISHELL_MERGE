@@ -20,6 +20,7 @@ void	signal_handler(int signo)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_errno = 1;
 	}
 }
 
