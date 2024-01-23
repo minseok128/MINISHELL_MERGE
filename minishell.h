@@ -191,6 +191,7 @@ void			vec_init(t_vector *v, int capacity);
 void			vec_push_back(t_vector *v, void *item);
 void			vec_free(t_vector *v);
 void			vec_print(t_vector *v);
+char			*ft_strchr_s(const char *s, int c);
 
 // !test codes!
 int				test_tk_print(t_token *tk);
