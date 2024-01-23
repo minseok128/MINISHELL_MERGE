@@ -29,7 +29,7 @@ static int	tk_meta(char *str, t_token **tk_head, int now)
 	return (len);
 }
 
-static int	tk_word(char *str, t_token **tk_head, int now, int *is_error)
+static int	tk_word(char *str, t_token **tk_head, int now, char *is_error)
 {
 	char	*new_str;
 	int		len;
@@ -47,7 +47,7 @@ static int	tk_word(char *str, t_token **tk_head, int now, int *is_error)
 			if (str[now + len])
 				len++;
 			else
-				*is_error = 1;
+				*is_error = quotes;
 		}
 		else
 			len++;
@@ -62,10 +62,9 @@ int	tk_tokenize(char *str, t_token **tk_head)
 {
 	t_token	*tk_last;
 	int		now;
-	int		is_error;
+	char	is_error;
 
 	is_error = 0;
-	*tk_head = 0;
 	now = 0;
 	while (str[now])
 	{
@@ -79,7 +78,11 @@ int	tk_tokenize(char *str, t_token **tk_head)
 	tk_last = tk_lstlast(*tk_head);
 	tk_last->next = tk_alloc_s(T_NEWLINE, ft_strdup_s("newline"));
 	if (is_error)
+	{
+		printf("minishell: unexpected newline ");
+		printf("while looking for matching `%c\'\n", is_error);
 		return (mktr_print_unexpected("newline"));
+	}
 	else
 		return (0);
 		// return (tk_print(*tk_head));
