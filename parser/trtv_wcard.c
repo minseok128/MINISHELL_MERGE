@@ -39,25 +39,15 @@ int	trtv_wcard_recursive(const char *pattern, const char *name)
 	return (0);
 }
 
-void	trtv_wcard_get(DIR *d, t_vector *new_split, char *pattern)
+void	trtv_wcard_loop(DIR *d, t_vector *new_split, int mode, char *pattern)
 {
 	struct dirent	*dir;
-	int				mode;
 	char			*new_name;
-	char			*new_pattern;
 
-	mode = 0;
-	mode |= (pattern[0] == '.');
-	mode |= (pattern[ft_strlen(pattern) - 1] == '/') * 2;
-	if (mode & 2)
-		new_pattern = ft_substr_s(pattern, 0, ft_strlen(pattern) - 1);
-	else
-		new_pattern = ft_strdup_s(pattern);
 	dir = readdir(d);
-	printf("mode:%d, new_p:%s\n", mode, new_pattern);
 	while (dir)
 	{
-		if (trtv_wcard_recursive(new_pattern, dir->d_name))
+		if (trtv_wcard_recursive(pattern, dir->d_name))
 		{
 			new_name = 0;
 			if (((mode & 1) && dir->d_name[0] == '.')
@@ -75,6 +65,21 @@ void	trtv_wcard_get(DIR *d, t_vector *new_split, char *pattern)
 		}
 		dir = readdir(d);
 	}
+}
+
+void	trtv_wcard_get(DIR *d, t_vector *new_split, char *pattern)
+{
+	int				mode;
+	char			*new_pattern;
+
+	mode = 0;
+	mode |= (pattern[0] == '.');
+	mode |= (pattern[ft_strlen(pattern) - 1] == '/') * 2;
+	if (mode & 2)
+		new_pattern = ft_substr_s(pattern, 0, ft_strlen(pattern) - 1);
+	else
+		new_pattern = ft_strdup_s(pattern);
+	trtv_wcard_loop(d, new_split, mode, new_pattern);
 	free(new_pattern);
 }
 
