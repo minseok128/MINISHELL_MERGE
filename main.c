@@ -91,7 +91,7 @@ int	main(int argc, char **argv, char **envp)
 	t_envs			*envsp;
 	t_parser_info	p_info;
 
-	atexit(leaks_test);
+	// atexit(leaks_test);
 	argc = argv - argv + argc;
 	terminal_print_off();
 	set_signal(MODE_SHELL, MODE_SHELL);
@@ -111,6 +111,7 @@ int	main(int argc, char **argv, char **envp)
 						trtv_list_travel(p_info.root, envsp);
 		parser_info_free(&p_info);
 	}
+	printf("\033[1Aminishell $ exit\n");
 	btin_free_envsp(envsp);
 	terminal_print_on();
 }
