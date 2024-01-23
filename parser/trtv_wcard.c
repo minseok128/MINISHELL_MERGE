@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	trtv_wcard_recursive(const char *pattern, const char *name)
+int	trtv_wcard_is_matching(const char *pattern, const char *name)
 {
 	int	len_p;
 	int	len_n;
@@ -31,7 +31,7 @@ int	trtv_wcard_recursive(const char *pattern, const char *name)
 		skip = 0;
 		while (skip + now <= len_n)
 		{
-			if (trtv_wcard_recursive(&pattern[now + 1], &name[skip + now]))
+			if (trtv_wcard_is_matching(&pattern[now + 1], &name[skip + now]))
 				return (1);
 			skip++;
 		}
@@ -47,7 +47,7 @@ void	trtv_wcard_loop(DIR *d, t_vector *new_split, int mode, char *pattern)
 	dir = readdir(d);
 	while (dir)
 	{
-		if (trtv_wcard_recursive(pattern, dir->d_name))
+		if (trtv_wcard_is_matching(pattern, dir->d_name))
 		{
 			new_name = 0;
 			if (((mode & 1) && dir->d_name[0] == '.')
