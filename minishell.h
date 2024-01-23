@@ -72,7 +72,7 @@ typedef struct s_tr_node {
 	t_token				*tk;
 	struct s_tr_node	*left;
 	struct s_tr_node	*right;
-	t_vector			word_split;
+	t_vector			*word_split;
 }	t_tr_node;
 
 typedef struct s_mktr_info {
@@ -144,7 +144,7 @@ int				trtv_redir_s_l(t_cmds *cmd, char *file);
 int				trtv_redir_s_r(t_cmds *cmd, char *file);
 int				trtv_redir_d_l(t_cmds *cmd, char *file);
 int				trtv_redir_d_r(t_cmds *cmd, char *file);
-void			trtv_wcard_expand(t_vector *word_split);
+void			trtv_wcard_expand(t_vector **word_split);
 
 // btin
 void			btin_pwd(int fork_flag);
