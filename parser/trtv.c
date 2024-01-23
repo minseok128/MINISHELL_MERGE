@@ -12,11 +12,12 @@
 
 #include "../minishell.h"
 
-int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd)
+int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd, t_envs *envsp)
 {
 	int	i;
 	int	fail_flag;
 
+	trtv_expansion_travel(node, envsp);
 	fail_flag = 0;
 	if (node->tk->type == T_WORD)
 	{
@@ -39,21 +40,21 @@ int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd)
 	return (fail_flag);
 }
 
-int	trtv_comd_travel(t_tr_node *node, t_cmds *cmd)
+int	trtv_comd_travel(t_tr_node *node, t_cmds *cmd, t_envs *envsp)
 {
 	if (node->left && node->left->bnf_type == TR_COMMAND)
 	{
-		if (trtv_comd_travel(node->left, cmd))
+		if (trtv_comd_travel(node->left, cmd, envsp))
 			return (1);
 	}
 	else if (node->left && node->left->bnf_type == TR_COMMAND_PART)
 	{
-		if (trtv_comd_part_travel(node->left, cmd))
+		if (trtv_comd_part_travel(node->left, cmd, envsp))
 			return (1);
 	}
 	if (node->right && node->right->bnf_type == TR_COMMAND_PART)
 	{
-		if (trtv_comd_part_travel(node->right, cmd))
+		if (trtv_comd_part_travel(node->right, cmd, envsp))
 			return (1);
 	}
 	return (0);
@@ -74,14 +75,14 @@ int	trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, t_envs *envsp)
 	{
 		cmd = ex_cmdsp_add_back(cmds_h);
 		vec_init(&(cmd->argv), 1);
-		trtv_comd_travel(node->left, cmd);
+		trtv_comd_travel(node->left, cmd, envsp);
 		vec_push_back(&(cmd->argv), 0);
 	}
 	if (node->right && node->right->bnf_type == TR_COMMAND)
 	{
 		cmd = ex_cmdsp_add_back(cmds_h);
 		vec_init(&(cmd->argv), 1);
-		trtv_comd_travel(node->right, cmd);
+		trtv_comd_travel(node->right, cmd, envsp);
 		vec_push_back(&(cmd->argv), 0);
 	}
 	return (0);
