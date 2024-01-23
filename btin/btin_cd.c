@@ -25,6 +25,8 @@ void	btin_modify_pwd(t_envs *envsp, char *old_pwd, int fork_flag)
 		free(env_oldpwd->value);
 		env_oldpwd->value = old_pwd;
 	}
+	else
+		free(old_pwd);
 	if (env_pwd != NULL)
 	{
 		pwd = getcwd(NULL, 1024);
