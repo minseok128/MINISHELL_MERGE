@@ -19,8 +19,8 @@ int	trtv_wcard_recursive(const char *pattern, const char *name)
 	int	now;
 	int	skip;
 
-	len_p = strlen(pattern);
-	len_n = strlen(name);
+	len_p = ft_strlen(pattern);
+	len_n = ft_strlen(name);
 	now = 0;
 	while (now < len_p && now < len_n && pattern[now] == name[now])
 		now++;
