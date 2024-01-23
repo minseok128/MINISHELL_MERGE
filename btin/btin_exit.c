@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 10:55:22 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/19 16:14:53 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/23 15:47:17 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ long long	btin_is_overflow(long long num, int n, long long minus)
 	return (0);
 }
 
-long long	btin_atoi(char *str)
+long long	btin_atoi(t_cmds *cmds, char *str)
 {
 	long long	minus;
 	long long	num;
@@ -45,16 +45,19 @@ long long	btin_atoi(char *str)
 		str++;
 	str = btin_sign_check(str, &minus);
 	if (!(*str >= '0' && *str <= '9'))
-		return (-1);
+		btin_out(1, 255, btin_make_errmsg("minishell: exit: ", \
+			(char *)cmds->argv.items[1], "numeric argument required"));
 	while (*str >= '0' && *str <= '9')
 	{
 		if (btin_is_overflow(num, *str - '0', minus) == 1)
-			return (-1);
+			btin_out(1, 255, btin_make_errmsg("minishell: exit: ", \
+				(char *)cmds->argv.items[1], "numeric argument required"));
 		num = num * 10 + *str - '0';
 		str++;
 	}
 	if (*str != '\0')
-		return (-1);
+		btin_out(1, 255, btin_make_errmsg("minishell: exit: ", \
+				(char *)cmds->argv.items[1], "numeric argument required"));
 	return (num * minus);
 }
 
@@ -82,13 +85,8 @@ void	btin_exit(t_cmds *cmds, int fork_flag)
 		btin_out(1, 0, NULL);
 	else
 	{
-		n = btin_atoi(cmds->argv.items[1]);
-		if (n == -1)
-		{
-			btin_out(1, 255, btin_make_errmsg("minishell: exit: ", \
-				(char *)cmds->argv.items[1], "numeric argument required"));
-		}
-		else if (cmds->argv.items[2] != NULL)
+		n = btin_atoi(cmds, cmds->argv.items[1]);
+		if (cmds->argv.items[2] != NULL)
 			btin_out(fork_flag, 1, btin_make_errmsg("minishell: ", \
 				"exit", "too many arguments"));
 		else

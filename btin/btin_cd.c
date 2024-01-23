@@ -25,11 +25,13 @@ void	btin_modify_pwd(t_envs *envsp, char *old_pwd, int fork_flag)
 		free(env_oldpwd->value);
 		env_oldpwd->value = old_pwd;
 	}
+	else
+		free(old_pwd);
 	if (env_pwd != NULL)
 	{
 		pwd = getcwd(NULL, 1024);
 		if (pwd == NULL)
-			btin_out(1, errno, btin_make_errmsg("minishell: ", \
+			btin_out(1, errno, btin_make_errmsg("minishell: cd: ", \
 				"getcwd", strerror(errno)));
 		free(env_pwd->value);
 		env_pwd->value = pwd;
@@ -69,17 +71,17 @@ void	btin_move_to_dest(t_envs *envsp, char *dest, int fork_flag)
 
 	pwd = getcwd(NULL, 1024);
 	if (pwd == NULL)
-		btin_out(1, errno, btin_make_errmsg("minishell: ", \
+		btin_out(1, errno, btin_make_errmsg("minishell: cd: ", \
 			"getcwd", strerror(errno)));
 	if (stat(dest, &dir_stat) == -1)
-		btin_out(1, errno, btin_make_errmsg("minishell: ", \
+		btin_out(1, errno, btin_make_errmsg("minishell: cd: ", \
 		"stat", strerror(errno)));
 	else if (S_ISDIR(dir_stat.st_mode) != 1)
 		btin_cd_error(2, dest, pwd, fork_flag);
 	else if (access(dest, X_OK) != 0)
 		btin_cd_error(3, dest, pwd, fork_flag);
 	else if (chdir(dest) == -1)
-		btin_out(1, errno, btin_make_errmsg("minishell: ", \
+		btin_out(1, errno, btin_make_errmsg("minishell: cd: ", \
 		"chdir", strerror(errno)));
 	else
 	{
