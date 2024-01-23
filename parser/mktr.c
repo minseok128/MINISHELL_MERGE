@@ -69,9 +69,9 @@ int	mktr_command(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
 	{
 		next_node = mktr_alloc_s(TR_COMMAND, 0);
 		next_node->left = *head;
+		*head = next_node;
 		if (mktr_command_part(&(next_node->right), tk_now, info))
 			return (1);
-		*head = next_node;
 	}
 	return (0);
 }
@@ -100,9 +100,9 @@ int	mktr_pipeline(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
 		*tk_now = (*tk_now)->next;
 		next_node = mktr_alloc_s(TR_PIPELINE, 0);
 		next_node->left = *head;
+		*head = next_node;
 		if (mktr_command(&(next_node->right), tk_now, info))
 			return (1);
-		*head = next_node;
 	}
 	return (0);
 }
@@ -121,9 +121,9 @@ int	mktr_list(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
 		*tk_now = (*tk_now)->next;
 		next_node = mktr_alloc_s(TR_LIST, 0);
 		next_node->left = *head;
+		*head = next_node;
 		if (mktr_pipeline(&(next_node->right), tk_now, info))
 			return (1);
-		*head = next_node;
 	}
 	return (0);
 }
