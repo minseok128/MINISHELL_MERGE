@@ -21,10 +21,10 @@ int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd)
 	if (node->tk->type == T_WORD)
 	{
 		i = 0;
-		while (i < node->word_split.size)
+		while (i < node->word_split->size)
 		{
-			if (node->word_split.items[i])
-				vec_push_back(&(cmd->argv), node->word_split.items[i]);
+			if (node->word_split->items[i])
+				vec_push_back(&(cmd->argv), node->word_split->items[i]);
 			i++;
 		}
 	}
