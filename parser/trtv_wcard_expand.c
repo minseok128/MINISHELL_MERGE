@@ -45,6 +45,7 @@ void	trtv_wcard_expand(t_vector *word_split)
 	struct dirent	*dir;
 	t_vector		*new_split;
 	int				i;
+	unsigned int	j;
 
 	new_split = ft_calloc(sizeof(t_vector), 1);
 	vec_init(new_split, 1);
@@ -69,8 +70,22 @@ void	trtv_wcard_expand(t_vector *word_split)
 			closedir(d);
 		}
 		if (!d || new_split->size == 0)
+		{
+			if (ft_strchr(word_split->items[i], 6))
+			{
+				j = 0;
+				while (j < ft_strlen(word_split->items[i]))
+				{
+					if (((char *)(word_split->items[i]))[j] == 6)
+						((char *)(word_split->items[i]))[j] = '*';
+					j++;
+				}
+			}
 			vec_push_back(new_split, ft_strdup_s(word_split->items[i]));
+		}
+		free(word_split->items[i]);
 		i++;
 	}
+	vec_free(word_split);
 	*word_split = *new_split;
 }
