@@ -43,27 +43,28 @@ int	jump_white_space(char *str)
 
 void	leaks_test()
 {
-	system("leaks --list minishell");
+	system("leaks --list -- minishell");
 }
 
-void	trtv_free(t_tr_node *node)
+void	trtv_node_free(t_tr_node *node)
 {
 	int	i;
 
 	if (!node)
 		return ;
-	trtv_free(node->left);
-	trtv_free(node->right);
-	if (node->word_split.items)
+	trtv_node_free(node->left);
+	trtv_node_free(node->right);
+	if (node->word_split->items)
 	{
 		i = 0;
-		while (i < node->word_split.size)
+		while (i < node->word_split->size)
 		{
-			if (node->word_split.items[i])
-				free(node->word_split.items[i]);
+			if (node->word_split->items[i])
+				free(node->word_split->items[i]);
 			i++;	
 		}	
-		vec_free(&(node->word_split));
+		vec_free(node->word_split);
+		free(node->word_split);
 	}
 	free (node);
 }
@@ -82,7 +83,7 @@ void	parser_info_free(t_parser_info *p_info)
 		p_info->tk_head = p_info->tk_head->next;
 		free(t_node);
 	}
-	trtv_free(p_info->root);
+	trtv_node_free(p_info->root);
 }
 
 int	main(int argc, char **argv, char **envp)
