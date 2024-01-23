@@ -67,7 +67,6 @@ void	trtv_wcard_expand(t_vector **word_split)
 				}
 				dir = readdir(d);
 			}
-			closedir(d);
 		}
 		if (!d || new_split->size == 0)
 		{
@@ -83,9 +82,11 @@ void	trtv_wcard_expand(t_vector **word_split)
 			}
 			vec_push_back(new_split, ft_strdup_s((*word_split)->items[i]));
 		}
+		closedir(d);
 		free((*word_split)->items[i]);
 		i++;
 	}
 	vec_free(*word_split);
+	free(*word_split);
 	*word_split = new_split;
 }
