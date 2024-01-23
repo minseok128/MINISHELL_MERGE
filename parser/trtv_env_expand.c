@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static char	*trtv_join_s(char *s1, char *s2)
+char	*trtv_join_s(char *s1, char *s2)
 {
 	size_t	s1_len;
 	size_t	s2_len;
