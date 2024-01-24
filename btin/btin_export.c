@@ -82,7 +82,7 @@ void	btin_export(t_cmds *cmds, t_envs *envsp, int error_code, int fork_flag)
 			{
 				btin_free_key_and_value(key_value, key_value[0], key_value[1]);
 				str = ft_strjoin_s(str, "'");
-				btin_out(0, 0, btin_make_errmsg("minishell: export: '", str, \
+				btin_out(0, 0, btin_make_errmsg("minishell: export: `", str, \
 					"not a valid identifier"));
 				free(str);
 				error_code = 1;
