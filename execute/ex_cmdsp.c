@@ -6,11 +6,38 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:05:31 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/17 18:23:20 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/24 16:39:45 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ex_all_close(t_cmds *cmdsp, char **envp)
+{
+	t_cmds	*tmp;
+	int		i;
+
+	i = 0;
+	if (envp != NULL)
+	{
+		while (envp[i] != NULL)
+			free(envp[i++]);
+		free(envp);
+	}
+	tmp = cmdsp;
+	cmdsp = cmdsp->next;
+	free(tmp);
+	while (cmdsp != NULL)
+	{
+		if ((cmdsp->type & RD_HEREDOC) != 0)
+			if (unlink(cmdsp->in_file) == -1)
+				btin_make_errmsg("minishell: ", "unlink", strerror(errno));
+		vec_free(&(cmdsp->argv));
+		tmp = cmdsp;
+		cmdsp = cmdsp->next;
+		free(tmp);
+	}
+}
 
 t_cmds	*ex_cmdsp_init(void)
 {
