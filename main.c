@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:05:34 by michang           #+#    #+#             */
-/*   Updated: 2024/01/24 16:59:48 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/24 17:02:07 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	trtv_node_free(t_tr_node *node)
 		{
 			if (node->word_split->items[i])
 				free(node->word_split->items[i]);
-			i++;	
+			i++;
 		}	
 		vec_free(node->word_split);
 		free(node->word_split);
