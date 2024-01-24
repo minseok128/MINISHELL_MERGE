@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/24 16:41:05 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/24 17:04:05 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ typedef struct s_cmds
 	struct s_cmds	*next;
 }	t_cmds;
 
-int				g_errno;
+int	g_errno;
 
 void			set_signal(int sig_int, int sig_quit);
 int				tk_tokenize(char *str, t_token **token_head);
@@ -111,7 +111,6 @@ int				mktr_make_tree(t_token *tk_head, t_tr_node **root);
 void			trtv_start(t_tr_node *root, t_envs *envsp);
 void			terminal_print_on(void);
 void			terminal_print_off(void);
-
 
 // tk
 t_token			*tk_lstlast(t_token *lst);
@@ -123,10 +122,14 @@ t_token_type	tk_is_meta_char(char *str);
 int				mktr_print_unexpected(char *str);
 int				mktr_free_node(t_tr_node *node);
 t_tr_node		*mktr_alloc_s(t_tr_type bnf_type, t_token *tk);
-int				mktr_list(t_tr_node **head, t_token **tk_now, t_mktr_info *info);
-int				mktr_pipeline(t_tr_node **head, t_token **tk_now, t_mktr_info *info);
-int				mktr_command(t_tr_node **head, t_token **tk_now, t_mktr_info *info);
-int				mktr_command_part(t_tr_node **head, t_token **tk_now, t_mktr_info *info);
+int				mktr_list(t_tr_node **head, t_token **tk_now, \
+					t_mktr_info *info);
+int				mktr_pipeline(t_tr_node **head, t_token **tk_now, \
+					t_mktr_info *info);
+int				mktr_command(t_tr_node **head, t_token **tk_now, \
+					t_mktr_info *info);
+int				mktr_command_part(t_tr_node **head, t_token **tk_now, \
+					t_mktr_info *info);
 int				mktr_heredoc(char **file_name);
 int				mktr_heredoc_open_file(char **file_name);
 pid_t			mktr_heredoc_fork(int fd, char *limiter);
@@ -137,9 +140,11 @@ int				trtv_expansion_travel(t_tr_node *node, t_envs *envsp);
 void			trtv_env_cmdp(char *word, char **e_w, t_envs *envsp);
 void			trtv_word_split(char *word, t_tr_node *node);
 void			trtv_quotes_removal(t_vector *word_split);
-int				trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd, t_envs *envsp);
+int				trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd, \
+					t_envs *envsp);
 int				trtv_comd_travel(t_tr_node *node, t_cmds *cmd, t_envs *envsp);
-int				trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, t_envs *envsp);
+int				trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, \
+					t_envs *envsp);
 int				trtv_list_travel(t_tr_node *node, t_envs *envsp);
 int				trtv_redir_s_l(t_cmds *cmd, char *file);
 int				trtv_redir_s_r(t_cmds *cmd, char *file);
@@ -149,7 +154,8 @@ void			trtv_wcard_expand(t_vector **word_split);
 
 // btin
 void			btin_pwd(int fork_flag);
-void			btin_export(t_cmds *cmds, t_envs *envsp, int error_code, int fork_flag);
+void			btin_export(t_cmds *cmds, t_envs *envsp, \
+					int error_code, int fork_flag);
 void			btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag);
 void			btin_cd(t_cmds *cmds, t_envs *envsp, int fork_flag);
 void			btin_echo(t_cmds *cmds, int fork_flag);
@@ -159,7 +165,8 @@ void			btin_out(int fork_flag, int error_code, char *errmsg);
 int				btin_is_valid_identifier(char *str);
 void			btin_export_print(t_envs *envsp);
 int				btin_export_error(char **key_value, char *str);
-void			btin_free_key_and_value(char **key_and_value, char *key, char *value);
+void			btin_free_key_and_value(char **key_and_value, \
+					char *key, char *value);
 t_envs			*btin_make_envsp_node(char **key_and_value);
 t_envs			*btin_make_envsp(char **envp);
 void			btin_free_envsp(t_envs *envsp);
