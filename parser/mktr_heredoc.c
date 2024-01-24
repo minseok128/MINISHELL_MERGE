@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:54:53 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/24 16:45:54 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/24 17:44:00 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*mktr_heredoc_trim_limiter(char **filename)
 	if ((limiter[0] == '\'' && limiter[len - 1] == '\'') || \
 		(limiter[0] == '\"' && limiter[len - 1] == '\"'))
 	{
-		new_limiter = ft_calloc_s(len - 2, sizeof(char));
+		new_limiter = ft_calloc_s(len - 1, sizeof(char));
 		i = 1;
 		while (i < len - 1)
 		{
