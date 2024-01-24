@@ -6,38 +6,11 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/21 19:16:16 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/24 16:39:11 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	ex_all_close(t_cmds *cmdsp, char **envp)
-{
-	t_cmds	*tmp;
-	int		i;
-
-	i = 0;
-	if (envp != NULL)
-	{
-		while (envp[i] != NULL)
-			free(envp[i++]);
-		free(envp);
-	}
-	tmp = cmdsp;
-	cmdsp = cmdsp->next;
-	free(tmp);
-	while (cmdsp != NULL)
-	{
-		if ((cmdsp->type & RD_HEREDOC) != 0)
-			if (unlink(cmdsp->in_file) == -1)
-				btin_make_errmsg("minishell: ", "unlink", strerror(errno));
-		vec_free(&(cmdsp->argv));
-		tmp = cmdsp;
-		cmdsp = cmdsp->next;
-		free(tmp);
-	}
-}
 
 char	**ex_change_to_envp(t_envs *envsp)
 {
@@ -141,7 +114,6 @@ void	ex_waitpid(pid_t pid)
 	if (signal_flag == 1)
 		ft_putstr_fd("\n", 2);
 }
-
 
 void	ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp)
 {
