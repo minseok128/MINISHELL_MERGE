@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:12:59 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/23 15:24:26 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/24 16:40:42 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,6 @@ void	*ex_free_string_array(char **string_array)
 		i++;
 	}
 	return (NULL);
-}
-
-char	*ex_strjoin_c(char const *s1, char const *s2, char c)
-{
-	char	*str;
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	str = ft_calloc_s(sizeof(char), ft_strlen(s1) + ft_strlen(s2) + 2);
-	while (s1[j])
-		str[i++] = s1[j++];
-	str[i++] = c;
-	j = 0;
-	while (s2[j])
-		str[i++] = s2[j++];
-	str[i] = 0;
-	return (str);
 }
 
 char	*ex_search_path(char *cmd, t_envs *envsp, int i)
