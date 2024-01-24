@@ -6,15 +6,36 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:54:53 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/24 15:39:42 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/24 16:45:54 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-pid_t	mktr_heredoc_fork(int fd, char *limiter)
+void	mktr_heredoc_child(int fd, char *limiter)
 {
 	char	*line;
+
+	set_signal(MODE_HEREDOC, MODE_HEREDOC);
+	while (1)
+	{
+		line = readline("> ");
+		if (line == NULL)
+		{
+			printf("\033[1A");
+			printf("> ");
+			exit(0);
+		}
+		else if (ft_strncmp(limiter, line, ft_strlen(line) + 1) == 0)
+			exit(0);
+		ft_putstr_fd(line, fd);
+		ft_putstr_fd("\n", fd);
+		free(line);
+	}
+}
+
+pid_t	mktr_heredoc_fork(int fd, char *limiter)
+{
 	pid_t	pid;
 
 	pid = fork();
@@ -22,24 +43,7 @@ pid_t	mktr_heredoc_fork(int fd, char *limiter)
 		btin_out(1, errno, btin_make_errmsg("minishell: ", \
 			"fork", strerror(errno)));
 	else if (pid == 0)
-	{
-		set_signal(MODE_HEREDOC, MODE_HEREDOC);
-		while (1)
-		{
-			line = readline("> ");
-			if (line == NULL)
-			{
-				printf("\033[1A");
-				printf("> ");
-				exit(0);
-			}
-			else if (ft_strncmp(limiter, line, ft_strlen(line) + 1) == 0)
-				exit(0);
-			ft_putstr_fd(line, fd);
-			ft_putstr_fd("\n", fd);
-			free(line);
-		}
-	}
+		mktr_heredoc_child(fd, limiter);
 	free(limiter);
 	return (pid);
 }
