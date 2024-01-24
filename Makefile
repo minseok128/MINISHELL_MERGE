@@ -6,7 +6,7 @@
 #    By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/01 21:01:14 by michang           #+#    #+#              #
-#    Updated: 2024/01/21 18:58:15 by seonjo           ###   ########.fr        #
+#    Updated: 2024/01/24 17:23:47 by seonjo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,13 @@ DIR			= ./
 BASE		= main signal_utils \
 			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils parser/mktr_heredoc\
 			  parser/trtv parser/trtv_env_expand parser/trtv_word_split parser/trtv_redirection\
-			  parser/trtv_wcard\
+			  parser/trtv_wcard \
 			  btin/btin_exit btin/btin_make_envsp btin/btin_cd \
 			  btin/btin_echo btin/btin_env btin/btin_export \
 			  btin/btin_pwd btin/btin_unset btin/btin_make_errmsg \
+			  btin/btin_export_utils \
 			  execute/ex_cmdsp execute/ex_cmd_loop execute/ex_execute \
-			  execute/ex_handle_fd execute/ex_btin_execute \
+			  execute/ex_handle_fd execute/ex_btin_execute execute/ex_strjoin \
 			  libft_s/libft_s_1 libft_s/libft_s_2 libft_s/ft_vector \
 			  testdir/tree_print testdir/cmds_print
 SRC			= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
