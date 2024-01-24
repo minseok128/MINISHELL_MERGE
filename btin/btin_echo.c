@@ -41,21 +41,6 @@ int	btin_is_option_n(char *str, int is_n_appear, int is_hyphen_appear)
 		return (0);
 }
 
-void	btin_print_str(t_cmds *cmds, int i, int n_flag)
-{
-	if (cmds->argv.items[i + 1] == NULL)
-	{
-		ft_putstr_fd((char *)(cmds->argv.items[i]), 1);
-		if (n_flag == 0)
-			ft_putchar_fd('\n', 1);
-	}
-	else
-	{
-		ft_putstr_fd((char *)(cmds->argv.items[i]), 1);
-		ft_putchar_fd(' ', 1);
-	}
-}
-
 void	btin_echo(t_cmds *cmds, int fork_flag)
 {
 	int	i;
@@ -71,9 +56,13 @@ void	btin_echo(t_cmds *cmds, int fork_flag)
 			n_flag = 1;
 		else
 		{
-			btin_print_str(cmds, i, n_flag);
+			ft_putstr_fd((char *)(cmds->argv.items[i]), 1);
+			if (cmds->argv.items[i + 1] != NULL)
+				ft_putchar_fd(' ', 1);
 			print_flag = 1;
 		}
 	}
+	if (n_flag == 0)
+		ft_putchar_fd('\n', 1);
 	btin_out(fork_flag, 0, NULL);
 }

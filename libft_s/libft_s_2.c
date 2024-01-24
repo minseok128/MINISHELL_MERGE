@@ -22,3 +22,10 @@ char	*ft_strjoin_s(const char *s1, const char *s2)
 			"malloc", strerror(errno)));
 	return (new);
 }
+
+char	*ft_strchr_s(const char *s, int c)
+{
+	if (!s)
+		return (0);
+	return (ft_strchr(s, c));
+}

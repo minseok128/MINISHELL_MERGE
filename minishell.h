@@ -137,10 +137,10 @@ int				trtv_expansion_travel(t_tr_node *node, t_envs *envsp);
 void			trtv_env_cmdp(char *word, char **e_w, t_envs *envsp);
 void			trtv_word_split(char *word, t_tr_node *node);
 void			trtv_quotes_removal(t_vector *word_split);
-int				trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd);
-int				trtv_comd_travel(t_tr_node *node, t_cmds *cmd);
-int				trtv_list_travel(t_tr_node *node, t_envs *envsp);
+int				trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd, t_envs *envsp);
+int				trtv_comd_travel(t_tr_node *node, t_cmds *cmd, t_envs *envsp);
 int				trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, t_envs *envsp);
+int				trtv_list_travel(t_tr_node *node, t_envs *envsp);
 int				trtv_redir_s_l(t_cmds *cmd, char *file);
 int				trtv_redir_s_r(t_cmds *cmd, char *file);
 int				trtv_redir_d_l(t_cmds *cmd, char *file);
@@ -191,6 +191,7 @@ void			vec_init(t_vector *v, int capacity);
 void			vec_push_back(t_vector *v, void *item);
 void			vec_free(t_vector *v);
 void			vec_print(t_vector *v);
+char			*ft_strchr_s(const char *s, int c);
 
 // !test codes!
 int				test_tk_print(t_token *tk);
