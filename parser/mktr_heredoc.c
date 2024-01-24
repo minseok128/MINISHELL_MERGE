@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:54:53 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/18 17:27:38 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/24 15:39:42 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,36 @@ int	mktr_heredoc_open_file(char **file_name)
 		}
 		free(*file_name);
 	}
-	*file_name = NULL;
 	return (-1);
+}
+
+char	*mktr_heredoc_trim_limiter(char **filename)
+{
+	int		i;
+	int		len;
+	char	*limiter;
+	char	*new_limiter;
+
+	limiter = *filename;
+	len = ft_strlen(limiter);
+	if (len < 1)
+		return (limiter);
+	if ((limiter[0] == '\'' && limiter[len - 1] == '\'') || \
+		(limiter[0] == '\"' && limiter[len - 1] == '\"'))
+	{
+		new_limiter = ft_calloc_s(len - 2, sizeof(char));
+		i = 1;
+		while (i < len - 1)
+		{
+			new_limiter[i - 1] = limiter[i];
+			i++;
+		}
+		free(limiter);
+		*filename = new_limiter;
+		return (new_limiter);
+	}
+	else
+		return (limiter);
 }
 
 int	mktr_heredoc(char **file_name)
@@ -75,7 +103,7 @@ int	mktr_heredoc(char **file_name)
 	int		status;
 	char	*limiter;
 
-	limiter = *file_name;
+	limiter = mktr_heredoc_trim_limiter(file_name);
 	fd = mktr_heredoc_open_file(file_name);
 	if (fd == -1)
 	{
