@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/24 16:33:23 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/24 16:41:05 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ char			*ex_strjoin_c(char const *s1, char const *s2, char c);
 void			*ex_free_string_array(char **string_array);
 int				ex_open_btin_input_fd(t_cmds *cmds);
 int				ex_open_btin_output_fd(t_cmds *cmds);
+void			ex_all_close(t_cmds *cmdsp, char **envp);
 
 // libft_s
 int				ft_isspace(char c);
