@@ -6,31 +6,11 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:19 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/24 15:18:11 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/24 16:34:53 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	btin_export_print(t_envs *envsp)
-{
-	t_envs	*node;
-
-	node = envsp->next;
-	while (node != NULL)
-	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(node->key, 1);
-		if (node->value != NULL)
-		{
-			ft_putstr_fd("=\"", 1);
-			ft_putstr_fd(node->value, 1);
-			ft_putchar_fd('\"', 1);
-		}
-		ft_putchar_fd('\n', 1);
-		node = node->next;
-	}
-}
 
 int	btin_is_valid_identifier(char *str)
 {
@@ -81,6 +61,7 @@ void	btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag)
 {
 	int		i;
 	char	*str;
+	char	*tmp_str;
 	int		error_flag;
 
 	error_flag = 0;
@@ -92,10 +73,10 @@ void	btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag)
 			btin_remove_envsp_node(envsp, str);
 		else
 		{
-			str = ft_strjoin_s(str, "'");
+			tmp_str = ft_strjoin_s(str, "'");
 			btin_out(0, 0, btin_make_errmsg("minishell: unset: `", \
-				str, "not a valid identifier"));
-			free(str);
+				tmp_str, "not a valid identifier"));
+			free(tmp_str);
 			error_flag = 1;
 		}
 	}
