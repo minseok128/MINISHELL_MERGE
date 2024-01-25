@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:12:59 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/24 16:40:42 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 11:17:31 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ char	*ex_search_path(char *cmd, t_envs *envsp, int i)
 	while (envsp != NULL && ft_strncmp(envsp->key, "PATH", 5) != 0)
 		envsp = envsp->next;
 	if (envsp == NULL)
-		return (cmd);
+		btin_out(1, 127, btin_make_errmsg("minishell: ", cmd, \
+			"No such file or directory"));
 	envp_path = ft_split(envsp->value, ':');
 	while (envp_path[i] != NULL)
 	{
