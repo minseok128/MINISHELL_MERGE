@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 22:07:03 by michang           #+#    #+#             */
-/*   Updated: 2024/01/18 14:19:40 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 11:36:37 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,15 @@ char	*ft_strchr_s(const char *s, int c)
 	if (!s)
 		return (0);
 	return (ft_strchr(s, c));
+}
+
+char	**ft_split_s(const char *str, char c)
+{
+	char	**new;
+
+	new = ft_split(str, c);
+	if (!new)
+		btin_out(1, errno, btin_make_errmsg("minishell: ", \
+			"malloc", strerror(errno)));
+	return (new);
 }
