@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:12:59 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/25 11:17:31 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 11:23:07 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	ex_execute(char **cmd, t_envs *envsp, char **envp)
 	if (ex_is_directory(cmd[0]) == 1 && ex_is_path(cmd[0]) == 1)
 		btin_out(1, 126, btin_make_errmsg("minishell: ", cmd[0], \
 			"is a directory"));
-	else if (access(cmd[0], F_OK) == -1)
+	else if (ex_is_directory(cmd[0]) == 1 || access(cmd[0], F_OK) == -1)
 	{
 		if (ex_is_path(cmd[0]) == 1)
 			btin_out(1, 127, btin_make_errmsg("minisehll: ", cmd[0], \
