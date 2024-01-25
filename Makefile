@@ -18,7 +18,7 @@ READLINE	= -L/usr/local/lib  -lreadline
 DIR			= ./
 BASE		= main signal_utils \
 			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils parser/mktr_heredoc\
-			  parser/trtv parser/trtv_env_expand parser/trtv_word_split parser/trtv_redirection\
+			  parser/trtv parser/trtv_env_expand parser/trtv_wsplit parser/trtv_redir\
 			  parser/trtv_wcard parser/trtv_utils \
 			  btin/btin_exit btin/btin_make_envsp btin/btin_cd \
 			  btin/btin_echo btin/btin_env btin/btin_export \
