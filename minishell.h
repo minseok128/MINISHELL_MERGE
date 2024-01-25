@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/25 11:35:43 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 14:21:11 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,10 @@ void			*ex_free_string_array(char **string_array);
 int				ex_open_btin_input_fd(t_cmds *cmds);
 int				ex_open_btin_output_fd(t_cmds *cmds);
 void			ex_all_close(t_cmds *cmdsp, char **envp);
+int				ex_is_directory(char *cmd);
+char			*ex_search_path(char *cmd, t_envs *envsp, int i);
+char			*ex_file_name_execute(char *cmd, t_envs *envsp);
+void			ex_path_execute(char *cmd);
 
 // libft_s
 int				ft_isspace(char c);
