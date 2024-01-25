@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ex_strjoin.c                                       :+:      :+:    :+:   */
+/*   ex_execute_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:40:03 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/25 14:15:41 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 14:27:26 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,12 @@ char	*ex_strjoin_c(char const *s1, char const *s2, char c)
 	return (str);
 }
 
-void	ex_path_execute(char *cmd)
+void	ex_path_execute_find_error(char **str, char *path, \
+	char *pre_path, char *cmd)
 {
-	int		i;
-	char	**str;
-	char	*path;
-	char	*pre_path;
+	int	i;
 
-	str = ft_split_s(cmd, '/');
-	path = ft_calloc_s(1, sizeof(char));
 	i = 0;
-	if (cmd[0] != '.' && cmd[0] != '/')
-	{
-		pre_path = path;
-		path = ft_strjoin_s("./", path);
-		free(path);
-	}
 	while (str[i] != NULL)
 	{
 		pre_path = path;
@@ -69,6 +59,24 @@ void	ex_path_execute(char *cmd)
 				"is a directory"));
 		i++;
 	}
+}
+
+void	ex_path_execute(char *cmd)
+{
+	int		i;
+	char	**str;
+	char	*path;
+	char	*pre_path;
+
+	str = ft_split_s(cmd, '/');
+	path = ft_calloc_s(1, sizeof(char));
+	if (cmd[0] != '.' && cmd[0] != '/')
+	{
+		pre_path = path;
+		path = ft_strjoin_s("./", path);
+		free(path);
+	}
+	ex_path_execute_find_error(str, path, pre_path, cmd);
 	free(path);
 	i = 0;
 	while (str[i] != NULL)
