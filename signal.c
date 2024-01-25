@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:32 by michang           #+#    #+#             */
-/*   Updated: 2024/01/25 16:08:42 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 16:19:21 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	sig_terminal_print_on(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
-void	sig_shell_handler(int signo)
+void	sig_shellmode_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
@@ -52,7 +52,7 @@ void	sig_heredoc_handler(int signo)
 void	sig_set(int sig_int, int sig_quit)
 {
 	if (sig_int == MODE_SHELL)
-		signal(SIGINT, sig_shell_handler);
+		signal(SIGINT, sig_shellmode_handler);
 	if (sig_quit == MODE_SHELL)
 		signal(SIGQUIT, SIG_IGN);
 	if (sig_int == MODE_DEFAULT)
