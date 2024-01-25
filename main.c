@@ -23,29 +23,6 @@ int	jump_white_space(char *str)
 	return (1);
 }
 
-void	trtv_node_free(t_tr_node *node)
-{
-	int	i;
-
-	if (!node)
-		return ;
-	trtv_node_free(node->left);
-	trtv_node_free(node->right);
-	if (node->word_split)
-	{
-		i = 0;
-		while (i < node->word_split->size)
-		{
-			if (node->word_split->items[i])
-				free(node->word_split->items[i]);
-			i++;
-		}	
-		vec_free(node->word_split);
-		free(node->word_split);
-	}
-	free (node);
-}
-
 void	parser_info_free(t_parser_info *p_info)
 {
 	t_token	*t_node;
