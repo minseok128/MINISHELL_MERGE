@@ -194,6 +194,7 @@ char			*ex_file_name_execute(char *cmd, t_envs *envsp);
 void			ex_path_execute(char *cmd);
 
 // libft_s
+int				ft_jump_white_space(char *str);
 int				ft_isspace(char c);
 char			*ft_substr_s(char const *s, unsigned int start, size_t len);
 char			*ft_itoa_s(int n);
