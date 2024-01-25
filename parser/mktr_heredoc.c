@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:54:53 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/24 17:44:00 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 11:11:37 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	mktr_heredoc_open_file(char **file_name)
 			num++;
 		else
 		{
-			fd = open(*file_name, O_CREAT | O_WRONLY, 0777);
+			fd = open(*file_name, O_CREAT | O_WRONLY, 0644);
 			return (fd);
 		}
 		free(*file_name);
