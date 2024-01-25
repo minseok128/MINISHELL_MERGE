@@ -12,17 +12,6 @@
 
 #include "minishell.h"
 
-int	jump_white_space(char *str)
-{
-	while (*str)
-	{
-		if (*str != 32 && !(*str >= 9 && *str <= 13))
-			return (0);
-		str++;
-	}
-	return (1);
-}
-
 void	parser_info_free(t_parser_info *p_info)
 {
 	t_token	*t_node;
