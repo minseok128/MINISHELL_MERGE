@@ -13,14 +13,13 @@
 CC			= cc
 WFLAG		= -Wall -Wextra -Werror
 LIBFT		= -Llibft -lft
-# READLINE	= -L/usr/local/lib  -lreadline
-READLINE	= -L/opt/homebrew/Cellar/readline/8.2.7/lib -lreadline
+READLINE	= -L/usr/local/lib  -lreadline
 
 DIR			= ./
 BASE		= main signal \
 			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils parser/mktr_heredoc\
-			  parser/trtv parser/trtv_env_expand parser/trtv_word_split parser/trtv_redirection\
-			  parser/trtv_wcard \
+			  parser/trtv parser/trtv_env_expand parser/trtv_wsplit parser/trtv_redir\
+			  parser/trtv_wcard parser/trtv_utils \
 			  btin/btin_exit btin/btin_make_envsp btin/btin_cd \
 			  btin/btin_echo btin/btin_env btin/btin_export \
 			  btin/btin_pwd btin/btin_unset btin/btin_make_errmsg \
@@ -41,10 +40,8 @@ lib :
 $(NAME) : $(OBJ)
 	$(CC) -I$(dir $<) $(LIBFT) $(READLINE) $^ -o $@
 
-# %.o : %.c
-# 	$(CC) $(WFLAG) -I$(dir $<) -c $< -o $@
 %.o : %.c
-	$(CC) $(WFLAG) -I$(dir $<) -I/opt/homebrew/Cellar/readline/8.2.7/include -c $< -o $@
+	$(CC) $(WFLAG) -I$(dir $<) -c $< -o $@
 
 clean :
 	make clean -C ./libft

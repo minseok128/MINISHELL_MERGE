@@ -17,10 +17,10 @@ int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd, t_envs *envsp)
 	int	i;
 	int	fail_flag;
 
-	trtv_expansion_travel(node, envsp);
 	fail_flag = 0;
 	if (node->tk->type == T_WORD)
 	{
+		trtv_expansion(node, envsp);
 		i = 0;
 		while (i < node->word_split->size)
 		{
@@ -88,35 +88,29 @@ int	trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, t_envs *envsp)
 	return (0);
 }
 
-int	trtv_list_travel(t_tr_node *node, t_envs *envsp)
+void	trtv_list_child(t_tr_node *child, t_envs *envsp)
 {
 	t_cmds	*cmds_h;
 
+	cmds_h = ex_cmdsp_init();
+	if (child && child->bnf_type == TR_PIPELINE)
+	{
+		if (!trtv_pipe_travel(child, cmds_h, envsp))
+			ex_cmd_loop(cmds_h, envsp);
+		else
+			free(cmds_h);
+	}
+}
+
+int	trtv_list_travel(t_tr_node *node, t_envs *envsp)
+{
 	if (node->left && node->left->bnf_type == TR_LIST)
 	{
 		if (!trtv_list_travel(node->left, envsp))
-		{
-			cmds_h = ex_cmdsp_init();
-			if (node->right && node->right->bnf_type == TR_PIPELINE)
-			{
-				if (!trtv_pipe_travel(node->right, cmds_h, envsp))
-					ex_cmd_loop(cmds_h, envsp);
-				else
-					free(cmds_h);
-			}
-		}
+			trtv_list_child(node->right, envsp);
 	}
 	else
-	{
-		cmds_h = ex_cmdsp_init();
-		if (node->left && node->left->bnf_type == TR_PIPELINE)
-		{
-			if (!trtv_pipe_travel(node->left, cmds_h, envsp))
-				ex_cmd_loop(cmds_h, envsp);
-			else
-				free(cmds_h);
-		}
-	}
+		trtv_list_child(node->left, envsp);
 	return (node->tk
 		&& ((!g_errno && node->tk->type != T_AND)
 			|| (g_errno && node->tk->type == T_AND)));

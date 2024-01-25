@@ -85,5 +85,4 @@ int	tk_tokenize(char *str, t_token **tk_head)
 	}
 	else
 		return (0);
-		// return (tk_print(*tk_head));
 }
