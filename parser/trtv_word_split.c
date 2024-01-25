@@ -33,8 +33,7 @@ static char	*trtv_make_new_word_without_quotes(char *word)
 			in_squote = !in_squote;
 		else
 		{
-			if (!(in_dquote || in_squote) && word[now] == '*')
-				word[now] = 6;
+			(!(in_dquote || in_squote) && word[now] == '*') && (word[now] = 6);
 			new_word[new_now++] = word[now];
 		}
 		now++;
@@ -84,8 +83,7 @@ void	trtv_word_split(char *word, t_tr_node *node)
 			now += len;
 			while (ft_isspace(word[now]))
 				now++;
-			if (!word[now])
-				now++;
+			(!word[now]) && (now++);
 			len = -1;
 		}
 		else if (word[now + len] == '\'' || word[now + len] == '\"')
