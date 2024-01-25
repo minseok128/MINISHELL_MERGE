@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:12:59 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/25 13:45:46 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 14:13:29 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,26 +95,26 @@ void	ex_path_execute(char *cmd)
 		path = ft_strjoin_s("./", path);
 		free(path);
 	}
-	while (str[i] != '\0')
+	while (str[i] != NULL)
 	{
 		pre_path = path;
 		if (i == 0 && cmd[0] != '/')
-			path = ft_strjoin_s(path, str[i]);
-		else if (i == 0)
-			path = ex_strjoin_c(path, str[i], '/');
+			path = ft_strjoin_s(pre_path, str[i]);
+		else
+			path = ex_strjoin_c(pre_path, str[i], '/');
 		free(pre_path);
 		if (access(path, F_OK) == -1)
 			btin_out(1, 127, btin_make_errmsg("minisehll: ", cmd, \
 				"No such file or directory"));
-		if (str[i + 1] != '\0' && ex_is_directory(path) == 0)
-			btin_out(1, 126, btin_make_errmsg("minisehll: ", cmd, \
-				"Not a directory"));
-		else if (str[i + 1] == '\0' && ex_is_directory(path) == 1)
-			btin_out(1, 126, btin_make_errmsg("minisehll: ", cmd, \
-				"is a directory"));
 		if (access(path, X_OK) == -1)
 			btin_out(1, 126, btin_make_errmsg("minisehll: ", cmd, \
 				"Permission denied"));
+		if (str[i + 1] != NULL && ex_is_directory(path) == 0)
+			btin_out(1, 126, btin_make_errmsg("minisehll: ", cmd, \
+				"Not a directory"));
+		else if (str[i + 1] == NULL && ex_is_directory(path) == 1)
+			btin_out(1, 126, btin_make_errmsg("minisehll: ", cmd, \
+				"is a directory"));
 		i++;
 	}
 	free(path);
@@ -122,6 +122,18 @@ void	ex_path_execute(char *cmd)
 	while (str[i] != NULL)
 		free(str[i++]);
 	free(str);
+}
+
+char	*ex_file_name_execute(char *cmd, t_envs *envsp)
+{
+	cmd = ex_search_path(cmd, envsp->next, 0);
+	if (ex_is_directory(cmd) == 1)
+		btin_out(1, 127, btin_make_errmsg("minishell: ", cmd, \
+			"command not found"));
+	if (access(cmd, X_OK) == -1)
+		btin_out(1, 126, btin_make_errmsg("minisehll: ", cmd, \
+			"Permission denied"));
+	return (cmd);
 }
 
 void	ex_execute(char **cmd, t_envs *envsp, char **envp)
@@ -137,8 +149,8 @@ void	ex_execute(char **cmd, t_envs *envsp, char **envp)
 			"command not found"));
 	if (ex_is_path(cmd[0]) == 1)
 		ex_path_execute(cmd[0]);
-	else if (ex_is_directory(cmd[0]) == 1 || access(cmd[0], F_OK) == -1)
-		cmd[0] = ex_search_path(cmd[0], envsp_cp, 0);
+	else
+		cmd[0] = ex_file_name_execute(cmd[0], envsp);
 	execve(cmd[0], cmd, envp);
 	btin_out(1, errno, btin_make_errmsg("minishell: ", cmd[0], \
 			strerror(errno)));
