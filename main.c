@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:05:34 by michang           #+#    #+#             */
-/*   Updated: 2024/01/24 17:29:48 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 15:21:29 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ int	jump_white_space(char *str)
 		str++;
 	}
 	return (1);
-}
-
-void	leaks_test(void)
-{
-	system("leaks --list -- minishell");
 }
 
 void	trtv_node_free(t_tr_node *node)
@@ -73,7 +68,6 @@ int	main(int argc, char **argv, char **envp)
 	t_envs			*envsp;
 	t_parser_info	p_info;
 
-	// atexit(leaks_test);
 	argc = argv - argv + argc;
 	terminal_print_off();
 	set_signal(MODE_SHELL, MODE_SHELL);
@@ -95,4 +89,5 @@ int	main(int argc, char **argv, char **envp)
 	printf("\033[1Aminishell $ exit\n");
 	btin_free_envsp(envsp);
 	terminal_print_on();
+	return (g_errno);
 }

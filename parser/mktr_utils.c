@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mktr_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michang <michang@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 20:14:26 by michang           #+#    #+#             */
-/*   Updated: 2024/01/01 20:14:27 by michang          ###   ########.fr       */
+/*   Updated: 2024/01/25 14:43:15 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	mktr_print_unexpected(char *str)
 {
 	printf("minishell: syntax error near unexpected token `%s'\n", str);
+	g_errno = 258;
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 #    By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/01 21:01:14 by michang           #+#    #+#              #
-#    Updated: 2024/01/24 17:23:47 by seonjo           ###   ########.fr        #
+#    Updated: 2024/01/25 14:16:14 by seonjo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ BASE		= main signal_utils \
 			  btin/btin_pwd btin/btin_unset btin/btin_make_errmsg \
 			  btin/btin_export_utils \
 			  execute/ex_cmdsp execute/ex_cmd_loop execute/ex_execute \
-			  execute/ex_handle_fd execute/ex_btin_execute execute/ex_strjoin \
+			  execute/ex_handle_fd execute/ex_btin_execute execute/ex_execute_utils \
 			  libft_s/libft_s_1 libft_s/libft_s_2 libft_s/ft_vector \
 			  testdir/tree_print testdir/cmds_print
 SRC			= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
