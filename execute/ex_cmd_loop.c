@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/24 16:39:11 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 16:08:42 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ pid_t	ex_fork(t_cmds *cmdsp, t_envs *envsp, char **envp, int pipe_fd[2])
 			"fork", strerror(errno)));
 	else if (pid == 0)
 	{
-		set_signal(MODE_DEFAULT, MODE_DEFAULT);
+		sig_set(MODE_DEFAULT, MODE_DEFAULT);
 		if (pipe_fd[0] != -1)
 			close(pipe_fd[0]);
 		if (cmdsp->in_file != NULL)
@@ -121,8 +121,8 @@ void	ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp)
 	char	**envp;
 	pid_t	pid;
 
-	set_signal(MODE_IGNORE, MODE_IGNORE);
-	terminal_print_on();
+	sig_set(MODE_IGNORE, MODE_IGNORE);
+	sig_terminal_print_on();
 	cmdsp = cmdsp_head->next;
 	cmdsp->prev_out = -1;
 	envp = NULL;
@@ -139,6 +139,6 @@ void	ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp)
 		ex_waitpid(pid);
 	}
 	ex_all_close(cmdsp_head, envp);
-	terminal_print_off();
-	set_signal(MODE_SHELL, MODE_SHELL);
+	sig_terminal_print_off();
+	sig_set(MODE_SHELL, MODE_SHELL);
 }
