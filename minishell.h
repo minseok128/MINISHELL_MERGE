@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/24 17:04:05 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 11:35:43 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ void			vec_push_back(t_vector *v, void *item);
 void			vec_free(t_vector *v);
 void			vec_print(t_vector *v);
 char			*ft_strchr_s(const char *s, int c);
+char			**ft_split_s(const char *str, char c);
 
 // !test codes!
 int				test_tk_print(t_token *tk);
