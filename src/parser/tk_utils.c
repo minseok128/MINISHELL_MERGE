@@ -49,14 +49,6 @@ t_token_type	tk_is_meta_char(char *str)
 {
 	if (!str[0])
 		return (0);
-	else if (str[0] == '(')
-		return (T_PARENT_L);
-	else if (str[0] == ')')
-		return (T_PARENT_R);
-	else if (str[0] == '&' && str[1] == '&')
-		return (T_AND);
-	else if (str[0] == '|' && str[1] == '|')
-		return (T_OR);
 	else if (str[0] == '|')
 		return (T_PIPE);
 	else if (str[0] == '<' && str[1] == '<')
