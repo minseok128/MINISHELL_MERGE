@@ -40,3 +40,14 @@ char	**ft_split_s(const char *str, char c)
 			"malloc", strerror(errno)));
 	return (new);
 }
+
+int	ft_jump_white_space(char *str)
+{
+	while (*str)
+	{
+		if (*str != 32 && !(*str >= 9 && *str <= 13))
+			return (0);
+		str++;
+	}
+	return (1);
+}
