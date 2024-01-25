@@ -142,7 +142,6 @@ int				trtv_comd_travel(t_tr_node *node, t_cmds *cmd, t_envs *envsp);
 int				trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, \
 					t_envs *envsp);
 int				trtv_expansion(t_tr_node *node, t_envs *envsp);
-void			trtv_env_expand(char *word, char **e_w, t_envs *envsp);
 void			trtv_word_split(char *word, t_tr_node *node);
 void			trtv_quotes_removal(t_vector *word_split);
 void			trtv_wcard_expand(t_vector **word_split);
