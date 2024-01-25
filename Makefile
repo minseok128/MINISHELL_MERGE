@@ -26,8 +26,7 @@ BASE		= main signal \
 			  btin/btin_export_utils \
 			  execute/ex_cmdsp execute/ex_cmd_loop execute/ex_execute \
 			  execute/ex_handle_fd execute/ex_btin_execute execute/ex_execute_utils \
-			  libft_s/libft_s_1 libft_s/libft_s_2 libft_s/ft_vector \
-			  testdir/tree_print testdir/cmds_print
+			  libft_s/libft_s_1 libft_s/libft_s_2 libft_s/ft_vector
 SRC			= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
 OBJ			= $(addprefix $(DIR), $(addsuffix .o, $(BASE)))
 NAME		= minishell

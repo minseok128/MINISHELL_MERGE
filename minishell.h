@@ -208,11 +208,4 @@ void			vec_print(t_vector *v);
 char			*ft_strchr_s(const char *s, int c);
 char			**ft_split_s(const char *str, char c);
 
-// !test codes!
-int				test_tk_print(t_token *tk);
-int				test_tr_print_tree(t_tr_node *root, char *str);
-void			test_print_node(t_tr_node *node);
-void			test_print_command_part(t_tr_node *node);
-void			test_cmds_print(t_cmds *cmds);
-
 #endif
