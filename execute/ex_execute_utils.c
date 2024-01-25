@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:40:03 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/25 14:27:26 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 14:29:53 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ void	ex_path_execute(char *cmd)
 	{
 		pre_path = path;
 		path = ft_strjoin_s("./", path);
-		free(path);
+		free(pre_path);
 	}
-	ex_path_execute_find_error(str, path, pre_path, cmd);
+	ex_path_execute_find_error(str, path, NULL, cmd);
 	free(path);
 	i = 0;
 	while (str[i] != NULL)
