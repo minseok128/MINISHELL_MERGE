@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:54:53 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/25 11:11:37 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 16:08:42 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	mktr_heredoc_child(int fd, char *limiter)
 {
 	char	*line;
 
-	set_signal(MODE_HEREDOC, MODE_HEREDOC);
+	sig_set(MODE_HEREDOC, MODE_HEREDOC);
 	while (1)
 	{
 		line = readline("> ");
@@ -114,9 +114,9 @@ int	mktr_heredoc(char **file_name)
 		free(limiter);
 		return (1);
 	}
-	set_signal(MODE_IGNORE, MODE_IGNORE);
+	sig_set(MODE_IGNORE, MODE_IGNORE);
 	waitpid(mktr_heredoc_fork(fd, limiter), &status, 0);
-	set_signal(MODE_SHELL, MODE_SHELL);
+	sig_set(MODE_SHELL, MODE_SHELL);
 	if (WIFEXITED(status) != 0 && WEXITSTATUS(status) != 0)
 		return (1);
 	if (WIFSIGNALED(status) != 0)

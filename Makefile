@@ -6,7 +6,7 @@
 #    By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/01 21:01:14 by michang           #+#    #+#              #
-#    Updated: 2024/01/25 14:16:14 by seonjo           ###   ########.fr        #
+#    Updated: 2024/01/25 16:06:04 by seonjo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LIBFT		= -Llibft -lft
 READLINE	= -L/usr/local/lib  -lreadline
 
 DIR			= ./
-BASE		= main signal_utils \
+BASE		= main signal \
 			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils parser/mktr_heredoc\
 			  parser/trtv parser/trtv_env_expand parser/trtv_wsplit parser/trtv_redir\
 			  parser/trtv_wcard parser/trtv_utils \
