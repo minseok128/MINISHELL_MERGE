@@ -13,7 +13,7 @@
 CC			= cc
 WFLAG		= -Wall -Wextra -Werror
 LIBFT		= -Llibft -lft
-READLINE	= -L/usr/local/lib  -lreadline
+READLINE	= -L/usr/local/lib -lreadline
 
 DIR			= ./src/
 BASE		= main signal \
@@ -43,45 +43,34 @@ BON_BASE	= main signal \
 			  execute/ex_cmdsp execute/ex_cmd_loop execute/ex_execute \
 			  execute/ex_handle_fd execute/ex_btin_execute execute/ex_execute_utils \
 			  libft_s/libft_s_1 libft_s/libft_s_2 libft_s/ft_vector
-BON_SRC		= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
-BON_OBJ		= $(addprefix $(DIR), $(addsuffix .o, $(BASE)))
-BON_NAME	= minishell_bonus
+BON_SRC		= $(addprefix $(BON_DIR), $(addsuffix _bonus.c, $(BON_BASE)))
+BON_OBJ		= $(addprefix $(BON_DIR), $(addsuffix _bonus.o, $(BON_BASE)))
+BON_NAME	= minishell
 
-all : lib $(NAME)
-
-lib :
-	@make re -j -C ./libft
+all : $(NAME)
 
 $(NAME) : $(OBJ)
+	make lib
 	$(CC) -I$(dir $<) $(LIBFT) $(READLINE) $^ -o $@
+
+bonus : $(BON_OBJ)
+	make lib
+	$(CC) -I$(dir $<) $(LIBFT) $(READLINE) $^ -o $(BON_NAME)
+	@touch bonus
 
 %.o : %.c
 	$(CC) $(WFLAG) -I$(dir $<) -c $< -o $@
 
+lib :
+	@make re -j -C ./libft
+
 clean :
 	make clean -C ./libft
-	rm -f $(OBJ)
+	rm -f $(OBJ) $(BON_OBJ)
 
 fclean : clean
-	rm -f $(NAME) ./libft/libft.a
+	rm -f $(NAME) $(BON_NAME) ./libft/libft.a
 
 re : clean all
 
 .PHONY : all clean fclean re
-
-t : all clean
-	./$(NAME)
-
-party :
-	@printf "\033c"
-	@echo "\n\033[35m♪┏(・o･)┛♪\n"
-	@sleep 0.5
-	@printf "\033c"
-	@echo "\n\033[1;33m♪┗(・o･)┓♪\n"
-	@sleep 0.5
-	@printf "\033c"
-	@echo "\n\033[36m♪┏(・o･)┛♪\n"
-	@sleep 0.5
-	@printf "\033c"
-	@echo "\n\033[34m♪┗(・o･)┓♪\n"
-	@clear
