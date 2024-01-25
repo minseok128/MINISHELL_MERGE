@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:12:59 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/25 14:15:32 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 14:18:51 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int	ex_is_directory(char *cmd)
 	else
 		return (1);
 }
-
 
 void	ex_execute(char **cmd, t_envs *envsp, char **envp)
 {
