@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/25 14:21:11 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 16:08:42 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,12 @@ typedef struct s_cmds
 
 int	g_errno;
 
-void			set_signal(int sig_int, int sig_quit);
+void			sig_set(int sig_int, int sig_quit);
 int				tk_tokenize(char *str, t_token **token_head);
 int				mktr_make_tree(t_token *tk_head, t_tr_node **root);
 void			trtv_start(t_tr_node *root, t_envs *envsp);
-void			terminal_print_on(void);
-void			terminal_print_off(void);
+void			sig_terminal_print_on(void);
+void			sig_terminal_print_off(void);
 
 // tk
 t_token			*tk_lstlast(t_token *lst);

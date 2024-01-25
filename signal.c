@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_utils.c                                     :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:32 by michang           #+#    #+#             */
-/*   Updated: 2024/01/24 16:59:38 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/25 16:19:21 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	terminal_print_off(void)
+void	sig_terminal_print_off(void)
 {
 	struct termios	term;
 
@@ -21,7 +21,7 @@ void	terminal_print_off(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
-void	terminal_print_on(void)
+void	sig_terminal_print_on(void)
 {
 	struct termios	term;
 
@@ -30,7 +30,7 @@ void	terminal_print_on(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
-void	signal_handler(int signo)
+void	sig_shellmode_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
@@ -42,17 +42,17 @@ void	signal_handler(int signo)
 	}
 }
 
-void	signal_heredoc_handler(int signo)
+void	sig_heredoc_handler(int signo)
 {
 	(void)signo;
 	printf("\n");
 	exit(1);
 }
 
-void	set_signal(int sig_int, int sig_quit)
+void	sig_set(int sig_int, int sig_quit)
 {
 	if (sig_int == MODE_SHELL)
-		signal(SIGINT, signal_handler);
+		signal(SIGINT, sig_shellmode_handler);
 	if (sig_quit == MODE_SHELL)
 		signal(SIGQUIT, SIG_IGN);
 	if (sig_int == MODE_DEFAULT)
@@ -64,7 +64,7 @@ void	set_signal(int sig_int, int sig_quit)
 	if (sig_quit == MODE_IGNORE)
 		signal(SIGQUIT, SIG_IGN);
 	if (sig_int == MODE_HEREDOC)
-		signal(SIGINT, signal_heredoc_handler);
+		signal(SIGINT, sig_heredoc_handler);
 	if (sig_quit == MODE_HEREDOC)
 		signal(SIGQUIT, SIG_IGN);
 }
