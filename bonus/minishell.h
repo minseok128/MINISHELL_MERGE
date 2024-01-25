@@ -24,7 +24,7 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <dirent.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 
 # define MODE_SHELL 0
 # define MODE_DEFAULT 1

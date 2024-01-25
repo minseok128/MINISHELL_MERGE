@@ -15,7 +15,7 @@ WFLAG		= -Wall -Wextra -Werror
 LIBFT		= -Llibft -lft
 READLINE	= -L/usr/local/lib  -lreadline
 
-DIR			= ./
+DIR			= ./src/
 BASE		= main signal \
 			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils parser/mktr_heredoc\
 			  parser/trtv parser/trtv_env_expand parser/trtv_wsplit parser/trtv_redir\
