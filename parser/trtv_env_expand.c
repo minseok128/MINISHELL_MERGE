@@ -102,7 +102,7 @@ void	trtv_env_cmdp(char *word, char **e_w, t_envs *envsp)
 	}
 }
 
-int	trtv_expansion_travel(t_tr_node *node, t_envs *envsp)
+int	trtv_expansion(t_tr_node *node, t_envs *envsp)
 {
 	char	*e_w;
 

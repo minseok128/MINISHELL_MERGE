@@ -17,10 +17,10 @@ int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd, t_envs *envsp)
 	int	i;
 	int	fail_flag;
 
-	trtv_expansion_travel(node, envsp);
 	fail_flag = 0;
 	if (node->tk->type == T_WORD)
 	{
+		trtv_expansion(node, envsp);
 		i = 0;
 		while (i < node->word_split->size)
 		{

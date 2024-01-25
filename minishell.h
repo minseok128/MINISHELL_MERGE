@@ -136,7 +136,7 @@ pid_t			mktr_heredoc_fork(int fd, char *limiter);
 
 // trtv
 char			*trtv_join_s(char *s1, char *s2);
-int				trtv_expansion_travel(t_tr_node *node, t_envs *envsp);
+int				trtv_expansion(t_tr_node *node, t_envs *envsp);
 void			trtv_env_cmdp(char *word, char **e_w, t_envs *envsp);
 void			trtv_word_split(char *word, t_tr_node *node);
 void			trtv_quotes_removal(t_vector *word_split);
