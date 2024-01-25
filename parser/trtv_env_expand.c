@@ -12,24 +12,6 @@
 
 #include "../minishell.h"
 
-char	*trtv_join_s(char *s1, char *s2)
-{
-	size_t	s1_len;
-	size_t	s2_len;
-	char	*new;
-
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	new = ft_calloc(s1_len + s2_len + 1, sizeof(char));
-	if (!new)
-		exit(1);
-	ft_strlcpy(new, s1, s1_len + 1);
-	ft_strlcat(new + s1_len, s2, s1_len + s2_len + 1);
-	free(s1);
-	free(s2);
-	return (new);
-}
-
 static int	trtv_dollar_sign(char *word, int now, char **e_w, t_envs *envsp)
 {
 	char	*key;
@@ -72,7 +54,7 @@ static int	trtv_dollar_sign(char *word, int now, char **e_w, t_envs *envsp)
 	return (len);
 }
 
-void	trtv_env_cmdp(char *word, char **e_w, t_envs *envsp)
+void	trtv_env_expand(char *word, char **e_w, t_envs *envsp)
 {
 	int	dquote_flag;
 	int	now;
@@ -83,8 +65,7 @@ void	trtv_env_cmdp(char *word, char **e_w, t_envs *envsp)
 	dquote_flag = -1;
 	while (word[now])
 	{
-		if (word[now] == '\"')
-			dquote_flag *= -1;
+		(word[now] == '\"') && (dquote_flag *= -1);
 		if (word[now] == '\'' && dquote_flag == -1)
 		{
 			now = ft_strchr(&word[now + 1], '\'') - word + 1;
@@ -107,7 +88,7 @@ int	trtv_expansion(t_tr_node *node, t_envs *envsp)
 	char	*e_w;
 
 	e_w = ft_calloc_s(1, sizeof(char));
-	trtv_env_cmdp(node->tk->str, &e_w, envsp);
+	trtv_env_expand(node->tk->str, &e_w, envsp);
 	free(node->tk->str);
 	node->tk->str = e_w;
 	node->word_split = ft_calloc_s(sizeof(t_vector), 1);
