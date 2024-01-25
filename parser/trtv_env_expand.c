@@ -12,12 +12,34 @@
 
 #include "../minishell.h"
 
-static int	trtv_dollar_sign(char *word, int now, char **e_w, t_envs *envsp)
+static void	trtv_dollar_to_value(char *word, char **e_w, t_envs *envsp, int len)
 {
 	char	*key;
 	char	*value;
-	int		len;
 	int		i;
+
+	key = ft_substr_s(word, 0, len);
+	if (!btin_find_node(envsp, key))
+	{
+		free(key);
+		return ;
+	}
+	value = ft_strdup_s(btin_find_node(envsp, key)->value);
+	free(key);
+	i = 0;
+	while (value[i])
+	{
+		if (value[i] == '\'' || value[i] == '\"')
+			value[i] *= -1;
+		i++;
+	}
+	*e_w = trtv_join_s(*e_w, value);
+	return ;
+}
+
+static int	trtv_dollar_sign(char *word, int now, char **e_w, t_envs *envsp)
+{
+	int		len;
 
 	len = 0;
 	if (ft_isalpha(word[now + len]) || word[now + len] == '_')
@@ -35,26 +57,11 @@ static int	trtv_dollar_sign(char *word, int now, char **e_w, t_envs *envsp)
 		word[now - 1] *= -1;
 		return (-1);
 	}
-	key = ft_substr_s(word, now, len);
-	if (!btin_find_node(envsp, key))
-	{
-		free(key);
-		return (len); 
-	}
-	value = ft_strdup_s(btin_find_node(envsp, key)->value);
-	free(key);
-	i = 0;
-	while (value[i])
-	{
-		if (value[i] == '\'' || value[i] == '\"')
-			value[i] *= -1;
-		i++;
-	}
-	*e_w = trtv_join_s(*e_w, value);
+	trtv_dollar_to_value(word + now, e_w, envsp, len);
 	return (len);
 }
 
-void	trtv_env_expand(char *word, char **e_w, t_envs *envsp)
+static void	trtv_env_expand(char *word, char **e_w, t_envs *envsp)
 {
 	int	dquote_flag;
 	int	now;
