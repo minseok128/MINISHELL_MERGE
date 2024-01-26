@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   btin_exit.c                                        :+:      :+:    :+:   */
+/*   btin_exit_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 10:55:22 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/23 15:47:17 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 19:03:22 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ long long	btin_atoi(t_cmds *cmds, char *str)
 	return (num * minus);
 }
 
-void	btin_out(int fork_flag, int error_code, char *errmsg)
+void	btin_out(int fork_flag, int error_code, char *errmsg, int *eno)
 {
 	if (errmsg != NULL)
 	{
@@ -72,7 +72,7 @@ void	btin_out(int fork_flag, int error_code, char *errmsg)
 	if (fork_flag == 1)
 		exit(error_code);
 	else
-		g_errno = error_code;
+		*eno = error_code;
 }
 
 void	btin_exit(t_cmds *cmds, int fork_flag)
