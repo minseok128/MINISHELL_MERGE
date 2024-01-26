@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ex_cmd_loop.c                                      :+:      :+:    :+:   */
+/*   ex_cmd_loop_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/25 16:08:42 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 20:02:30 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,24 @@ pid_t	ex_fork(t_cmds *cmdsp, t_envs *envsp, char **envp, int pipe_fd[2])
 	pid = fork();
 	if (pid < 0)
 		btin_out(1, errno, btin_make_errmsg("minishell: ", \
-			"fork", strerror(errno)));
+			"fork", strerror(errno)), cmdsp->enop);
 	else if (pid == 0)
 	{
 		sig_set(MODE_DEFAULT, MODE_DEFAULT);
 		if ((cmdsp->type & RD_AMBIGUOUS) != 0)
 			btin_out(1, 1, btin_make_errmsg("minishell", \
-				"\0", "ambiguous redirect"));
+				"\0", "ambiguous redirect"), cmdsp->enop);
 		(pipe_fd[0] != -1) && (close(pipe_fd[0]));
 		if (cmdsp->in_file != NULL)
 			ex_open_input_fd(cmdsp);
 		else if (cmdsp->prev_out != -1)
-			ex_dup_to(cmdsp->prev_out, 0);
+			ex_dup_to(cmdsp, cmdsp->prev_out, 0);
 		if (cmdsp->out_file != NULL)
 			ex_open_output_fd(cmdsp);
 		else if (pipe_fd[1] != -1)
-			ex_dup_to(pipe_fd[1], 1);
+			ex_dup_to(cmdsp, pipe_fd[1], 1);
 		if (ex_is_builtin(cmdsp, envsp, 1) == 0)
-			ex_execute((char **)(cmdsp->argv.items), envsp, envp);
+			ex_execute(cmdsp, envsp, envp);
 	}
 	return (pid);
 }
@@ -91,7 +91,7 @@ pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
 	return (pid);
 }
 
-void	ex_waitpid(pid_t pid)
+void	ex_waitpid(t_cmds *cmdsp, pid_t pid)
 {
 	int	status;
 	int	signal_flag;
@@ -99,12 +99,12 @@ void	ex_waitpid(pid_t pid)
 	signal_flag = 0;
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status) != 0)
-		g_errno = WEXITSTATUS(status);
+		*(cmdsp->enop) = WEXITSTATUS(status);
 	if (WIFSIGNALED(status) != 0)
 	{
 		if (WTERMSIG(status) == SIGINT)
 			signal_flag = 1;
-		g_errno = WTERMSIG(status) + 128;
+		*(cmdsp->enop) = WTERMSIG(status) + 128;
 		if (WTERMSIG(status) == SIGQUIT)
 			ft_putstr_fd("Quit: 3\n", 2);
 	}
@@ -138,7 +138,7 @@ void	ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp)
 			pid = ex_do_pipe(cmdsp, envsp, envp);
 			cmdsp = cmdsp->next;
 		}
-		ex_waitpid(pid);
+		ex_waitpid(cmdsp, pid);
 	}
 	ex_all_close(cmdsp_head, envp);
 	sig_terminal_print_off();
