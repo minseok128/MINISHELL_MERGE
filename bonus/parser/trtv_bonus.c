@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   trtv.c                                             :+:      :+:    :+:   */
+/*   trtv_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:37:45 by michang           #+#    #+#             */
-/*   Updated: 2024/01/21 18:58:15 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 19:01:47 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,14 @@ int	trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, t_envs *envsp)
 		trtv_pipe_travel(node->left, cmds_h, envsp);
 	if (node->left && node->left->bnf_type == TR_COMMAND)
 	{
-		cmd = ex_cmdsp_add_back(cmds_h);
+		cmd = ex_cmdsp_add_back(cmds_h, "eno 넣어주세용");
 		vec_init(&(cmd->argv), 1);
 		trtv_comd_travel(node->left, cmd, envsp);
 		vec_push_back(&(cmd->argv), 0);
 	}
 	if (node->right && node->right->bnf_type == TR_COMMAND)
 	{
-		cmd = ex_cmdsp_add_back(cmds_h);
+		cmd = ex_cmdsp_add_back(cmds_h, "eno 넣어주세용");
 		vec_init(&(cmd->argv), 1);
 		trtv_comd_travel(node->right, cmd, envsp);
 		vec_push_back(&(cmd->argv), 0);
@@ -92,7 +92,7 @@ void	trtv_list_child(t_tr_node *child, t_envs *envsp)
 {
 	t_cmds	*cmds_h;
 
-	cmds_h = ex_cmdsp_init();
+	cmds_h = ex_cmdsp_init("eno 넣어주세요");
 	if (child && child->bnf_type == TR_PIPELINE)
 	{
 		if (!trtv_pipe_travel(child, cmds_h, envsp))
