@@ -79,8 +79,8 @@ void	btin_export(t_cmds *cmds, t_envs *envsp, int error_code, int fork_flag)
 			if (btin_is_valid_identifier(key_value[0]) == 1)
 				btin_traverse_list_to_add(envsp, key_value);
 			else
-				error_code = btin_export_error(key_value, str);
+				error_code = btin_export_error(cmds, key_value, str);
 		}
 	}
-	btin_out(fork_flag, error_code, NULL);
+	btin_out(fork_flag, error_code, NULL, cmds->enop);
 }
