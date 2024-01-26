@@ -12,16 +12,16 @@
 
 #include "../minishell_bonus.h"
 
-void	btin_pwd(int fork_flag)
+void	btin_pwd(t_cmds *cmds, int fork_flag)
 {
 	char	*pwd;
 
 	pwd = getcwd(NULL, 1024);
 	if (pwd == NULL)
 		btin_out(1, errno, btin_make_errmsg("minishell: ", \
-			"getcwd", strerror(errno)));
+			"getcwd", strerror(errno)), cmds->enop);
 	ft_putstr_fd(pwd, 1);
 	ft_putchar_fd('\n', 1);
 	free(pwd);
-	btin_out(fork_flag, 0, NULL);
+	btin_out(fork_flag, 0, NULL, cmds->enop);
 }
