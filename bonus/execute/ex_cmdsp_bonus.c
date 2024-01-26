@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ex_cmdsp.c                                         :+:      :+:    :+:   */
+/*   ex_cmdsp_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:05:31 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/24 16:39:45 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 19:00:00 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,16 @@ void	ex_all_close(t_cmds *cmdsp, char **envp)
 	}
 }
 
-t_cmds	*ex_cmdsp_init(void)
+t_cmds	*ex_cmdsp_init(int *eno)
 {
 	t_cmds	*cmdsp_head;
 
 	cmdsp_head = ft_calloc_s(sizeof(t_cmds), 1);
+	cmdsp_head->enop = eno;
 	return (cmdsp_head);
 }
 
-t_cmds	*ex_cmdsp_add_back(t_cmds *cmdsp)
+t_cmds	*ex_cmdsp_add_back(t_cmds *cmdsp, int *eno)
 {
 	t_cmds	*new;
 	t_cmds	*node;
@@ -53,6 +54,7 @@ t_cmds	*ex_cmdsp_add_back(t_cmds *cmdsp)
 	node = cmdsp;
 	while (node->next != NULL)
 		node = node->next;
+	node->enop = eno;
 	node->next = new;
 	return (new);
 }
