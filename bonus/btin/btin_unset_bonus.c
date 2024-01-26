@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   btin_unset.c                                       :+:      :+:    :+:   */
+/*   btin_unset_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:26:19 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/24 16:34:53 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 19:34:06 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ void	btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag)
 		{
 			tmp_str = ft_strjoin_s(str, "'");
 			btin_out(0, 0, btin_make_errmsg("minishell: unset: `", \
-				tmp_str, "not a valid identifier"));
+				tmp_str, "not a valid identifier"), cmds->enop);
 			free(tmp_str);
 			error_flag = 1;
 		}
 	}
-	btin_out(fork_flag, error_flag, NULL);
+	btin_out(fork_flag, error_flag, NULL, cmds->enop);
 }
