@@ -29,9 +29,6 @@ void	ex_all_close(t_cmds *cmdsp, char **envp)
 	free(tmp);
 	while (cmdsp != NULL)
 	{
-		if ((cmdsp->type & RD_HEREDOC) != 0)
-			if (unlink(cmdsp->in_file) == -1)
-				btin_make_errmsg("minishell: ", "unlink", strerror(errno));
 		vec_free(&(cmdsp->argv));
 		tmp = cmdsp;
 		cmdsp = cmdsp->next;
