@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/25 16:08:42 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 19:24:47 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct s_cmds
 	char			*out_file;
 	int				prev_out;
 	int				type;
+	int				*enop;
 	struct s_cmds	*next;
 }	t_cmds;
 
@@ -156,7 +157,7 @@ void			btin_cd(t_cmds *cmds, t_envs *envsp, int fork_flag);
 void			btin_echo(t_cmds *cmds, int fork_flag);
 void			btin_env(t_envs *envsp, int fork_flag);
 void			btin_exit(t_cmds *cmds, int fork_flag);
-void			btin_out(int fork_flag, int error_code, char *errmsg);
+void			btin_out(int fork_flag, int error_code, char *errmsg, int *eno);
 int				btin_is_valid_identifier(char *str);
 void			btin_export_print(t_envs *envsp);
 int				btin_export_error(char **key_value, char *str);
@@ -170,8 +171,8 @@ char			**btin_divide_key_and_value(char *env);
 char			*btin_make_errmsg(char *s1, char *s2, char *s3);
 
 // ex
-t_cmds			*ex_cmdsp_init(void);
-t_cmds			*ex_cmdsp_add_back(t_cmds *cmdsp);
+t_cmds			*ex_cmdsp_init(int *eno);
+t_cmds			*ex_cmdsp_add_back(t_cmds *cmdsp, int *eno);
 void			ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp);
 void			ex_open_output_fd(t_cmds *cmdsp);
 void			ex_open_input_fd(t_cmds *cmdsp);
