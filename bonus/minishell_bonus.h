@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/26 19:58:20 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 20:30:14 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ typedef struct s_cmds
 	struct s_cmds	*next;
 }	t_cmds;
 
-int	g_errno;
+int	g_signal;
 
 void			sig_set(int sig_int, int sig_quit);
 int				tk_tokenize(char *str, t_token **token_head);
@@ -127,7 +127,7 @@ int				mktr_command(t_tr_node **head, t_token **tk_now, \
 					t_vector *hdocs, int *is_hs);
 int				mktr_command_part(t_tr_node **head, t_token **tk_now, \
 					t_vector *hdocs, int *is_hs);
-int				mktr_heredoc(char **file_name);
+int				mktr_heredoc(char **file_name, int *eno);
 int				mktr_heredoc_open_file(char **file_name);
 pid_t			mktr_heredoc_fork(int fd, char *limiter);
 
