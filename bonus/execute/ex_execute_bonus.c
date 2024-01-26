@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ex_execute.c                                       :+:      :+:    :+:   */
+/*   ex_execute_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:12:59 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/25 14:18:51 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 19:58:34 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,6 @@ void	*ex_free_string_array(char **string_array)
 		i++;
 	}
 	return (NULL);
-}
-
-char	*ex_search_path(char *cmd, t_envs *envsp, int i)
-{
-	char	**envp_path;
-	char	*path;
-
-	while (envsp != NULL && ft_strncmp(envsp->key, "PATH", 5) != 0)
-		envsp = envsp->next;
-	if (envsp == NULL)
-		btin_out(1, 127, btin_make_errmsg("minishell: ", cmd, \
-			"No such file or directory"));
-	envp_path = ft_split_s(envsp->value, ':');
-	while (envp_path[i] != NULL)
-	{
-		path = ex_strjoin_c(envp_path[i++], cmd, '/');
-		if (access(path, F_OK) == 0)
-		{
-			free(cmd);
-			ex_free_string_array(envp_path);
-			return (path);
-		}
-		free(path);
-	}
-	ex_free_string_array(envp_path);
-	btin_out(1, 127, btin_make_errmsg("minishell: ", cmd, \
-		"command not found"));
-	return (cmd);
 }
 
 int	ex_is_path(char *cmd)
@@ -79,22 +51,24 @@ int	ex_is_directory(char *cmd)
 		return (1);
 }
 
-void	ex_execute(char **cmd, t_envs *envsp, char **envp)
+void	ex_execute(t_cmds *cmds, t_envs *envsp, char **envp)
 {
 	t_envs	*envsp_cp;
+	char	**cmd;
 
+	cmd = cmds->argv.items;
 	envsp_cp = envsp->next;
 	if (ft_strncmp(cmd[0], ".", 2) == 0)
-		btin_out(1, 2, btin_make_errmsg("minishell: ", cmd[0], \
-			"filename argument required\n.: usage: . filename [arguments]"));
+		btin_out(1, 2, btin_make_errmsg("minishell: ", cmd[0], "filename \
+			argument required\n.: usage: . filename [arguments]"), cmds->enop);
 	else if (ft_strncmp(cmd[0], "..", 3) == 0 || cmd[0][0] == '\0')
 		btin_out(1, 127, btin_make_errmsg("minishell: ", cmd[0], \
-			"command not found"));
+			"command not found"), cmds->enop);
 	if (ex_is_path(cmd[0]) == 1)
-		ex_path_execute(cmd[0]);
+		ex_path_execute(cmds, cmd[0]);
 	else
-		cmd[0] = ex_file_name_execute(cmd[0], envsp);
+		cmd[0] = ex_file_name_execute(cmds, envsp, cmd[0]);
 	execve(cmd[0], cmd, envp);
 	btin_out(1, errno, btin_make_errmsg("minishell: ", cmd[0], \
-			strerror(errno)));
+			strerror(errno)), cmds->enop);
 }
