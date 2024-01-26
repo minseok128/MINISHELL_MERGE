@@ -64,5 +64,5 @@ void	btin_echo(t_cmds *cmds, int fork_flag)
 	}
 	if (n_flag == 0)
 		ft_putchar_fd('\n', 1);
-	btin_out(fork_flag, 0, NULL);
+	btin_out(fork_flag, 0, NULL, cmds->enop);
 }
