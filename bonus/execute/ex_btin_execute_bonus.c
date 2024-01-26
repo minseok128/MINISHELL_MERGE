@@ -12,20 +12,26 @@
 
 #include "../minishell_bonus.h"
 
-void	ex_btin_redir_on(t_cmds *cmds, int *fd)
+int	ex_btin_redir_on(t_cmds *cmds, int *fd)
 {
+	if ((cmds->type & RD_AMBIGUOUS) != 0)
+	{
+		btin_out(0, 1, btin_make_errmsg("minishell", "\0", "ambiguous redirect"));
+		return (1);
+	}
 	if (cmds->in_file != NULL)
 		fd[0] = ex_open_btin_input_fd(cmds);
 	if (fd[0] == -1)
-		return ;
+		return (1);
 	if (cmds->out_file != NULL)
 		fd[1] = ex_open_btin_output_fd(cmds);
+	return (0);
 }
 
 int	ex_exec_btin(t_cmds *cmds, t_envs *envsp, int fork_flag)
 {	
 	if (!cmds->argv.items[0])
-		return (0);
+		return (1);
 	else if (ft_strncmp(cmds->argv.items[0], "cd", 3) == 0)
 		btin_cd(cmds, envsp, fork_flag);
 	else if (ft_strncmp(cmds->argv.items[0], "pwd", 4) == 0)
@@ -67,8 +73,8 @@ int	ex_is_builtin(t_cmds *cmds, t_envs *envsp, int fork_flag)
 
 	fd[0] = 0;
 	fd[1] = 1;
-	if (fork_flag == 0)
-		ex_btin_redir_on(cmds, fd);
+	if (fork_flag == 0 && ex_btin_redir_on(cmds, fd))
+		return (1);
 	if (fd[0] == -1 || fd[1] == -1)
 	{
 		ex_btin_redir_off(fd);
