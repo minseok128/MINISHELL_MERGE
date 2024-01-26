@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ex_handle_fd.c                                     :+:      :+:    :+:   */
+/*   ex_handle_fd_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:07:48 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/19 15:38:52 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 19:05:37 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ex_open_btin_output_fd(t_cmds *cmds)
 	if (out_fd == -1)
 	{
 		btin_out(1, 1, btin_make_errmsg("minishell: ", cmds->out_file, \
-			strerror(errno)));
+			strerror(errno)), cmds->enop);
 		return (-1);
 	}
 	std_out = dup(1);
@@ -76,14 +76,14 @@ int	ex_open_btin_input_fd(t_cmds *cmds)
 	if (access(cmds->in_file, F_OK) != 0)
 	{
 		btin_out(0, 1, btin_make_errmsg("minishell: ", cmds->in_file, \
-			"No such file or directory"));
+			"No such file or directory"), cmds->enop);
 		return (-1);
 	}
 	in_fd = open(cmds->in_file, O_RDONLY);
 	if (in_fd == -1)
 	{
 		btin_out(0, 1, btin_make_errmsg("minishell: ", cmds->in_file, \
-			strerror(errno)));
+			strerror(errno)), cmds->enop);
 		return (-1);
 	}
 	std_in = dup(0);
