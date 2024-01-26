@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:46:51 by michang           #+#    #+#             */
-/*   Updated: 2024/01/26 19:32:06 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 19:58:20 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,8 +176,8 @@ t_cmds			*ex_cmdsp_add_back(t_cmds *cmdsp, int *eno);
 void			ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp);
 void			ex_open_output_fd(t_cmds *cmdsp);
 void			ex_open_input_fd(t_cmds *cmdsp);
-void			ex_dup_to(int from, int to);
-void			ex_execute(char **cmd, t_envs *envsp, char **envp);
+void			ex_dup_to(t_cmds *cmds, int from, int to);
+void			ex_execute(t_cmds *cmds, t_envs *envsp, char **envp);
 int				ex_is_builtin(t_cmds *cmds, t_envs *envsp, int fork_flag);
 char			*ex_strjoin_c(char const *s1, char const *s2, char c);
 void			*ex_free_string_array(char **string_array);
@@ -185,9 +185,8 @@ int				ex_open_btin_input_fd(t_cmds *cmds);
 int				ex_open_btin_output_fd(t_cmds *cmds);
 void			ex_all_close(t_cmds *cmdsp, char **envp);
 int				ex_is_directory(char *cmd);
-char			*ex_search_path(char *cmd, t_envs *envsp, int i);
-char			*ex_file_name_execute(char *cmd, t_envs *envsp);
-void			ex_path_execute(char *cmd);
+char			*ex_file_name_execute(t_cmds *cmds, t_envs *envsp, char *cmd);
+void			ex_path_execute(t_cmds *cmds, char *cmd);
 
 // libft_s
 int				ft_jump_white_space(char *str);
