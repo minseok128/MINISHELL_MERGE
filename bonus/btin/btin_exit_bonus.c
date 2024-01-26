@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 10:55:22 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/26 19:36:51 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 20:06:53 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	btin_out(int fork_flag, int error_code, char *errmsg, int *eno)
 	}
 	if (fork_flag == 1)
 		exit(error_code);
-	else
+	else if (eno != NULL)
 		*eno = error_code;
 }
 
