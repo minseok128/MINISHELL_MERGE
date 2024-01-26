@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 22:07:03 by michang           #+#    #+#             */
-/*   Updated: 2024/01/26 20:07:20 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 20:30:34 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ void	ft_parser_info_zero(t_parser_info *p_info)
 	int	tmp_eno;
 
 	tmp_eno = p_info->eno;
+	if (g_signal)
+	{
+		tmp_eno = 1;
+		g_signal = 0;
+	}
 	ft_bzero(p_info, sizeof(t_parser_info));
 	p_info->eno = tmp_eno;
 }
