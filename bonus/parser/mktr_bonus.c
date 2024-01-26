@@ -27,7 +27,8 @@ EBNF(by michang)
 
 // <command_part>	::= <word>
 //					| <redir>
-int	mktr_command_part(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
+int	mktr_command_part(t_tr_node **head, t_token **tk_now, \
+	t_vector *hdocs, int *is_hs)
 {
 	if (!((*tk_now)->type >= T_REDIR_S_L && (*tk_now)->type <= T_REDIR_D_R)
 		&& (*tk_now)->type != T_WORD)
@@ -42,9 +43,9 @@ int	mktr_command_part(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
 		}
 		if ((*tk_now)->type == T_REDIR_D_L)
 		{
-			info->is_hdoc_signal = mktr_heredoc(&((*tk_now)->next->str));
-			vec_push_back(&(info->hdocs), (*tk_now)->next->str);
-			if (info->is_hdoc_signal == 1)
+			*is_hs = mktr_heredoc(&((*tk_now)->next->str));
+			vec_push_back(hdocs, ft_strdup_s((*tk_now)->next->str));
+			if (*is_hs)
 				return (1);
 		}
 		*tk_now = (*tk_now)->next;
@@ -57,12 +58,13 @@ int	mktr_command_part(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
 }
 
 //<command>			::= <command_part> {<command_part>}
-int	mktr_command(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
+int	mktr_command(t_tr_node **head, t_token **tk_now, \
+	t_vector *hdocs, int *is_hs)
 {
 	t_tr_node	*next_node;
 
 	*head = mktr_alloc_s(TR_COMMAND, 0);
-	if (mktr_command_part(&((*head)->left), tk_now, info))
+	if (mktr_command_part(&((*head)->left), tk_now, hdocs, is_hs))
 		return (1);
 	while (*tk_now && ((*tk_now)->type == T_WORD \
 		|| ((*tk_now)->type >= T_REDIR_S_L && (*tk_now)->type <= T_REDIR_D_R)))
@@ -70,7 +72,7 @@ int	mktr_command(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
 		next_node = mktr_alloc_s(TR_COMMAND, 0);
 		next_node->left = *head;
 		*head = next_node;
-		if (mktr_command_part(&(next_node->right), tk_now, info))
+		if (mktr_command_part(&(next_node->right), tk_now, hdocs, is_hs))
 			return (1);
 	}
 	return (0);
@@ -78,7 +80,8 @@ int	mktr_command(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
 
 //<pipeline>		::= "(" <list> ")"
 // 					| <command> {"|" <command>}
-int	mktr_pipeline(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
+int	mktr_pipeline(t_tr_node **head, t_token **tk_now, \
+	t_vector *hdocs, int *is_hs)
 {
 	t_tr_node	*next_node;
 
@@ -86,14 +89,14 @@ int	mktr_pipeline(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
 	if (*tk_now && (*tk_now)->type == T_PARENT_L)
 	{
 		*tk_now = (*tk_now)->next;
-		if (mktr_list(&((*head)->left), tk_now, info))
+		if (mktr_list(&((*head)->left), tk_now, hdocs, is_hs))
 			return (1);
 		if (*tk_now && (*tk_now)->type != T_PARENT_R)
 			return (1);
 		*tk_now = (*tk_now)->next;
 		return (0);
 	}
-	if (mktr_command(&((*head)->left), tk_now, info))
+	if (mktr_command(&((*head)->left), tk_now, hdocs, is_hs))
 		return (1);
 	while (*tk_now && (*tk_now)->type == T_PIPE)
 	{
@@ -101,19 +104,20 @@ int	mktr_pipeline(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
 		next_node = mktr_alloc_s(TR_PIPELINE, 0);
 		next_node->left = *head;
 		*head = next_node;
-		if (mktr_command(&(next_node->right), tk_now, info))
+		if (mktr_command(&(next_node->right), tk_now, hdocs, is_hs))
 			return (1);
 	}
 	return (0);
 }
 
 // <list>			::= <pipeline> {("&&" | "||") <pipeline>}
-int	mktr_list(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
+int	mktr_list(t_tr_node **head, t_token **tk_now, \
+	t_vector *hdocs, int *is_hs)
 {
 	t_tr_node	*next_node;
 
 	*head = mktr_alloc_s(TR_LIST, 0);
-	if (mktr_pipeline(&((*head)->left), tk_now, info))
+	if (mktr_pipeline(&((*head)->left), tk_now, hdocs, is_hs))
 		return (1);
 	while (*tk_now && ((*tk_now)->type == T_AND || (*tk_now)->type == T_OR))
 	{
@@ -122,35 +126,28 @@ int	mktr_list(t_tr_node **head, t_token **tk_now, t_mktr_info *info)
 		next_node = mktr_alloc_s(TR_LIST, 0);
 		next_node->left = *head;
 		*head = next_node;
-		if (mktr_pipeline(&(next_node->right), tk_now, info))
+		if (mktr_pipeline(&(next_node->right), tk_now, hdocs, is_hs))
 			return (1);
 	}
 	return (0);
 }
 
-int	mktr_make_tree(t_token *tk_head, t_tr_node **root)
+int	mktr_make_tree(t_parser_info *p_info, t_vector **hdocs)
 {
-	int			i;
 	t_token		*tk_now;
-	t_mktr_info	info;
+	int			is_hs;
 
-	info.is_hdoc_signal = 0;
-	vec_init(&(info.hdocs), 1);
-	tk_now = tk_head;
-	if (mktr_list(root, &tk_now, &info))
+	is_hs = 0;
+	tk_now = p_info->tk_head;
+
+	*hdocs = ft_calloc_s(sizeof(t_vector), 1);
+	vec_init(*hdocs, 1);
+	if (mktr_list(p_info->root, &tk_now, *hdocs, &is_hs))
 	{
-		if (info.is_hdoc_signal == 1)
-		{
-			i = 0;
-			while (i < info.hdocs.size)
-				unlink(info.hdocs.items[i++]);
-			vec_free(&(info.hdocs));
+		if (is_hs == 1)
 			return (1);
-		}
-		vec_free(&(info.hdocs));
 		return (mktr_print_unexpected(tk_now->str));
 	}
-	vec_free(&(info.hdocs));
 	if (tk_now->type != T_NEWLINE)
 		return (mktr_print_unexpected(tk_now->str));
 	return (0);

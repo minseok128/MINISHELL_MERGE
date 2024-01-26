@@ -15,7 +15,16 @@
 void	parser_info_free(t_parser_info *p_info)
 {
 	t_token	*t_node;
+	int		i;
 
+	i = 0;
+	while (i < p_info->hdocs->size)
+	{
+		unlink(p_info->hdocs->items[i]);
+		free(p_info->hdocs->items[i++]);
+	}
+	vec_free(p_info->hdocs);
+	free(p_info->hdocs);
 	free(p_info->line);
 	t_node = p_info->tk_head;
 	while (p_info->tk_head)
@@ -34,13 +43,13 @@ int	main(int argc, char **argv, char **envp)
 	t_envs			*envsp;
 	t_parser_info	p_info;
 
-	argc = argv - argv + argc;
+	p_info.eno = (argv - argv) + (argc - argc);
 	sig_terminal_print_off();
 	sig_set(MODE_SHELL, MODE_SHELL);
 	envsp = btin_make_envsp(envp);
 	while (1)
 	{
-		ft_bzero(&p_info, sizeof(t_parser_info));
+		ft_parser_info_zero(&p_info);
 		p_info.line = readline("minishell $ ");
 		if (!(p_info.line))
 			break ;
@@ -48,7 +57,7 @@ int	main(int argc, char **argv, char **envp)
 			add_history(p_info.line);
 		if (*(p_info.line) != 0 && !ft_jump_white_space(p_info.line))
 			if (!tk_tokenize(p_info.line, &(p_info.tk_head)))
-				if (!mktr_make_tree(p_info.tk_head, &(p_info.root)))
+				if (!mktr_make_tree(&p_info, &(p_info.hdocs)))
 					trtv_list_travel(p_info.root, envsp);
 		parser_info_free(&p_info);
 	}

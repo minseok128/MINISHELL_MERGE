@@ -66,7 +66,7 @@ lib :
 
 clean :
 	make clean -C ./libft
-	rm -f $(OBJ) $(BON_OBJ)
+	rm -f $(OBJ) $(BON_OBJ) bonus
 
 fclean : clean
 	rm -f $(NAME) $(BON_NAME) ./libft/libft.a

@@ -16,7 +16,8 @@ int	ex_btin_redir_on(t_cmds *cmds, int *fd)
 {
 	if ((cmds->type & RD_AMBIGUOUS) != 0)
 	{
-		btin_out(0, 1, btin_make_errmsg("minishell", "\0", "ambiguous redirect"));
+		btin_out(0, 1, btin_make_errmsg("minishell", \
+			"\0", "ambiguous redirect"));
 		return (1);
 	}
 	if (cmds->in_file != NULL)

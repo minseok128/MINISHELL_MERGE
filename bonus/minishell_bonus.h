@@ -75,11 +75,6 @@ typedef struct s_tr_node {
 	t_vector			*word_split;
 }	t_tr_node;
 
-typedef struct s_mktr_info {
-	int			is_hdoc_signal;
-	t_vector	hdocs;
-}	t_mktr_info;
-
 typedef struct s_envsp
 {
 	char			*key;
@@ -89,8 +84,10 @@ typedef struct s_envsp
 
 typedef struct s_parser_info {
 	char		*line;
+	t_vector	*hdocs;
 	t_token		*tk_head;
 	t_tr_node	*root;
+	int			eno;
 }	t_parser_info;
 
 typedef struct s_cmds
@@ -107,8 +104,7 @@ int	g_errno;
 
 void			sig_set(int sig_int, int sig_quit);
 int				tk_tokenize(char *str, t_token **token_head);
-int				mktr_make_tree(t_token *tk_head, t_tr_node **root);
-void			trtv_start(t_tr_node *root, t_envs *envsp);
+int				mktr_make_tree(t_parser_info *p_info, t_vector **hdocs);
 void			sig_terminal_print_on(void);
 void			sig_terminal_print_off(void);
 
@@ -123,13 +119,13 @@ int				mktr_print_unexpected(char *str);
 int				mktr_free_node(t_tr_node *node);
 t_tr_node		*mktr_alloc_s(t_tr_type bnf_type, t_token *tk);
 int				mktr_list(t_tr_node **head, t_token **tk_now, \
-					t_mktr_info *info);
+					t_vector *hdocs, int *is_hs);
 int				mktr_pipeline(t_tr_node **head, t_token **tk_now, \
-					t_mktr_info *info);
+					t_vector *hdocs, int *is_hs);
 int				mktr_command(t_tr_node **head, t_token **tk_now, \
-					t_mktr_info *info);
+					t_vector *hdocs, int *is_hs);
 int				mktr_command_part(t_tr_node **head, t_token **tk_now, \
-					t_mktr_info *info);
+					t_vector *hdocs, int *is_hs);
 int				mktr_heredoc(char **file_name);
 int				mktr_heredoc_open_file(char **file_name);
 pid_t			mktr_heredoc_fork(int fd, char *limiter);
@@ -206,5 +202,6 @@ void			vec_free(t_vector *v);
 void			vec_print(t_vector *v);
 char			*ft_strchr_s(const char *s, int c);
 char			**ft_split_s(const char *str, char c);
+void			ft_parser_info_zero(t_parser_info *p_info);
 
 #endif
