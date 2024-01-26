@@ -30,7 +30,7 @@
 # define MODE_DEFAULT 1
 # define MODE_IGNORE 2
 # define MODE_HEREDOC 3
-# define RD_HEREDOC 256
+# define RD_AMBIGUOUS 256
 # define RD_APPEND 512
 
 typedef struct s_vector {
@@ -145,10 +145,9 @@ int				trtv_expansion(t_tr_node *node, t_envs *envsp);
 void			trtv_word_split(char *word, t_tr_node *node);
 void			trtv_quotes_removal(t_vector *word_split);
 void			trtv_wcard_expand(t_vector **word_split);
-int				trtv_redir_s_l(t_cmds *cmd, char *file);
-int				trtv_redir_s_r(t_cmds *cmd, char *file);
-int				trtv_redir_d_l(t_cmds *cmd, char *file);
-int				trtv_redir_d_r(t_cmds *cmd, char *file);
+int				trtv_redir_l(t_cmds *cmd, t_vector *word_split);
+int				trtv_redir_s_r(t_cmds *cmd, t_vector *word_split);
+int				trtv_redir_d_r(t_cmds *cmd, t_vector *word_split);
 char			*trtv_join_s(char *s1, char *s2);
 void			trtv_node_free(t_tr_node *node);
 
