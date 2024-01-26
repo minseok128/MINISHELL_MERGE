@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   btin_export_utils.c                                :+:      :+:    :+:   */
+/*   btin_export_utils_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:32:36 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/24 16:33:09 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 19:31:43 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	btin_export_print(t_envs *envsp)
 	}
 }
 
-int	btin_export_error(char **key_value, char *str)
+int	btin_export_error(t_cmds *cmds, char **key_value, char *str)
 {
 	char	*tmp_str;
 
 	btin_free_key_and_value(key_value, key_value[0], key_value[1]);
 	tmp_str = ft_strjoin_s(str, "'");
 	btin_out(0, 0, btin_make_errmsg("minishell: export: '", tmp_str, \
-		"not a valid identifier"));
+		"not a valid identifier"), cmds->enop);
 	free(tmp_str);
 	return (1);
 }
