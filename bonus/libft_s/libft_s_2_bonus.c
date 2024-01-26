@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft_s_2.c                                        :+:      :+:    :+:   */
+/*   libft_s_2_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 22:07:03 by michang           #+#    #+#             */
-/*   Updated: 2024/01/25 11:36:37 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 20:07:20 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strjoin_s(const char *s1, const char *s2)
 	new = ft_strjoin(s1, s2);
 	if (!new)
 		btin_out(1, errno, btin_make_errmsg("minishell: ", \
-			"malloc", strerror(errno)));
+			"malloc", strerror(errno)), NULL);
 	return (new);
 }
 
@@ -37,7 +37,7 @@ char	**ft_split_s(const char *str, char c)
 	new = ft_split(str, c);
 	if (!new)
 		btin_out(1, errno, btin_make_errmsg("minishell: ", \
-			"malloc", strerror(errno)));
+			"malloc", strerror(errno)), NULL);
 	return (new);
 }
 
@@ -54,7 +54,7 @@ int	ft_jump_white_space(char *str)
 
 void	ft_parser_info_zero(t_parser_info *p_info)
 {
-	int tmp_eno;
+	int	tmp_eno;
 
 	tmp_eno = p_info->eno;
 	ft_bzero(p_info, sizeof(t_parser_info));
