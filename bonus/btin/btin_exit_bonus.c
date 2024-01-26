@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 10:55:22 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/26 19:03:22 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 19:36:51 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,19 @@ long long	btin_atoi(t_cmds *cmds, char *str)
 		str++;
 	str = btin_sign_check(str, &minus);
 	if (!(*str >= '0' && *str <= '9'))
-		btin_out(1, 255, btin_make_errmsg("minishell: exit: ", \
-			(char *)cmds->argv.items[1], "numeric argument required"));
+		btin_out(1, 255, btin_make_errmsg("minishell: exit: ", (char *) \
+			cmds->argv.items[1], "numeric argument required"), cmds->enop);
 	while (*str >= '0' && *str <= '9')
 	{
 		if (btin_is_overflow(num, *str - '0', minus) == 1)
-			btin_out(1, 255, btin_make_errmsg("minishell: exit: ", \
-				(char *)cmds->argv.items[1], "numeric argument required"));
+			btin_out(1, 255, btin_make_errmsg("minishell: exit: ", (char *) \
+				cmds->argv.items[1], "numeric argument required"), cmds->enop);
 		num = num * 10 + *str - '0';
 		str++;
 	}
 	if (*str != '\0')
-		btin_out(1, 255, btin_make_errmsg("minishell: exit: ", \
-				(char *)cmds->argv.items[1], "numeric argument required"));
+		btin_out(1, 255, btin_make_errmsg("minishell: exit: ", (char *) \
+			cmds->argv.items[1], "numeric argument required"), cmds->enop);
 	return (num * minus);
 }
 
@@ -82,14 +82,14 @@ void	btin_exit(t_cmds *cmds, int fork_flag)
 	if (fork_flag == 0)
 		ft_putstr_fd("exit\n", 2);
 	if (cmds->argv.items[1] == NULL)
-		btin_out(1, 0, NULL);
+		btin_out(1, 0, NULL, cmds->enop);
 	else
 	{
 		n = btin_atoi(cmds, cmds->argv.items[1]);
 		if (cmds->argv.items[2] != NULL)
 			btin_out(fork_flag, 1, btin_make_errmsg("minishell: ", \
-				"exit", "too many arguments"));
+				"exit", "too many arguments"), cmds->enop);
 		else
-			btin_out(1, (char)n, NULL);
+			btin_out(1, (char)n, NULL, cmds->enop);
 	}
 }
