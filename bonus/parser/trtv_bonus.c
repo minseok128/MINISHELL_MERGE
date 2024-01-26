@@ -18,9 +18,9 @@ int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd, t_envs *envsp)
 	int	fail_flag;
 
 	fail_flag = 0;
+	trtv_expansion(node, envsp);
 	if (node->tk->type == T_WORD)
 	{
-		trtv_expansion(node, envsp);
 		i = 0;
 		while (i < node->word_split->size)
 		{
@@ -30,13 +30,13 @@ int	trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd, t_envs *envsp)
 		}
 	}
 	if (node->tk->type == T_REDIR_S_L)
-		fail_flag = trtv_redir_s_l(cmd, node->tk->str);
+		fail_flag = trtv_redir_l(cmd, node->word_split);
 	else if (node->tk->type == T_REDIR_S_R)
-		fail_flag = trtv_redir_s_r(cmd, node->tk->str);
+		fail_flag = trtv_redir_s_r(cmd, node->word_split);
 	else if (node->tk->type == T_REDIR_D_L)
-		fail_flag = trtv_redir_d_l(cmd, node->tk->str);
+		fail_flag = trtv_redir_l(cmd, node->word_split);
 	else if (node->tk->type == T_REDIR_D_R)
-		fail_flag = trtv_redir_d_r(cmd, node->tk->str);
+		fail_flag = trtv_redir_d_r(cmd, node->word_split);
 	return (fail_flag);
 }
 
