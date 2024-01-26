@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mktr_heredoc.c                                     :+:      :+:    :+:   */
+/*   mktr_heredoc_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:54:53 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/25 16:08:42 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 20:25:44 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ pid_t	mktr_heredoc_fork(int fd, char *limiter)
 	pid = fork();
 	if (pid < 0)
 		btin_out(1, errno, btin_make_errmsg("minishell: ", \
-			"fork", strerror(errno)));
+			"fork", strerror(errno)), NULL);
 	else if (pid == 0)
 		mktr_heredoc_child(fd, limiter);
 	free(limiter);
@@ -101,7 +101,7 @@ char	*mktr_heredoc_trim_limiter(char **filename)
 		return (limiter);
 }
 
-int	mktr_heredoc(char **file_name)
+int	mktr_heredoc(char **file_name, int *eno)
 {
 	int		fd;
 	int		status;
@@ -118,8 +118,9 @@ int	mktr_heredoc(char **file_name)
 	waitpid(mktr_heredoc_fork(fd, limiter), &status, 0);
 	sig_set(MODE_SHELL, MODE_SHELL);
 	if (WIFEXITED(status) != 0 && WEXITSTATUS(status) != 0)
+	{
+		*eno = 1;
 		return (1);
-	if (WIFSIGNALED(status) != 0)
-		return (1);
+	}
 	return (0);
 }
