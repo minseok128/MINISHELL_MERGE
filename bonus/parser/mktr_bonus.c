@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mktr.c                                             :+:      :+:    :+:   */
+/*   mktr_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 20:14:26 by michang           #+#    #+#             */
-/*   Updated: 2024/01/18 17:26:54 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 20:26:12 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	mktr_command_part(t_tr_node **head, t_token **tk_now, \
 		}
 		if ((*tk_now)->type == T_REDIR_D_L)
 		{
-			*is_hs = mktr_heredoc(&((*tk_now)->next->str));
+			*is_hs = mktr_heredoc(&((*tk_now)->next->str), "eno 넣어주세용");
 			vec_push_back(hdocs, ft_strdup_s((*tk_now)->next->str));
 			if (*is_hs)
 				return (1);
