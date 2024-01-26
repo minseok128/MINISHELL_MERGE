@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:08:04 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/26 19:26:29 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 20:03:40 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,18 @@ int	ex_exec_btin(t_cmds *cmds, t_envs *envsp, int fork_flag)
 	return (1);
 }
 
-void	ex_btin_redir_off(int *fd)
+void	ex_btin_redir_off(t_cmds *cmds, int *fd)
 {
 	if (fd[0] != -1 && fd[0] != 0)
 	{
 		close(0);
-		ex_dup_to(fd[0], 0);
+		ex_dup_to(cmds, fd[0], 0);
 		close(fd[0]);
 	}
 	if (fd[1] != -1 && fd[1] != 1)
 	{
 		close(1);
-		ex_dup_to(fd[1], 1);
+		ex_dup_to(cmds, fd[1], 1);
 		close(fd[1]);
 	}
 }
@@ -78,7 +78,7 @@ int	ex_is_builtin(t_cmds *cmds, t_envs *envsp, int fork_flag)
 		return (1);
 	if (fd[0] == -1 || fd[1] == -1)
 	{
-		ex_btin_redir_off(fd);
+		ex_btin_redir_off(cmds, fd);
 		return (1);
 	}
 	if (ex_exec_btin(cmds, envsp, fork_flag) == 0)
@@ -86,10 +86,10 @@ int	ex_is_builtin(t_cmds *cmds, t_envs *envsp, int fork_flag)
 		if (fork_flag == 1)
 			return (0);
 		else
-			ex_btin_redir_off(fd);
+			ex_btin_redir_off(cmds, fd);
 		return (0);
 	}
 	if (fork_flag == 0)
-		ex_btin_redir_off(fd);
+		ex_btin_redir_off(cmds, fd);
 	return (1);
 }
