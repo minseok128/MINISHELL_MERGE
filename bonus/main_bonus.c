@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:05:34 by michang           #+#    #+#             */
-/*   Updated: 2024/01/25 16:08:42 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/26 20:29:43 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,5 @@ int	main(int argc, char **argv, char **envp)
 	printf("\033[1Aminishell $ exit\n");
 	btin_free_envsp(envsp);
 	sig_terminal_print_on();
-	return (g_errno);
+	return (p_info.eno);
 }
