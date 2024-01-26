@@ -49,6 +49,8 @@ pid_t	ex_fork(t_cmds *cmdsp, t_envs *envsp, char **envp, int pipe_fd[2])
 	else if (pid == 0)
 	{
 		sig_set(MODE_DEFAULT, MODE_DEFAULT);
+		if ((cmdsp->type & RD_AMBIGUOUS) != 0)
+			btin_out(1, 1, btin_make_errmsg("minishell", "\0", "ambiguous redirect"));
 		if (pipe_fd[0] != -1)
 			close(pipe_fd[0]);
 		if (cmdsp->in_file != NULL)
