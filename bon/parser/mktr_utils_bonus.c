@@ -14,7 +14,9 @@
 
 int	mktr_print_unexpected(char *str, int *eno)
 {
-	printf("minishell: syntax error near unexpected token `%s'\n", str);
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd("\'\n", 2);
 	*eno = 258;
 	return (1);
 }
