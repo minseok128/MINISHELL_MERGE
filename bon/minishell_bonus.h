@@ -203,6 +203,5 @@ void			vec_free(t_vector *v);
 void			vec_print(t_vector *v);
 char			*ft_strchr_s(const char *s, int c);
 char			**ft_split_s(const char *str, char c);
-void			ft_parser_info_zero(t_parser_info *p_info);
 
 #endif

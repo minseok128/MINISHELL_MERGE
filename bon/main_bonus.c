@@ -60,7 +60,7 @@ int	main(int argc, char **argv, char **envp)
 			if (!tk_tokenize(p_info.line, &(p_info.tk_head), &(p_info.eno)))
 				if (!mktr_make_tree(&p_info, &(p_info.hdocs)))
 					trtv_list_travel(p_info.root, envsp, &(p_info.eno));
-		parser_info_free(&p_info);
+		ft_bzero(&p_info, sizeof(t_parser_info));
 	}
 	printf("\033[1Aminishell $ exit\n");
 	btin_free_envsp(envsp);
