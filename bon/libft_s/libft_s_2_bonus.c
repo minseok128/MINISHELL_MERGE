@@ -51,3 +51,12 @@ int	ft_jump_white_space(char *str)
 	}
 	return (1);
 }
+
+void	ft_parser_info_zero(t_parser_info *p_info)
+{
+	int	tmp_eno;
+
+	tmp_eno = p_info->eno;
+	ft_bzero(p_info, sizeof(t_parser_info));
+	p_info->eno = tmp_eno;
+}
