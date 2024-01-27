@@ -48,9 +48,9 @@ int	main(int argc, char **argv, char **envp)
 	sig_terminal_print_off();
 	sig_set(MODE_SHELL, MODE_SHELL);
 	envsp = btin_make_envsp(envp);
+	ft_parser_info_zero(&p_info);
 	while (1)
 	{
-		ft_parser_info_zero(&p_info);
 		p_info.line = readline("minishell $ ");
 		if (!(p_info.line))
 			break ;
@@ -60,7 +60,7 @@ int	main(int argc, char **argv, char **envp)
 			if (!tk_tokenize(p_info.line, &(p_info.tk_head), &(p_info.eno)))
 				if (!mktr_make_tree(&p_info, &(p_info.hdocs)))
 					trtv_list_travel(p_info.root, envsp, &(p_info.eno));
-		ft_bzero(&p_info, sizeof(t_parser_info));
+		ft_parser_info_zero(&p_info);
 	}
 	printf("\033[1Aminishell $ exit\n");
 	btin_free_envsp(envsp);
