@@ -79,8 +79,7 @@ int	tk_tokenize(char *str, t_token **tk_head, int *eno)
 	tk_last->next = tk_alloc_s(T_NEWLINE, ft_strdup_s("newline"));
 	if (is_error)
 	{
-		printf("minishell: unexpected newline ");
-		printf("while looking for matching `%c\'\n", is_error);
+		tk_print_quote_error(is_error);
 		return (mktr_print_unexpected("newline", eno));
 	}
 	else
