@@ -59,29 +59,29 @@ char	*ex_search_path(t_cmds *cmds, t_envs *envsp, char *cmd, int i)
 	return (cmd);
 }
 
-void	ex_path_execute_find_error(t_cmds *cmds, char **str, char *path, \
+void	ex_path_execute_find_error(t_cmds *cmds, char **str, char **path, \
 	int i)
 {
 	char	*cmd;
 	char	*pre_path;
 
 	cmd = ((char **)(cmds->argv.items))[0];
-	pre_path = path;
+	pre_path = *path;
 	if (i == 0 && cmd[0] != '/')
-		path = ft_strjoin_s(pre_path, str[i]);
+		*path = ft_strjoin_s(pre_path, str[i]);
 	else
-		path = ex_strjoin_c(pre_path, str[i], '/');
+		*path = ex_strjoin_c(pre_path, str[i], '/');
 	free(pre_path);
-	if (access(path, F_OK) == -1)
+	if (access(*path, F_OK) == -1)
 		btin_out(1, 127, btin_make_errmsg("minisehll: ", cmd, \
 			"No such file or directory"), cmds->enop);
-	if (access(path, X_OK) == -1)
+	if (access(*path, X_OK) == -1)
 		btin_out(1, 126, btin_make_errmsg("minisehll: ", cmd, \
 			"Permission denied"), cmds->enop);
-	if (str[i + 1] != NULL && ex_is_directory(path) == 0)
+	if (str[i + 1] != NULL && ex_is_directory(*path) == 0)
 		btin_out(1, 126, btin_make_errmsg("minisehll: ", cmd, \
 			"Not a directory"), cmds->enop);
-	else if (str[i + 1] == NULL && ex_is_directory(path) == 1)
+	else if (str[i + 1] == NULL && ex_is_directory(*path) == 1)
 		btin_out(1, 126, btin_make_errmsg("minisehll: ", cmd, \
 			"is a directory"), cmds->enop);
 	i++;
@@ -104,7 +104,7 @@ void	ex_path_execute(t_cmds *cmds, char *cmd)
 	}
 	i = 0;
 	while (str[i] != NULL)
-		ex_path_execute_find_error(cmds, str, path, i++);
+		ex_path_execute_find_error(cmds, str, &path, i++);
 	free(path);
 	i = 0;
 	while (str[i] != NULL)
