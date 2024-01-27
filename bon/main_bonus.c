@@ -44,6 +44,7 @@ int	main(int argc, char **argv, char **envp)
 	t_parser_info	p_info;
 
 	p_info.eno = (argv - argv) + (argc - argc);
+	g_signal = &(p_info.eno);
 	sig_terminal_print_off();
 	sig_set(MODE_SHELL, MODE_SHELL);
 	envsp = btin_make_envsp(envp);
