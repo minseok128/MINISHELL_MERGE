@@ -71,7 +71,7 @@ void	btin_out(int fork_flag, int error_code, char *errmsg, int *eno)
 	}
 	if (fork_flag == 1)
 		exit(error_code);
-	else if (eno != NULL)
+	else
 		*eno = error_code;
 }
 
