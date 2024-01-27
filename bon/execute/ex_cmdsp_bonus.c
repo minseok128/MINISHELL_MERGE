@@ -54,7 +54,7 @@ t_cmds	*ex_cmdsp_add_back(t_cmds *cmdsp, int *eno)
 	node = cmdsp;
 	while (node->next != NULL)
 		node = node->next;
-	node->enop = eno;
 	node->next = new;
+	new->enop = eno;
 	return (new);
 }
