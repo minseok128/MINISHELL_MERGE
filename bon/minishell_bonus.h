@@ -101,7 +101,7 @@ typedef struct s_cmds
 	struct s_cmds	*next;
 }	t_cmds;
 
-int	g_signal;
+int	*g_signal;
 
 void			sig_set(int sig_int, int sig_quit);
 int				mktr_make_tree(t_parser_info *p_info, t_vector **hdocs);
