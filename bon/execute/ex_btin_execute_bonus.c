@@ -44,7 +44,7 @@ int	ex_exec_btin(t_cmds *cmds, t_envs *envsp, int fork_flag)
 	else if (ft_strncmp(cmds->argv.items[0], "echo", 5) == 0)
 		btin_echo(cmds, fork_flag);
 	else if (ft_strncmp(cmds->argv.items[0], "env", 4) == 0)
-		btin_env(envsp, fork_flag);
+		btin_env(cmds, envsp, fork_flag);
 	else if (ft_strncmp(cmds->argv.items[0], "exit", 5) == 0)
 		btin_exit(cmds, fork_flag);
 	else

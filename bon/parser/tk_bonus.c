@@ -58,7 +58,7 @@ static int	tk_word(char *str, t_token **tk_head, int now, char *is_error)
 	return (len);
 }
 
-int	tk_tokenize(char *str, t_token **tk_head)
+int	tk_tokenize(char *str, t_token **tk_head, int *eno)
 {
 	t_token	*tk_last;
 	int		now;
@@ -81,7 +81,7 @@ int	tk_tokenize(char *str, t_token **tk_head)
 	{
 		printf("minishell: unexpected newline ");
 		printf("while looking for matching `%c\'\n", is_error);
-		return (mktr_print_unexpected("newline"));
+		return (mktr_print_unexpected("newline", eno));
 	}
 	else
 		return (0);

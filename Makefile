@@ -31,7 +31,7 @@ SRC			= $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
 OBJ			= $(addprefix $(DIR), $(addsuffix .o, $(BASE)))
 NAME		= minishell
 
-BON_DIR		= ./bonus/
+BON_DIR		= ./bon/
 BON_BASE	= main signal \
 			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils parser/mktr_heredoc\
 			  parser/trtv parser/trtv_env_expand parser/trtv_wsplit parser/trtv_redir\
@@ -57,6 +57,7 @@ bonus : $(BON_OBJ)
 	make lib
 	$(CC) -I$(dir $<) $(LIBFT) $(READLINE) $^ -o $(BON_NAME)
 	@touch bonus
+	make clean
 
 %.o : %.c
 	$(CC) $(WFLAG) -I$(dir $<) -c $< -o $@

@@ -12,10 +12,10 @@
 
 #include "../minishell_bonus.h"
 
-int	mktr_print_unexpected(char *str)
+int	mktr_print_unexpected(char *str, int *eno)
 {
 	printf("minishell: syntax error near unexpected token `%s'\n", str);
-	g_errno = 258;
+	*eno = 258;
 	return (1);
 }
 

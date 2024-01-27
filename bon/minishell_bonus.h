@@ -104,41 +104,42 @@ typedef struct s_cmds
 int	g_signal;
 
 void			sig_set(int sig_int, int sig_quit);
-int				tk_tokenize(char *str, t_token **token_head);
 int				mktr_make_tree(t_parser_info *p_info, t_vector **hdocs);
 void			sig_terminal_print_on(void);
 void			sig_terminal_print_off(void);
 
 // tk
+int				tk_tokenize(char *str, t_token **token_head, int *eno);
 t_token			*tk_lstlast(t_token *lst);
 void			tk_lstadd_back(t_token **lst, t_token *new_token);
 t_token			*tk_alloc_s(t_token_type type, char *str);
 t_token_type	tk_is_meta_char(char *str);
 
 // mktr
-int				mktr_print_unexpected(char *str);
+int				mktr_print_unexpected(char *str, int *eno);
 int				mktr_free_node(t_tr_node *node);
 t_tr_node		*mktr_alloc_s(t_tr_type bnf_type, t_token *tk);
 int				mktr_list(t_tr_node **head, t_token **tk_now, \
-					t_vector *hdocs, int *is_hs);
+					t_parser_info *p_info, int *is_hs);
 int				mktr_pipeline(t_tr_node **head, t_token **tk_now, \
-					t_vector *hdocs, int *is_hs);
+					t_parser_info *p_info, int *is_hs);
 int				mktr_command(t_tr_node **head, t_token **tk_now, \
-					t_vector *hdocs, int *is_hs);
+					t_parser_info *p_info, int *is_hs);
 int				mktr_command_part(t_tr_node **head, t_token **tk_now, \
-					t_vector *hdocs, int *is_hs);
+					t_parser_info *p_info, int *is_hs);
 int				mktr_heredoc(char **file_name, int *eno);
 int				mktr_heredoc_open_file(char **file_name);
 pid_t			mktr_heredoc_fork(int fd, char *limiter);
 
 // trtv
-int				trtv_list_travel(t_tr_node *node, t_envs *envsp);
+int				trtv_list_travel(t_tr_node *node, t_envs *envsp, int *eno);
 int				trtv_comd_part_travel(t_tr_node *node, t_cmds *cmd, \
-					t_envs *envsp);
-int				trtv_comd_travel(t_tr_node *node, t_cmds *cmd, t_envs *envsp);
+					t_envs *envsp, int *eno);
+int				trtv_comd_travel(t_tr_node *node, t_cmds *cmd, \
+					t_envs *envsp, int *eno);
 int				trtv_pipe_travel(t_tr_node *node, t_cmds *cmds_h, \
-					t_envs *envsp);
-int				trtv_expansion(t_tr_node *node, t_envs *envsp);
+					t_envs *envsp, int *eno);
+int				trtv_expansion(t_tr_node *node, t_envs *envsp, int *eno);
 void			trtv_word_split(char *word, t_tr_node *node);
 void			trtv_quotes_removal(t_vector *word_split);
 void			trtv_wcard_expand(t_vector **word_split);
@@ -155,7 +156,7 @@ void			btin_export(t_cmds *cmds, t_envs *envsp, \
 void			btin_unset(t_cmds *cmds, t_envs *envsp, int fork_flag);
 void			btin_cd(t_cmds *cmds, t_envs *envsp, int fork_flag);
 void			btin_echo(t_cmds *cmds, int fork_flag);
-void			btin_env(t_envs *envsp, int fork_flag);
+void			btin_env(t_cmds *cmds, t_envs *envsp, int fork_flag);
 void			btin_exit(t_cmds *cmds, int fork_flag);
 void			btin_out(int fork_flag, int error_code, char *errmsg, int *eno);
 int				btin_is_valid_identifier(char *str);

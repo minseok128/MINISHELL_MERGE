@@ -27,7 +27,7 @@ void	btin_free_envsp(t_envs *envsp)
 	}
 }
 
-void	btin_env(t_envs *envsp, int fork_flag)
+void	btin_env(t_cmds *cmds, t_envs *envsp, int fork_flag)
 {
 	t_envs	*node;
 
@@ -43,5 +43,5 @@ void	btin_env(t_envs *envsp, int fork_flag)
 		}
 		node = node->next;
 	}
-	btin_out(fork_flag, 0, NULL);
+	btin_out(fork_flag, 0, NULL, cmds->enop);
 }

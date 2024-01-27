@@ -56,7 +56,7 @@ void	ex_execute(t_cmds *cmds, t_envs *envsp, char **envp)
 	t_envs	*envsp_cp;
 	char	**cmd;
 
-	cmd = cmds->argv.items;
+	cmd = (char **)cmds->argv.items;
 	envsp_cp = envsp->next;
 	if (ft_strncmp(cmd[0], ".", 2) == 0)
 		btin_out(1, 2, btin_make_errmsg("minishell: ", cmd[0], "filename \
