@@ -12,6 +12,14 @@
 
 #include "../minishell_bonus.h"
 
+void	tk_print_quote_error(char is_error)
+{
+	ft_putstr_fd("minishell: unexpected newline ", 2);
+	ft_putstr_fd("while looking for matching `", 2);
+	ft_putchar_fd(is_error, 2);
+	ft_putstr_fd("\'\n", 2);
+}
+
 t_token	*tk_lstlast(t_token *lst)
 {
 	if (!lst)
