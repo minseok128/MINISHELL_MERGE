@@ -91,7 +91,7 @@ pid_t	ex_do_pipe(t_cmds *cmdsp, t_envs *envsp, char **envp)
 	return (pid);
 }
 
-void	ex_waitpid(t_cmds *cmdsp, pid_t pid)
+void	ex_waitpid(int *eno, pid_t pid)
 {
 	int	status;
 	int	signal_flag;
@@ -99,12 +99,12 @@ void	ex_waitpid(t_cmds *cmdsp, pid_t pid)
 	signal_flag = 0;
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status) != 0)
-		*(cmdsp->enop) = WEXITSTATUS(status);
+		*eno = WEXITSTATUS(status);
 	if (WIFSIGNALED(status) != 0)
 	{
 		if (WTERMSIG(status) == SIGINT)
 			signal_flag = 1;
-		*(cmdsp->enop) = WTERMSIG(status) + 128;
+		*eno = WTERMSIG(status) + 128;
 		if (WTERMSIG(status) == SIGQUIT)
 			ft_putstr_fd("Quit: 3\n", 2);
 	}
@@ -138,7 +138,7 @@ void	ex_cmd_loop(t_cmds *cmdsp_head, t_envs *envsp)
 			pid = ex_do_pipe(cmdsp, envsp, envp);
 			cmdsp = cmdsp->next;
 		}
-		ex_waitpid(cmdsp, pid);
+		ex_waitpid(cmdsp_head->enop, pid);
 	}
 	ex_all_close(cmdsp_head, envp);
 	sig_terminal_print_off();
