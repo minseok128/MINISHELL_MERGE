@@ -18,7 +18,7 @@ void	parser_info_free(t_parser_info *p_info)
 	int		i;
 
 	i = 0;
-	while (i < p_info->hdocs->size)
+	while (p_info->hdocs && i < p_info->hdocs->size)
 	{
 		unlink(p_info->hdocs->items[i]);
 		free(p_info->hdocs->items[i++]);
@@ -60,6 +60,7 @@ int	main(int argc, char **argv, char **envp)
 			if (!tk_tokenize(p_info.line, &(p_info.tk_head), &(p_info.eno)))
 				if (!mktr_make_tree(&p_info, &(p_info.hdocs)))
 					trtv_list_travel(p_info.root, envsp, &(p_info.eno));
+		parser_info_free(&p_info);
 		ft_parser_info_zero(&p_info);
 	}
 	printf("\033[1Aminishell $ exit\n");
