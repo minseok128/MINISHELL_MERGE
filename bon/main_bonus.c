@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **envp)
 	parser_info_init(argc, argv, &p_info);
 	while (1)
 	{
-		p_info.line = readline("minishell ~ ");
+		p_info.line = readline("minishell $ ");
 		if (!(p_info.line))
 			break ;
 		if (*(p_info.line) != 0)
@@ -34,7 +34,7 @@ int	main(int argc, char **argv, char **envp)
 					trtv_list_travel(p_info.root, envsp, &(p_info.eno));
 		parser_info_free(&p_info);
 	}
-	printf("\033[1Aminishell ~ exit\n");
+	printf("\033[1Aminishell $ exit\n");
 	btin_free_envsp(envsp);
 	sig_terminal_print_on();
 	return (p_info.eno);
