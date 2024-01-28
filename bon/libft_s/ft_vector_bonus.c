@@ -59,5 +59,6 @@ void	vec_print(t_vector *v)
 
 void	vec_free(t_vector *v)
 {
-	free(v->items);
+	if (v)
+		free(v->items);
 }
