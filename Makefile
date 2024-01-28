@@ -50,14 +50,13 @@ BON_NAME	= minishell
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	make lib
+	@make lib
 	$(CC) -I$(dir $<) $(LIBFT) $(READLINE) $^ -o $@
 
 bonus : $(BON_OBJ)
-	make lib
+	@make lib
 	$(CC) -I$(dir $<) $(LIBFT) $(READLINE) $^ -o $(BON_NAME)
 	@touch bonus
-	make clean
 
 %.o : %.c
 	$(CC) $(WFLAG) -I$(dir $<) -c $< -o $@
