@@ -45,11 +45,11 @@ BON_BASE	= main signal \
 			  libft_s/libft_s_1 libft_s/libft_s_2 libft_s/ft_vector
 BON_SRC		= $(addprefix $(BON_DIR), $(addsuffix _bonus.c, $(BON_BASE)))
 BON_OBJ		= $(addprefix $(BON_DIR), $(addsuffix _bonus.o, $(BON_BASE)))
-BON_NAME	= minishell
+BON_NAME	= minishell_bonus
 
 all : $(NAME)
 
-$(NAME) : $(OBJ)
+$(NAME) : $(BON_OBJ)
 	make lib
 	$(CC) -I$(dir $<) $(LIBFT) $(READLINE) $^ -o $@
 
