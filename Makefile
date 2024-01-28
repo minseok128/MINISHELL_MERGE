@@ -34,7 +34,7 @@ BON_DIR		:= ./bon/
 BON_BASE	:= $(BASE) parser/trtv_wcard
 BON_SRC		:= $(addprefix $(BON_DIR), $(addsuffix _bonus.c, $(BON_BASE)))
 BON_OBJ		:= $(addprefix $(BON_DIR), $(addsuffix _bonus.o, $(BON_BASE)))
-BON_NAME	:= minishell_bonus
+BON_NAME	:= minishell
 
 all : $(NAME)
 
