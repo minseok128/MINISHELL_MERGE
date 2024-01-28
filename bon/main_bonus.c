@@ -12,6 +12,13 @@
 
 #include "minishell_bonus.h"
 
+void	parser_info_init(int argc, char **argv, t_parser_info *p_info)
+{
+	p_info->eno = (argv - argv) + (argc - argc);
+	g_signal = &(p_info->eno);
+	ft_parser_info_zero(p_info);
+}
+
 void	parser_info_free(t_parser_info *p_info)
 {
 	t_token	*t_node;
@@ -36,6 +43,7 @@ void	parser_info_free(t_parser_info *p_info)
 		free(t_node);
 	}
 	trtv_node_free(p_info->root);
+	ft_parser_info_zero(p_info);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -43,12 +51,10 @@ int	main(int argc, char **argv, char **envp)
 	t_envs			*envsp;
 	t_parser_info	p_info;
 
-	p_info.eno = (argv - argv) + (argc - argc);
-	g_signal = &(p_info.eno);
 	sig_terminal_print_off();
 	sig_set(MODE_SHELL, MODE_SHELL);
 	envsp = btin_make_envsp(envp);
-	ft_parser_info_zero(&p_info);
+	parser_info_init(argc, argv, &p_info);
 	while (1)
 	{
 		p_info.line = readline("minishell $ ");
@@ -61,7 +67,6 @@ int	main(int argc, char **argv, char **envp)
 				if (!mktr_make_tree(&p_info, &(p_info.hdocs)))
 					trtv_list_travel(p_info.root, envsp, &(p_info.eno));
 		parser_info_free(&p_info);
-		ft_parser_info_zero(&p_info);
 	}
 	printf("\033[1Aminishell $ exit\n");
 	btin_free_envsp(envsp);
