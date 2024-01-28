@@ -16,7 +16,7 @@ LIBFT		= -Llibft -lft
 READLINE	= -L/usr/local/lib -lreadline
 
 DIR			= ./src/
-BASE		= main signal \
+BASE		= main signal parser/parser_set \
 			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils parser/mktr_heredoc\
 			  parser/trtv parser/trtv_env_expand parser/trtv_wsplit parser/trtv_redir\
 			  parser/trtv_utils \
@@ -32,7 +32,7 @@ OBJ			= $(addprefix $(DIR), $(addsuffix .o, $(BASE)))
 NAME		= minishell
 
 BON_DIR		= ./bon/
-BON_BASE	= main signal \
+BON_BASE	= main signal parser/parser_set \
 			  parser/tk parser/tk_utils parser/mktr parser/mktr_utils parser/mktr_heredoc\
 			  parser/trtv parser/trtv_env_expand parser/trtv_wsplit parser/trtv_redir\
 			  parser/trtv_wcard parser/trtv_utils \
