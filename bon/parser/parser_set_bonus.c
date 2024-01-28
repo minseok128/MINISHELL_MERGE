@@ -26,7 +26,7 @@ void	parser_info_init(int argc, char **argv, t_parser_info *p_info)
 	printf("\t███   ███   ███ ███  ███   ███ ███           ███   ███    ███  \n");
 	printf("\t███   ███   ███ ███  ███   ███ ███     ▄█    ███   ███    ███  \n");
 	printf("\t ▀█   ███   █▀  █▀    ▀█   █▀  █▀    ▄████████▀    ███    █▀   \n");
-	printf("\n");
+	printf("\n\t                   by michang & sunjo\n");
 }
 
 void	parser_info_free(t_parser_info *p_info)
