@@ -18,7 +18,7 @@ void	parser_info_init(int argc, char **argv, t_parser_info *p_info)
 	g_signal = &(p_info->eno);
 	ft_parser_info_zero(p_info);
 	printf("\n");
-	printf("\t   ▄▄▄▄███▄▄▄▄    ▄█  ███▄▄▄▄    ▄█     ▄████████    ▄█    █▄  \n");
+	printf("\t  ▄▄▄▄███▄▄▄▄    ▄█  ███▄▄▄▄    ▄█     ▄████████    ▄█    █▄   \n");
 	printf("\t▄██▀▀▀███▀▀▀██▄ ███  ███▀▀▀██▄ ███    ███    ███   ███    ███  \n");
 	printf("\t███   ███   ███ ███▌ ███   ███ ███▌   ███    █▀    ███    ███  \n");
 	printf("\t███   ███   ███ ███▌ ███   ███ ███▌   ███         ▄███▄▄▄▄███▄▄\n");
@@ -26,7 +26,7 @@ void	parser_info_init(int argc, char **argv, t_parser_info *p_info)
 	printf("\t███   ███   ███ ███  ███   ███ ███           ███   ███    ███  \n");
 	printf("\t███   ███   ███ ███  ███   ███ ███     ▄█    ███   ███    ███  \n");
 	printf("\t ▀█   ███   █▀  █▀    ▀█   █▀  █▀    ▄████████▀    ███    █▀   \n");
-	printf("\n\t                   by michang & sunjo\n");
+	printf("\n\t                    by michang & sunjo\n");
 }
 
 void	parser_info_free(t_parser_info *p_info)
