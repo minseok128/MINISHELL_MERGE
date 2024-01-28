@@ -139,7 +139,6 @@ int	mktr_make_tree(t_parser_info *p_info, t_vector **hdocs)
 
 	is_hs = 0;
 	tk_now = p_info->tk_head;
-
 	*hdocs = ft_calloc_s(sizeof(t_vector), 1);
 	vec_init(*hdocs, 1);
 	if (mktr_list(&(p_info->root), &tk_now, p_info, &is_hs))
