@@ -103,8 +103,10 @@ typedef struct s_cmds
 
 int	*g_signal;
 
+// default
+void			parser_info_init(int argc, char **argv, t_parser_info *p_info);
+void			parser_info_free(t_parser_info *p_info);
 void			sig_set(int sig_int, int sig_quit);
-int				mktr_make_tree(t_parser_info *p_info, t_vector **hdocs);
 void			sig_terminal_print_on(void);
 void			sig_terminal_print_off(void);
 
@@ -117,6 +119,7 @@ t_token_type	tk_is_meta_char(char *str);
 void			tk_print_quote_error(char is_error);
 
 // mktr
+int				mktr_make_tree(t_parser_info *p_info, t_vector **hdocs);
 int				mktr_print_unexpected(char *str, int *eno);
 int				mktr_free_node(t_tr_node *node);
 t_tr_node		*mktr_alloc_s(t_tr_type bnf_type, t_token *tk);
