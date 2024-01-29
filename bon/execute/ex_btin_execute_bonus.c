@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:08:04 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/26 20:03:40 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/29 12:24:53 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ int	ex_btin_redir_on(t_cmds *cmds, int *fd)
 int	ex_exec_btin(t_cmds *cmds, t_envs *envsp, int fork_flag)
 {	
 	if (!cmds->argv.items[0])
+	{
+		btin_out(fork_flag, 0, NULL, cmds->enop);
 		return (1);
+	}
 	else if (ft_strncmp(cmds->argv.items[0], "cd", 3) == 0)
 		btin_cd(cmds, envsp, fork_flag);
 	else if (ft_strncmp(cmds->argv.items[0], "pwd", 4) == 0)
