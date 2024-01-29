@@ -38,7 +38,7 @@ char	*ex_search_path(t_cmds *cmds, t_envs *envsp, char *cmd, int i)
 
 	while (envsp != NULL && ft_strncmp(envsp->key, "PATH", 5) != 0)
 		envsp = envsp->next;
-	if (envsp == NULL)
+	if (envsp == NULL || envsp->value == NULL)
 		btin_out(1, 127, btin_make_errmsg("minishell: ", cmd, \
 			"No such file or directory"), cmds->enop);
 	envp_path = ft_split_s(envsp->value, ':');
