@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ex_cmd_loop_bonus.c                                :+:      :+:    :+:   */
+/*   ex_cmd_loop.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 11:31:16 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/26 20:02:30 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/29 11:19:13 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,19 @@ char	**ex_change_to_envp(t_envs *envsp)
 	int		i;
 
 	size = 0;
-	node = envsp->next;
+	node = envsp;
 	while (node->next != NULL)
 	{
 		node = node->next;
 		size++;
 	}
 	envp = ft_calloc_s(sizeof(char *), size + 1);
-	node = envsp->next;
+	node = envsp;
 	i = 0;
 	while (i < size)
 	{
-		envp[i++] = ex_strjoin_c(node->key, node->value, '=');
 		node = node->next;
+		envp[i++] = ex_strjoin_c(node->key, node->value, '=');
 	}
 	envp[i] = NULL;
 	return (envp);
