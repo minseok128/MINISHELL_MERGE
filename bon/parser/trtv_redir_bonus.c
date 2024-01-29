@@ -16,7 +16,7 @@ int	trtv_redir_l(t_cmds *cmd, t_vector *word_split)
 {
 	int	fd;
 
-	if (word_split->size > 1)
+	if (word_split->size != 1)
 	{
 		cmd->type |= RD_AMBIGUOUS;
 		return (1);
@@ -34,7 +34,7 @@ int	trtv_redir_s_r(t_cmds *cmd, t_vector *word_split)
 {
 	int	fd;
 
-	if (word_split->size > 1)
+	if (word_split->size != 1)
 	{
 		cmd->type |= RD_AMBIGUOUS;
 		return (1);
@@ -53,7 +53,7 @@ int	trtv_redir_d_r(t_cmds *cmd, t_vector *word_split)
 {
 	int	fd;
 
-	if (word_split->size > 1)
+	if (word_split->size != 1)
 	{
 		cmd->type |= RD_AMBIGUOUS;
 		return (1);
