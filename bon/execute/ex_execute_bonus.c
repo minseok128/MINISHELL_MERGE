@@ -6,7 +6,7 @@
 /*   By: seonjo <seonjo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:12:59 by seonjo            #+#    #+#             */
-/*   Updated: 2024/01/26 19:58:34 by seonjo           ###   ########.fr       */
+/*   Updated: 2024/01/29 11:33:16 by seonjo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ void	ex_execute(t_cmds *cmds, t_envs *envsp, char **envp)
 	else if (ft_strncmp(cmd[0], "..", 3) == 0 || cmd[0][0] == '\0')
 		btin_out(1, 127, btin_make_errmsg("minishell: ", cmd[0], \
 			"command not found"), cmds->enop);
+	if (ft_strncmp(cmd[0], "/", 2) == 0)
+		btin_out(1, 126, btin_make_errmsg("minisehll: ", cmd[0], \
+			"is a directory"), cmds->enop);
 	if (ex_is_path(cmd[0]) == 1)
 		ex_path_execute(cmds, cmd[0]);
 	else
