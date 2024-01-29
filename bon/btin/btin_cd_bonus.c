@@ -109,7 +109,7 @@ void	btin_cd(t_cmds *cmds, t_envs *envsp, int fork_flag)
 	if (cmds->argv.items[1] == NULL)
 	{
 		home = btin_find_node(envsp, "HOME");
-		if (home == NULL)
+		if (home == NULL || home->value == NULL)
 		{
 			btin_cd_error(cmds, btin_make_arr(NULL, NULL), 4, fork_flag);
 			return ;
