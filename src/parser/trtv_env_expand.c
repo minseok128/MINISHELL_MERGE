@@ -24,8 +24,11 @@ static void	trtv_dollar_to_value(char *word, char **e_w, t_envs *envsp, int len)
 		free(key);
 		return ;
 	}
-	value = ft_strdup_s(btin_find_node(envsp, key)->value);
+	value = btin_find_node(envsp, key)->value;
 	free(key);
+	if (!value)
+		return ;
+	value = ft_strdup_s(value);
 	i = 0;
 	while (value[i])
 	{

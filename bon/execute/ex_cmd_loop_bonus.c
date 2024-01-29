@@ -24,7 +24,8 @@ char	**ex_change_to_envp(t_envs *envsp)
 	while (node->next != NULL)
 	{
 		node = node->next;
-		size++;
+		if (node->value != NULL)
+			size++;
 	}
 	envp = ft_calloc_s(sizeof(char *), size + 1);
 	node = envsp;
@@ -32,7 +33,8 @@ char	**ex_change_to_envp(t_envs *envsp)
 	while (i < size)
 	{
 		node = node->next;
-		envp[i++] = ex_strjoin_c(node->key, node->value, '=');
+		if (node->value != NULL)
+			envp[i++] = ex_strjoin_c(node->key, node->value, '=');
 	}
 	envp[i] = NULL;
 	return (envp);
