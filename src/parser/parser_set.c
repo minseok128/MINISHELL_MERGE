@@ -26,7 +26,7 @@ void	parser_info_init(int argc, char **argv, t_parser_info *p_info)
 	printf("\t███   ███   ███ ███  ███   ███ ███          ███  ███    ███  \n");
 	printf("\t███   ███   ███ ███  ███   ███ ███  ▄██     ███  ███    ███  \n");
 	printf("\t ▀█   ███   █▀  █▀    ▀█   █▀  █▀   ▀████████▀    ▀█    █▀   \n");
-	printf("\n\t                version: 1.17 [2024.01.28]\n");
+	printf("\n\t                version: 1.18 [2024.01.29]\n");
 	printf("\t                   by michang & seonjo\n\n");
 }
 
