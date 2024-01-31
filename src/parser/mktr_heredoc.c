@@ -116,6 +116,7 @@ int	mktr_heredoc(char **file_name, int *eno)
 	}
 	sig_set(MODE_IGNORE, MODE_IGNORE);
 	waitpid(mktr_heredoc_fork(fd, limiter), &status, 0);
+	close(fd);
 	sig_set(MODE_SHELL, MODE_SHELL);
 	if (WIFEXITED(status) != 0 && WEXITSTATUS(status) != 0)
 	{
